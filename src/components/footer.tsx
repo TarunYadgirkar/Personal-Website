@@ -1,0 +1,45 @@
+import { site } from "@/content/site";
+
+export function Footer() {
+  return (
+    <footer className="border-t border-line">
+      <div className="mx-auto flex max-w-5xl flex-col gap-6 px-6 py-12 sm:flex-row sm:items-end sm:justify-between">
+        <div className="flex flex-col gap-2">
+          <p className="text-sm text-fg">{site.name}</p>
+          <p className="font-mono text-xs text-fg-faint">{site.location}</p>
+          <a
+            href={`mailto:${site.email}`}
+            className="font-mono text-xs text-fg-muted transition-colors duration-150 hover:text-accent"
+          >
+            {site.email}
+          </a>
+        </div>
+        <div className="flex flex-col gap-2 sm:items-end">
+          <ul className="flex gap-5">
+            {(
+              [
+                ["GitHub", site.links.github],
+                ["LinkedIn", site.links.linkedin],
+                ["Devpost", site.links.devpost],
+              ] as const
+            ).map(([label, href]) => (
+              <li key={label}>
+                <a
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-mono text-xs text-fg-muted transition-colors duration-150 hover:text-accent"
+                >
+                  {label}
+                </a>
+              </li>
+            ))}
+          </ul>
+          <p className="font-mono text-[11px] text-fg-faint">
+            Next.js · TypeScript · Tailwind · Vercel
+          </p>
+        </div>
+      </div>
+    </footer>
+  );
+}
