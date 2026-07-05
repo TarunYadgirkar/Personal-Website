@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { BalanceDiagram } from "@/components/balance-diagram";
 import { Eyebrow, ExternalLink, SectionHeading, StatusTag } from "@/components/ui";
 import { balance } from "@/content/balance";
 
@@ -58,6 +59,19 @@ export default function PatentPage() {
             </li>
           ))}
         </ul>
+      </section>
+
+      <section className="mt-20" aria-labelledby="signal-path">
+        <SectionHeading
+          id="signal-path"
+          eyebrow="System"
+          title="Signal path — sense → map → arbitrate → assist"
+        />
+        <p className="-mt-4 mb-8 max-w-2xl text-[15px] leading-relaxed text-fg-muted">
+          On-board perception continuously reclassifies terrain and hands control to
+          the right locomotion mode in real time.
+        </p>
+        <BalanceDiagram />
       </section>
 
       <section className="mt-20" aria-labelledby="status">

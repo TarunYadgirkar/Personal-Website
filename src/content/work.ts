@@ -37,34 +37,24 @@ export const featured: readonly Featured[] = [
     href: "/research",
   },
   {
-    slug: "rainier-labs",
-    title: "Robotics Hardware Internship — Rainier Labs",
-    status: "Industry internship",
-    context: "Sunnyvale, CA · Jun – Aug 2025",
-    summary:
-      "Robotic head system, display integration, CAD redesign, audio component evaluation, and human-robot interaction.",
-    tags: ["Robotics", "Embedded Systems", "CAD", "Human-Robot Interaction"],
-    href: "/work#rainier",
-  },
-  {
     slug: "balance",
     title: "BALANCE — Assistive Mobility Robotics",
-    status: "Provisional patent filed",
-    context: "Related article published · Youth Innovation Journal, Fall 2025",
+    status: "Provisional patent · Published",
+    context: "Co-developed with a student team · Youth Innovation Journal, Fall 2025",
     summary:
-      "A hybrid robotic mobility device combining wheeled movement on flat ground with robotic-leg assistance on stairs and uneven terrain. Filed as provisional patent No. 63/743,085; a related article about the design was published in the Youth Innovation Journal.",
+      "A hybrid robotic mobility device combining wheeled movement on flat ground with robotic-leg assistance on stairs and uneven terrain — structural support and shock isolation paired with LiDAR, sonar, 360° cameras, and on-board computing for real-time mapping. Filed as a provisional patent (No. 63/743,085).",
     tags: ["Assistive Robotics", "Mechatronics", "LiDAR", "Navigation", "CAD"],
     href: "/patent",
   },
   {
-    slug: "applied-ai",
-    title: "Applied AI Product Builds",
-    status: "Selected prototypes",
-    context: "Shipped prototypes · 2026",
+    slug: "rainier-labs",
+    title: "Robotics Hardware & Embedded Systems",
+    status: "Internship",
+    context: "Rainier Labs · Sunnyvale, CA · Jun – Aug 2025",
     summary:
-      "A focused set of shipped prototypes across voice-first care navigation, mental-health intake, native AI tooling, accessibility, hospitality, and elder-care escalation.",
-    tags: ["Applied AI", "Voice Agents", "LLM Orchestration", "Full-Stack"],
-    href: "/work",
+      "Worked on an expressive robotic head system: researched, selected, and integrated display screens for a robotic facial-expression system, redesigned CAD models to ensure proper hardware fit, and evaluated microphone and speaker components across hardware/software trade-offs.",
+    tags: ["Embedded Systems", "Robotics Hardware", "CAD", "Human-Robot Interaction"],
+    href: "/work#rainier",
   },
 ] as const;
 
