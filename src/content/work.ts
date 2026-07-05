@@ -37,6 +37,16 @@ export const featured: readonly Featured[] = [
     href: "/research",
   },
   {
+    slug: "rainier-labs",
+    title: "Robotics Hardware Internship — Rainier Labs",
+    status: "Industry internship",
+    context: "Sunnyvale, CA · Jun – Aug 2025",
+    summary:
+      "Robotic head system, display integration, CAD redesign, audio component evaluation, and human-robot interaction.",
+    tags: ["Robotics", "Embedded Systems", "CAD", "Human-Robot Interaction"],
+    href: "/work#rainier",
+  },
+  {
     slug: "balance",
     title: "BALANCE — Assistive Mobility Robotics",
     status: "Provisional patent filed",

@@ -6,7 +6,7 @@ import { additionalCaseStudies, caseStudies, rainier, type CaseStudy } from "@/c
 export const metadata: Metadata = {
   title: "Work",
   description:
-    "Case studies — AI systems, voice agents, product prototypes, and robotics systems.",
+    "Industry experience and selected builds across AI systems, voice agents, and robotics systems.",
 };
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
@@ -82,35 +82,51 @@ export default function WorkPage() {
     <div className="mx-auto max-w-5xl px-6 pb-28 pt-20">
       <Eyebrow>Work</Eyebrow>
       <h1 className="mt-4 max-w-2xl text-3xl font-medium tracking-tight sm:text-5xl">
-        Selected product prototypes
+        Industry work and selected builds
       </h1>
       <p className="mt-5 max-w-2xl text-[15px] leading-relaxed text-fg-muted">
-        A focused set of shipped AI prototypes. The first three are expanded as
-        case studies; additional builds are available below without letting the
-        page turn into a full activity list. Research and BALANCE live on the{" "}
-        <a
-          href="/research"
-          className="text-accent underline underline-offset-4 hover:text-accent-bright"
-        >
-          Research
-        </a>{" "}
-        and{" "}
-        <a
-          href="/patent"
-          className="text-accent underline underline-offset-4 hover:text-accent-bright"
-        >
-          Patent
-        </a>{" "}
-        pages.
+        A concise view of the systems I have built in industry settings and
+        fast prototype environments: robotics integration, voice agents,
+        applied AI workflows, and native AI tooling.
       </p>
 
-      <div className="mt-16 flex flex-col gap-16">
-        {caseStudies.map((cs) => (
-          <Reveal key={cs.slug}>
-            <CaseStudyArticle study={cs} />
-          </Reveal>
-        ))}
-      </div>
+      <section className="mt-16" aria-labelledby="rainier">
+        <SectionHeading
+          id="rainier"
+          eyebrow="Industry"
+          title="Industry experience"
+        />
+        <article className="rounded-sm border border-line bg-surface p-7 sm:p-10">
+          <div className="flex flex-wrap items-center gap-3">
+            <h2 className="text-xl font-medium tracking-tight text-fg">
+              Rainier Labs
+            </h2>
+            <StatusTag>{rainier.status}</StatusTag>
+          </div>
+          <p className="mt-1 font-mono text-[11px] text-fg-faint">{rainier.context}</p>
+          <p className="mt-5 max-w-3xl text-[15px] leading-relaxed text-fg-muted">
+            {rainier.body}
+          </p>
+          <div className="mt-5">
+            <Tags items={rainier.tags} />
+          </div>
+        </article>
+      </section>
+
+      <section className="mt-24" aria-labelledby="selected-builds">
+        <SectionHeading
+          id="selected-builds"
+          eyebrow="Builds"
+          title="Selected prototypes"
+        />
+        <div className="flex flex-col gap-16">
+          {caseStudies.map((cs) => (
+            <Reveal key={cs.slug}>
+              <CaseStudyArticle study={cs} />
+            </Reveal>
+          ))}
+        </div>
+      </section>
 
       <section className="mt-24" aria-labelledby="additional-builds">
         <SectionHeading
@@ -125,7 +141,7 @@ export default function WorkPage() {
                 Show VoiceVision, GuestFlow, and GuardianAlert
               </span>
               <span className="mt-1 block text-[13px] leading-relaxed text-fg-muted">
-                Smaller project records kept here so the main page stays focused.
+                Other shipped builds, kept compact so the strongest work stays first.
               </span>
             </span>
             <span
@@ -143,29 +159,6 @@ export default function WorkPage() {
             ))}
           </div>
         </details>
-      </section>
-
-      <section className="mt-24" aria-labelledby="rainier">
-        <SectionHeading
-          id="rainier"
-          eyebrow="Industry"
-          title="Industry experience"
-        />
-        <article className="rounded-sm border border-line bg-surface p-7 sm:p-10">
-          <div className="flex flex-wrap items-center gap-3">
-            <h3 className="text-xl font-medium tracking-tight text-fg">
-              Rainier Labs
-            </h3>
-            <StatusTag>{rainier.status}</StatusTag>
-          </div>
-          <p className="mt-1 font-mono text-[11px] text-fg-faint">{rainier.context}</p>
-          <p className="mt-5 max-w-3xl text-[15px] leading-relaxed text-fg-muted">
-            {rainier.body}
-          </p>
-          <div className="mt-5">
-            <Tags items={rainier.tags} />
-          </div>
-        </article>
       </section>
     </div>
   );
