@@ -37,6 +37,7 @@ export default function ArchivePage() {
                 <div className="mt-2">
                   <ExternalLink
                     href={item.href}
+                    ariaLabel={`${item.title} — external link`}
                     className="font-mono text-[12px] text-fg-muted transition-colors duration-150 hover:text-accent"
                   >
                     Link

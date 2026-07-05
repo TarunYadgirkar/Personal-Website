@@ -19,10 +19,8 @@ export function Nav() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-line bg-bg/90 backdrop-blur-sm">
-      <nav
-        aria-label="Main"
-        className="mx-auto flex h-16 max-w-5xl items-center justify-between px-6"
-      >
+      <nav aria-label="Main" className="mx-auto max-w-5xl px-6">
+        <div className="flex h-16 items-center justify-between">
         <Link
           href="/"
           className="font-mono text-sm tracking-tight text-fg transition-colors duration-150 hover:text-accent"
@@ -59,12 +57,12 @@ export function Nav() {
         >
           {open ? "close" : "menu"}
         </button>
-      </nav>
+        </div>
 
-      {open && (
         <ul
           id="mobile-menu"
-          className="border-t border-line px-6 py-4 sm:hidden"
+          hidden={!open}
+          className="border-t border-line py-4 sm:hidden"
         >
           {LINKS.map(({ href, label }) => {
             const active =
@@ -85,7 +83,7 @@ export function Nav() {
             );
           })}
         </ul>
-      )}
+      </nav>
     </header>
   );
 }

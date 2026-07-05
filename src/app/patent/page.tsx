@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Reveal } from "@/components/motion";
 import { Eyebrow, ExternalLink, SectionHeading, StatusTag } from "@/components/ui";
 import { balance } from "@/content/balance";
 
@@ -23,25 +22,21 @@ export default function PatentPage() {
         <StatusTag>{balance.status}</StatusTag>
       </div>
 
-      <section className="mt-16" aria-labelledby="problem">
+      <section className="mt-20" aria-labelledby="problem">
         <SectionHeading id="problem" eyebrow="Why" title="The problem" />
-        <Reveal>
-          <p className="max-w-3xl text-[16px] leading-relaxed text-fg-muted">
-            {balance.problem}
-          </p>
-        </Reveal>
+        <p className="max-w-3xl text-[16px] leading-relaxed text-fg-muted">
+          {balance.problem}
+        </p>
       </section>
 
-      <section className="mt-16" aria-labelledby="concept">
+      <section className="mt-20" aria-labelledby="concept">
         <SectionHeading id="concept" eyebrow="Concept" title="Between aids and exoskeletons" />
-        <Reveal>
-          <p className="max-w-3xl text-[16px] leading-relaxed text-fg-muted">
-            {balance.concept}
-          </p>
-        </Reveal>
+        <p className="max-w-3xl text-[16px] leading-relaxed text-fg-muted">
+          {balance.concept}
+        </p>
       </section>
 
-      <section className="mt-16" aria-labelledby="system">
+      <section className="mt-20" aria-labelledby="system">
         <SectionHeading id="system" eyebrow="System" title="Two subsystems" />
         <div className="grid gap-px overflow-hidden rounded-sm border border-line bg-line sm:grid-cols-2">
           {balance.systems.map((s) => (
@@ -65,20 +60,18 @@ export default function PatentPage() {
         </ul>
       </section>
 
-      <section className="mt-16" aria-labelledby="status">
+      <section className="mt-20" aria-labelledby="status">
         <SectionHeading id="status" eyebrow="Status" title="Where it stands" />
-        <Reveal>
-          <p className="max-w-3xl text-[16px] leading-relaxed text-fg-muted">
-            {balance.statusDetail}
-          </p>
-          <div className="mt-6 flex flex-wrap gap-6">
-            {balance.links.map((link) => (
-              <ExternalLink key={link.href} href={link.href}>
-                {link.label}
-              </ExternalLink>
-            ))}
-          </div>
-        </Reveal>
+        <p className="max-w-3xl text-[16px] leading-relaxed text-fg-muted">
+          {balance.statusDetail}
+        </p>
+        <div className="mt-6 flex flex-wrap gap-6">
+          {balance.links.map((link) => (
+            <ExternalLink key={link.href} href={link.href}>
+              {link.label}
+            </ExternalLink>
+          ))}
+        </div>
       </section>
     </div>
   );
