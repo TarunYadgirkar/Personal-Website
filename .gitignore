@@ -40,3 +40,4 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 BUILD_NOTES.md
+.codex-docs-cache/

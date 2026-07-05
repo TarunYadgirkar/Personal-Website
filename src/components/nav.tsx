@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -33,7 +34,7 @@ export function Nav() {
             const active =
               href === "/" ? pathname === "/" : pathname.startsWith(href);
             return (
-              <li key={href}>
+              <li key={href} className="relative">
                 <Link
                   href={href}
                   aria-current={active ? "page" : undefined}
@@ -43,6 +44,14 @@ export function Nav() {
                 >
                   {label}
                 </Link>
+                {active && (
+                  <motion.span
+                    layoutId="nav-underline"
+                    aria-hidden="true"
+                    className="absolute inset-x-0 -bottom-px h-px bg-accent"
+                    transition={{ type: "spring", stiffness: 500, damping: 40 }}
+                  />
+                )}
               </li>
             );
           })}

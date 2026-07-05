@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { HeroReveal, Pressable, Reveal } from "@/components/motion";
-import { SignalTrace } from "@/components/signal-trace";
+import { HeroVisual } from "@/components/hero-visual";
 import { Eyebrow, SectionHeading, StatusTag, Tags } from "@/components/ui";
 import { focusAreas, proofPoints, recognition, site } from "@/content/site";
 import { featured } from "@/content/work";
@@ -81,7 +81,7 @@ export default function Home() {
           </ul>
         </HeroReveal>
         <div className="mt-16 border-b border-line pb-px">
-          <SignalTrace className="h-16 w-full sm:h-20" />
+          <HeroVisual />
         </div>
       </section>
 
@@ -127,7 +127,11 @@ export default function Home() {
         <SectionHeading id="focus-areas" eyebrow="Focus" title="Technical focus areas" />
         <ul className="grid gap-px overflow-hidden rounded-sm border border-line bg-line sm:grid-cols-2 lg:grid-cols-5">
           {focusAreas.map((area) => (
-            <li key={area.title} className="bg-surface p-5">
+            <li key={area.title} className="group relative overflow-hidden bg-surface p-5">
+              <span
+                aria-hidden="true"
+                className="absolute inset-x-0 top-0 h-px origin-left scale-x-0 bg-accent transition-transform duration-300 ease-out group-hover:scale-x-100 motion-reduce:transition-none"
+              />
               <p className="font-mono text-[12px] text-accent">{area.title}</p>
               <p className="mt-2 text-[13px] leading-relaxed text-fg-muted">
                 {area.detail}
