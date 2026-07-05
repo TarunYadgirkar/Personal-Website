@@ -10,12 +10,17 @@ export function Footer() {
           <div className="flex flex-col gap-2">
             <p className="text-sm text-fg">{site.name}</p>
             <p className="font-mono text-xs text-fg-faint">{site.location}</p>
-            <a
-              href={`mailto:${site.email}`}
-              className="font-mono text-xs text-fg-muted transition-colors duration-150 hover:text-accent"
-            >
-              {site.email}
-            </a>
+            <div className="flex flex-col gap-1">
+              {site.emails.map((email) => (
+                <a
+                  key={email.address}
+                  href={`mailto:${email.address}`}
+                  className="font-mono text-xs text-fg-muted transition-colors duration-150 hover:text-accent"
+                >
+                  {email.address}
+                </a>
+              ))}
+            </div>
           </div>
         </div>
         <div className="flex flex-col gap-2 sm:items-end">

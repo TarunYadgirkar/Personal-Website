@@ -14,7 +14,7 @@ Affiliations shown: Santa Clara University - Wireless Intelligent Networks (WIN)
 Email listed: tarun_yadgirkar@berkeley.edu
 
 **Resume header:** TARUN YADGIRKAR — High School Student - Class of 2026
-San Ramon, CA, USA | linkedin.com/in/tarun-yadgirkar-74a12531b | tarunyadgirkar.godaddysites.com | tyadgirkar@gmail.com | 925-786-5697
+San Ramon, CA, USA | linkedin.com/in/tarun-yadgirkar-74a12531b | tarunyadgirkar.godaddysites.com | tarun_yadgirkar@berkeley.edu / tyadgirkar@gmail.com | 925-786-5697
 "Interested in internships in AI, Robotics, and Computer Engineering. Passionate about AI & Robotics in building and programming using Odometry, CAD, & LLM's."
 
 **Old site tagline:** Tarun Yadgirkar, DVHS Class of 2026 — "Future Tech Innovator & Scout Leader!"

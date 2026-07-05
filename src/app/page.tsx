@@ -163,12 +163,17 @@ export default function Home() {
         <p className="max-w-xl text-[15px] leading-relaxed text-fg-muted">
           Open to research collaborations, internships, and technical projects.
         </p>
-        <a
-          href={`mailto:${site.email}`}
-          className="mt-6 inline-block text-2xl font-medium tracking-tight text-fg underline-offset-8 transition-colors duration-150 hover:text-accent hover:underline sm:text-3xl"
-        >
-          {site.email}
-        </a>
+        <div className="mt-6 flex flex-col items-start gap-2">
+          {site.emails.map((email) => (
+            <a
+              key={email.address}
+              href={`mailto:${email.address}`}
+              className="text-xl font-medium tracking-tight text-fg underline-offset-8 transition-colors duration-150 hover:text-accent hover:underline sm:text-3xl"
+            >
+              {email.address}
+            </a>
+          ))}
+        </div>
       </section>
     </div>
   );

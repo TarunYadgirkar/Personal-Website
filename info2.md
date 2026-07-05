@@ -16,7 +16,7 @@ summary rather than guessing.
 - Flagship robotics = **Rainier Labs internship**, not VEX. VEX lives in Archive.
 - Science fair (waste-sorting) is framed as a **robotics / computer-vision build**; award context
   is one secondary line.
-- Do NOT publish the phone number. Public email: **tyadgirkar@gmail.com**.
+- Do NOT publish the phone number. Public emails: **tarun_yadgirkar@berkeley.edu** and **tyadgirkar@gmail.com**.
 - Voice/tone: serious technical builder — precise, understated, active voice, concrete nouns and
   numbers. Avoid "passionate," "aspiring," "driven," exclamation points.
 
@@ -29,7 +29,7 @@ summary rather than guessing.
 - **Sub-line:** Embedded ML · robotics & autonomy · applied AI
 - **Education:** Applied Mathematics @ UC Berkeley (BA, Applied Mathematics)
 - **Location:** San Ramon, California
-- **Public email:** tyadgirkar@gmail.com
+- **Public emails:** tarun_yadgirkar@berkeley.edu / tyadgirkar@gmail.com
 - **Primary links:** GitHub, LinkedIn, Devpost, Résumé (see LINKS; résumé needs updating before
   linking — see TODO)
 - **Phone:** private — do not publish.
@@ -324,7 +324,7 @@ research direction.)*
 - GitHub: https://github.com/TarunYadgirkar
 - LinkedIn: https://www.linkedin.com/in/tarun-yadgirkar-74a12531b/
 - Devpost: https://devpost.com/tyadgirkar
-- Email: tyadgirkar@gmail.com
+- Email: tarun_yadgirkar@berkeley.edu / tyadgirkar@gmail.com
 - Youth Innovation Journal (BALANCE paper): https://www.youthinnovationjournal.org/researchlib/papers/balance
 - CarePath (live): https://carepath-five.vercel.app
 - Klarity VoiceNote (live): https://klarity-voicenote.vercel.app
