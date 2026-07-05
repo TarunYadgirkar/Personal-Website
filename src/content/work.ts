@@ -90,7 +90,10 @@ export const caseStudies: readonly CaseStudy[] = [
       "An agentic pipeline that, the moment a reservation lands, autonomously assembles a bespoke arrival — pulling guest history, live flight status, timezone/climate delta, booking metadata, and origin-country tech profile, then applying four lenses (Guest Purpose, Party Composition, Cultural Nuance, Tech Continuity) to produce three artifacts: a Staff Pre-Arrival Brief, a Room & Amenity Spec, and a guest-facing pre-loaded itinerary. A Confidence + Consent layer only auto-acts on high-confidence, non-invasive inferences and routes borderline calls to staff.",
     stack: ["TypeScript", "Anthropic API (Claude)", "ElevenLabs"],
     outcome: "Built at Hospitality 2030 — a Rosewood Sand Hill hackathon (May 2026).",
-    links: [{ label: "GitHub", href: "https://github.com/TarunYadgirkar/guestflow" }],
+    links: [
+      { label: "Live", href: "https://guestflow-henna.vercel.app" },
+      { label: "GitHub", href: "https://github.com/TarunYadgirkar/guestflow" },
+    ],
   },
   {
     slug: "voicevision",
@@ -112,7 +115,10 @@ export const caseStudies: readonly CaseStudy[] = [
       "Vercel",
     ],
     outcome: "2nd place at the AI Collective Tri-Valley hackathon (Humans in AI Week, Jun 2026).",
-    links: [],
+    links: [
+      { label: "Live", href: "https://voicevision-eight.vercel.app" },
+      { label: "GitHub", href: "https://github.com/TarunYadgirkar/voicevision" },
+    ],
   },
   {
     slug: "carepath",
@@ -184,7 +190,10 @@ export const caseStudies: readonly CaseStudy[] = [
       "Retell SDK",
     ],
     outcome: "Built at the AgeTech SF Hackathon 2026.",
-    links: [{ label: "GitHub", href: "https://github.com/TarunYadgirkar/AgeTech-Hackathon-1" }],
+    links: [
+      { label: "Live", href: "https://age-tech-hackathon-1.vercel.app" },
+      { label: "GitHub", href: "https://github.com/TarunYadgirkar/AgeTech-Hackathon-1" },
+    ],
   },
   {
     slug: "intent",
