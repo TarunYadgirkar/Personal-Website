@@ -20,7 +20,7 @@ export function HeroVisual() {
   }
 
   return (
-    <div className="h-56 w-full sm:h-72" aria-hidden="true">
+    <div className="h-64 w-full sm:h-96" aria-hidden="true">
       <Spline scene={site.splineSceneUrl} />
     </div>
   );
