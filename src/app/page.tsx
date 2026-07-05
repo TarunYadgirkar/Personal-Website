@@ -13,15 +13,17 @@ export default function Home() {
           <Eyebrow>{site.subline}</Eyebrow>
         </HeroReveal>
         <HeroReveal delay={0.06}>
-          <h1 className="mt-5 max-w-3xl text-4xl font-medium leading-[1.05] tracking-tight sm:text-6xl">
+          <h1 className="mt-5 max-w-[20rem] break-words text-[1.9rem] font-medium leading-[1.08] tracking-tight sm:max-w-3xl sm:text-6xl sm:leading-[1.05]">
             {site.name} builds {site.positioning}.
           </h1>
         </HeroReveal>
         <HeroReveal delay={0.12}>
-          <p className="mt-5 font-mono text-sm text-fg-muted">{site.credentialLine}</p>
+          <p className="mt-5 max-w-[20rem] break-words font-mono text-sm leading-relaxed text-fg-muted sm:max-w-full">
+            {site.credentialLine}
+          </p>
         </HeroReveal>
         <HeroReveal delay={0.18}>
-          <p className="mt-6 max-w-2xl text-base leading-relaxed text-fg-muted">
+          <p className="mt-6 max-w-[20rem] text-base leading-relaxed text-fg-muted sm:max-w-2xl">
             {site.bioShort}
           </p>
         </HeroReveal>

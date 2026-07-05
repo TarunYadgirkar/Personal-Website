@@ -26,6 +26,10 @@ export const metadata: Metadata = {
     template: `%s — ${site.name}`,
   },
   description: site.bioShort,
+  icons: {
+    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
+    shortcut: ["/icon.svg"],
+  },
   openGraph: {
     title: `${site.name} — ${site.positioning}`,
     description: site.bioShort,
