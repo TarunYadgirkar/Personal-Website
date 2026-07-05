@@ -63,6 +63,7 @@ export function Pressable({
   return (
     <motion.span
       className={className}
+      tabIndex={-1}
       whileTap={reduced ? undefined : { scale: 0.97 }}
       transition={{ duration: 0.15, ease: EASE_OUT }}
       style={{ display: "inline-block" }}
