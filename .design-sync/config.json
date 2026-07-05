@@ -1,0 +1,34 @@
+{
+  "projectId": "60c3a041-4eec-42ac-a770-50d3185427f1",
+  "shape": "package",
+  "pkg": "tarun-yadgirkar-site",
+  "globalName": "TarunSiteDS",
+  "buildCmd": "npm run build && mkdir -p .design-sync/.cache/chunks && cp .next/static/chunks/*.css .design-sync/.cache/chunks/tailwind.css && cp -r .next/static/media .design-sync/.cache/media",
+  "srcDir": "src",
+  "tsconfig": "tsconfig.json",
+  "cssEntry": ".design-sync/.cache/chunks/tailwind.css",
+  "componentSrcMap": {
+    "Eyebrow": "src/components/ui.tsx",
+    "SystemMark": "src/components/ui.tsx",
+    "SectionHeading": "src/components/ui.tsx",
+    "StatusTag": "src/components/ui.tsx",
+    "Tags": "src/components/ui.tsx",
+    "ExternalLink": "src/components/ui.tsx",
+    "MotionProvider": "src/components/motion.tsx",
+    "Reveal": "src/components/motion.tsx",
+    "HeroReveal": "src/components/motion.tsx",
+    "Pressable": "src/components/motion.tsx",
+    "SignalTrace": "src/components/signal-trace.tsx",
+    "Footer": "src/components/footer.tsx",
+    "Nav": null,
+    "HeroVisual": null,
+    "PageRoot": "src/components/page-root.tsx"
+  },
+  "provider": {
+    "component": "PageRoot",
+    "props": {
+      "staticMotion": true
+    }
+  },
+  "readmeHeader": ".design-sync/conventions.md"
+}
