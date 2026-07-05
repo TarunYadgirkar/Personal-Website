@@ -12,7 +12,7 @@ export const site = {
   resumeUrl: null as string | null,
   // Paste a Spline scene export URL (https://prod.spline.design/<id>/scene.splinecode)
   // to swap the hero signal trace for the 3D scene. Null keeps the trace.
-  splineSceneUrl: null as string | null,
+  splineSceneUrl: "https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode" as string | null,
   bioShort:
     "I build AI systems, robotics platforms, and embedded intelligence — from FPGA-accelerated machine learning to assistive mobility robots and applied AI prototypes. Current work spans embedded ML research at Santa Clara University's WIN Lab, robotics and embedded-systems work at Rainier Labs, and BALANCE, an assistive mobility system filed as a provisional patent.",
   links: {
