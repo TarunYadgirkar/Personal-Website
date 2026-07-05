@@ -1,27 +1,20 @@
-"use client";
+import Image from "next/image";
 
-import dynamic from "next/dynamic";
-import { useReducedMotion } from "framer-motion";
-import { SignalTrace } from "@/components/signal-trace";
-import { site } from "@/content/site";
-
-const Spline = dynamic(() => import("@splinetool/react-spline"), {
-  ssr: false,
-  loading: () => <SignalTrace className="h-16 w-full sm:h-20" />,
-});
-
-// Spline scene renders only when a scene URL is configured and the visitor
-// hasn't asked for reduced motion; otherwise the signal trace stands in.
 export function HeroVisual() {
-  const reduced = useReducedMotion();
-
-  if (!site.splineSceneUrl || reduced) {
-    return <SignalTrace className="h-16 w-full sm:h-20" />;
-  }
-
   return (
-    <div className="h-64 w-full sm:h-96" aria-hidden="true">
-      <Spline scene={site.splineSceneUrl} />
+    <div
+      className="relative h-52 w-full overflow-hidden bg-[#050607] sm:h-72"
+      aria-hidden="true"
+    >
+      <Image
+        src="/visuals/robot-arm.jpg"
+        alt=""
+        fill
+        priority
+        sizes="(min-width: 1024px) 1024px, 100vw"
+        className="object-cover object-[54%_42%] opacity-85 saturate-[0.9]"
+      />
+      <div className="absolute inset-0 bg-[linear-gradient(90deg,#0a0d10_0%,rgba(10,13,16,0.18)_34%,rgba(10,13,16,0)_66%,#0a0d10_100%)]" />
     </div>
   );
 }

@@ -2,9 +2,32 @@ import type { ReactNode } from "react";
 
 export function Eyebrow({ children }: { children: ReactNode }) {
   return (
-    <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-accent">
+    <p className="max-w-[20rem] break-words font-mono text-[10px] uppercase leading-relaxed tracking-[0.16em] text-accent before:mr-2 before:inline-block before:size-1 before:bg-accent before:align-middle sm:max-w-full sm:text-[11px] sm:tracking-[0.22em]">
       {children}
     </p>
+  );
+}
+
+export function SystemMark({ className = "" }: { className?: string }) {
+  return (
+    <span
+      aria-hidden="true"
+      className={`inline-flex size-7 shrink-0 items-center justify-center border border-line-strong bg-surface text-accent ${className}`}
+    >
+      <svg viewBox="0 0 28 28" className="size-7" role="img">
+        <path
+          d="M6 18.5 12 12l4 3.5L22 8"
+          fill="none"
+          stroke="currentColor"
+          strokeLinecap="square"
+          strokeWidth="1.4"
+        />
+        <circle cx="6" cy="18.5" r="1.9" fill="currentColor" />
+        <circle cx="12" cy="12" r="1.9" fill="currentColor" />
+        <circle cx="22" cy="8" r="1.9" fill="currentColor" />
+        <path d="M8 22h12" stroke="currentColor" strokeWidth="1.2" />
+      </svg>
+    </span>
   );
 }
 
