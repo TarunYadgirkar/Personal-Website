@@ -44,12 +44,17 @@ export default function AboutPage() {
 
       <section className="mt-20" aria-labelledby="connect">
         <SectionHeading id="connect" eyebrow="Contact" title="Get in touch" />
-        <a
-          href={`mailto:${site.email}`}
-          className="text-xl font-medium tracking-tight text-fg underline-offset-8 transition-colors duration-150 hover:text-accent hover:underline sm:text-2xl"
-        >
-          {site.email}
-        </a>
+        <div className="flex flex-col items-start gap-2">
+          {site.emails.map((email) => (
+            <a
+              key={email.address}
+              href={`mailto:${email.address}`}
+              className="text-xl font-medium tracking-tight text-fg underline-offset-8 transition-colors duration-150 hover:text-accent hover:underline sm:text-2xl"
+            >
+              {email.address}
+            </a>
+          ))}
+        </div>
         <ul className="mt-6 flex gap-6">
           {(
             [

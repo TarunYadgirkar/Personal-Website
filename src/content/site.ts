@@ -5,7 +5,11 @@ export const site = {
   credentialLine: "SCU WIN Lab · Rainier Labs · UC Berkeley Applied Mathematics",
   education: "Applied Mathematics @ UC Berkeley",
   location: "San Ramon, California",
-  email: "tyadgirkar@gmail.com",
+  email: "tarun_yadgirkar@berkeley.edu",
+  emails: [
+    { label: "Berkeley", address: "tarun_yadgirkar@berkeley.edu" },
+    { label: "Personal", address: "tyadgirkar@gmail.com" },
+  ],
   url: "https://tarunyadgirkar.vercel.app",
   // Set to a PDF path/URL to enable the Resume button (kept null until the
   // updated resume is ready — the old PDF has outdated positioning).
