@@ -36,7 +36,7 @@ CSS custom properties available everywhere under `PageRoot`: `--color-bg`, `--co
 
 ## Component roles
 
-- `Eyebrow` — amber mono uppercase section label with square marker; pair with an `h1`/`h2` or use `SectionHeading` (eyebrow + title in one).
+- `SectionHeading` — section title with a small amber square marker (`title`, optional `id`). No eyebrow labels anywhere in this system; never add small uppercase-tracked labels above headings.
 - `StatusTag` — small amber-tinted status chip (`Shipped prototype`, `Research · ongoing`).
 - `Tags` — mono tag list (`items: string[]`) for stacks/skills.
 - `ExternalLink` — amber mono anchor with ↗, opens new tab.
