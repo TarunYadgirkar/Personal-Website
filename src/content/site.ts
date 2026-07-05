@@ -2,6 +2,7 @@ export const site = {
   name: "Tarun Yadgirkar",
   positioning: "AI systems, robotics, and embedded intelligence",
   subline: "Embedded ML · robotics & autonomy · applied AI",
+  credentialLine: "SCU WIN Lab · Rainier Labs · UC Berkeley Applied Mathematics",
   education: "Applied Mathematics @ UC Berkeley",
   location: "San Ramon, California",
   email: "tyadgirkar@gmail.com",
@@ -10,13 +11,31 @@ export const site = {
   // updated resume is ready — the old PDF has outdated positioning).
   resumeUrl: null as string | null,
   bioShort:
-    "I build AI systems, robotics platforms, and embedded intelligence — from FPGA-accelerated machine learning to assistive mobility robots. I'm studying Applied Mathematics at UC Berkeley, research embedded ML at Santa Clara University's WIN Lab, and hold a provisional patent for BALANCE, a hybrid legged-and-wheeled mobility device.",
+    "I build AI systems, robotics platforms, and embedded intelligence — from FPGA-accelerated machine learning to assistive mobility robots and applied AI prototypes. Current work spans embedded ML research at Santa Clara University's WIN Lab, robotics and embedded-systems work at Rainier Labs, and BALANCE, an assistive mobility system filed as a provisional patent.",
   links: {
     github: "https://github.com/TarunYadgirkar",
     linkedin: "https://www.linkedin.com/in/tarun-yadgirkar-74a12531b/",
     devpost: "https://devpost.com/tyadgirkar",
   },
 } as const;
+
+export const proofPoints = [
+  {
+    label: "Research",
+    value: "FPGA / embedded ML",
+    detail: "SCU Wireless Intelligent Networks Lab",
+  },
+  {
+    label: "Builds",
+    value: "Applied AI prototypes",
+    detail: "Agentic, voice-first, and product systems",
+  },
+  {
+    label: "Robotics",
+    value: "BALANCE",
+    detail: "Filed provisional patent No. 63/743,085",
+  },
+] as const;
 
 export const focusAreas = [
   {
@@ -25,7 +44,7 @@ export const focusAreas = [
   },
   {
     title: "Robotics & autonomy",
-    detail: "Embedded and hardware robotics, autonomous systems",
+    detail: "Robotics systems, autonomy, and sensor-driven builds",
   },
   {
     title: "Applied AI systems",
@@ -43,42 +62,65 @@ export const focusAreas = [
 
 export const recognition = [
   {
-    line: "Provisional patent + published paper (BALANCE)",
-    context: "Youth Innovation Journal, 2025",
-  },
-  {
-    line: "Research assistant",
-    context: "SCU Wireless Intelligent Networks (WIN) Lab",
-  },
-  {
-    line: "Robotics hardware & embedded-systems internship",
-    context: "Rainier Labs",
-  },
-  {
-    line: "VEX Robotics World Championship qualifier",
-    context: "2024",
-  },
-  {
     line: "Eagle Scout",
     context: "Boy Scouts of America",
+  },
+  {
+    line: "AIME qualifier",
+    context: "2026",
   },
 ] as const;
 
 export const skills = [
   {
     group: "Robotics & Controls",
-    items: ["Robotics", "Autonomous systems", "ROS", "CAD/CAM", "Mechanism design"],
+    items: [
+      "Robotics",
+      "Autonomous systems",
+      "Human-robot interaction",
+      "Sensor integration",
+      "CAD/CAM",
+      "Mechanism design",
+    ],
   },
   {
     group: "Embedded & Hardware",
-    items: ["FPGA", "Embedded systems", "Raspberry Pi", "Sensors (LiDAR / sonar / NIR)", "3D printing"],
+    items: [
+      "FPGA",
+      "Embedded systems",
+      "Raspberry Pi",
+      "Sensors (LiDAR / sonar / NIR)",
+      "Edge deployment",
+      "3D printing",
+    ],
   },
   {
     group: "AI / ML",
-    items: ["Embedded ML", "Computer vision", "CNNs / LSTMs", "Reinforcement learning", "Applied LLMs", "Voice agents"],
+    items: [
+      "Embedded ML",
+      "Computer vision",
+      "CNNs / LSTMs",
+      "Reinforcement learning",
+      "LLM orchestration",
+      "Voice agents",
+      "Model optimization",
+    ],
   },
   {
     group: "Software & Tools",
-    items: ["Python", "C/C++", "Java", "TypeScript / JavaScript", "Swift", "Git", "Next.js", "React"],
+    items: [
+      "Python",
+      "C/C++",
+      "Java",
+      "TypeScript / JavaScript",
+      "Swift / SwiftUI",
+      "React / Next.js",
+      "Tailwind CSS",
+      "Vite",
+      "Vercel",
+      "Postgres / Neon",
+      "Serverless functions",
+      "Git",
+    ],
   },
 ] as const;

@@ -16,7 +16,7 @@ export const publication = {
   authorsNote: "Co-authored with a student team (one of ten authors)",
   venue: "Youth Innovation Journal",
   year: "Fall 2025 · published Oct 29, 2025",
-  note: "Companion to the BALANCE provisional patent (No. 63/743,085).",
+  note: "Related article for the BALANCE design, separate from provisional patent filing No. 63/743,085.",
   href: "https://www.youthinnovationjournal.org/researchlib/papers/balance",
 } as const;
 

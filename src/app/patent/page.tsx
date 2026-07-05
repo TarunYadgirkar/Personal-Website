@@ -3,15 +3,15 @@ import { Eyebrow, ExternalLink, SectionHeading, StatusTag } from "@/components/u
 import { balance } from "@/content/balance";
 
 export const metadata: Metadata = {
-  title: "Patent — BALANCE",
+  title: "Provisional Patent — BALANCE",
   description:
-    "BALANCE: a hybrid legged-and-wheeled assistive mobility device. Provisional patent No. 63/743,085; published in the Youth Innovation Journal (Fall 2025).",
+    "BALANCE: a hybrid legged-and-wheeled assistive mobility device. Filed as provisional patent No. 63/743,085; a related article was published in the Youth Innovation Journal (Fall 2025).",
 };
 
 export default function PatentPage() {
   return (
     <div className="mx-auto max-w-5xl px-6 pb-28 pt-20">
-      <Eyebrow>Patent</Eyebrow>
+      <Eyebrow>Provisional patent</Eyebrow>
       <h1 className="mt-4 text-3xl font-medium tracking-tight sm:text-5xl">
         {balance.name}
       </h1>

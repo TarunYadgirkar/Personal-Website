@@ -2,7 +2,7 @@ import Link from "next/link";
 import { HeroReveal, Pressable, Reveal } from "@/components/motion";
 import { SignalTrace } from "@/components/signal-trace";
 import { Eyebrow, SectionHeading, StatusTag, Tags } from "@/components/ui";
-import { focusAreas, recognition, site } from "@/content/site";
+import { focusAreas, proofPoints, recognition, site } from "@/content/site";
 import { featured } from "@/content/work";
 
 export default function Home() {
@@ -10,7 +10,7 @@ export default function Home() {
     <div className="mx-auto max-w-5xl px-6">
       <section className="pt-24 sm:pt-32">
         <HeroReveal>
-          <Eyebrow>{site.education}</Eyebrow>
+          <Eyebrow>{site.subline}</Eyebrow>
         </HeroReveal>
         <HeroReveal delay={0.06}>
           <h1 className="mt-5 max-w-3xl text-4xl font-medium leading-[1.05] tracking-tight sm:text-6xl">
@@ -18,7 +18,7 @@ export default function Home() {
           </h1>
         </HeroReveal>
         <HeroReveal delay={0.12}>
-          <p className="mt-5 font-mono text-sm text-fg-muted">{site.subline}</p>
+          <p className="mt-5 font-mono text-sm text-fg-muted">{site.credentialLine}</p>
         </HeroReveal>
         <HeroReveal delay={0.18}>
           <p className="mt-6 max-w-2xl text-base leading-relaxed text-fg-muted">
@@ -64,6 +64,21 @@ export default function Home() {
               </a>
             </Pressable>
           </div>
+        </HeroReveal>
+        <HeroReveal delay={0.3}>
+          <ul className="mt-12 grid gap-px overflow-hidden rounded-sm border border-line bg-line sm:grid-cols-3">
+            {proofPoints.map((point) => (
+              <li key={point.label} className="bg-surface p-5">
+                <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-fg-faint">
+                  {point.label}
+                </p>
+                <p className="mt-3 text-[15px] font-medium text-fg">{point.value}</p>
+                <p className="mt-1 text-[13px] leading-relaxed text-fg-muted">
+                  {point.detail}
+                </p>
+              </li>
+            ))}
+          </ul>
         </HeroReveal>
         <div className="mt-16 border-b border-line pb-px">
           <SignalTrace className="h-16 w-full sm:h-20" />
