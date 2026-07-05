@@ -1,7 +1,7 @@
 export const balance = {
   name: "BALANCE",
   expansion: "Biomechanical Assistive Legs with Advanced Navigation and Control Engineering",
-  status: "Provisional patent (No. 63/743,085) · Published, Youth Innovation Journal (Fall 2025)",
+  status: "Provisional patent filed (No. 63/743,085) · Related article, Youth Innovation Journal",
   problem:
     "Mobility isn't binary. Most assistive devices — wheelchairs, walkers, canes — solve one narrow stage of mobility loss, can accelerate muscle atrophy, and don't adapt across terrain. Meanwhile the aging population and the gap between lifespan and health-span are both growing.",
   concept:
@@ -25,10 +25,10 @@ export const balance = {
     "User interface for adjustable assistance levels",
   ],
   statusDetail:
-    "Filed as a provisional patent (No. 63/743,085); the design is published in the Youth Innovation Journal (Fall 2025). Co-developed with a student team.",
+    "The system was filed as provisional patent No. 63/743,085. A related article describing the BALANCE design was published in the Youth Innovation Journal (Fall 2025). Co-developed with a student team.",
   links: [
     {
-      label: "Paper — Youth Innovation Journal",
+      label: "Article — Youth Innovation Journal",
       href: "https://www.youthinnovationjournal.org/researchlib/papers/balance",
     },
     {

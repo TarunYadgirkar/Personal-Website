@@ -6,7 +6,7 @@ import { publication, roar, winLab } from "@/content/research";
 export const metadata: Metadata = {
   title: "Research",
   description:
-    "FPGA-based acceleration for machine learning and wireless-communication algorithms at SCU's WIN Lab; BALANCE publication; ROAR Academy.",
+    "FPGA-based acceleration for machine learning and wireless-communication algorithms at SCU's WIN Lab; BALANCE article; ROAR Academy.",
 };
 
 export default function ResearchPage() {
@@ -45,7 +45,7 @@ export default function ResearchPage() {
       </section>
 
       <section className="mt-20" aria-labelledby="publications">
-        <SectionHeading id="publications" eyebrow="Published" title="Publication" />
+        <SectionHeading id="publications" eyebrow="Published" title="Article" />
         <Reveal>
           <article className="border-l-2 border-accent pl-6">
             <h3 className="max-w-3xl text-lg font-medium leading-snug tracking-tight text-fg">
@@ -59,7 +59,7 @@ export default function ResearchPage() {
               {publication.note}
             </p>
             <div className="mt-4">
-              <ExternalLink href={publication.href}>Read the paper</ExternalLink>
+              <ExternalLink href={publication.href}>Read the article</ExternalLink>
             </div>
           </article>
         </Reveal>

@@ -29,7 +29,7 @@ export default function OgImage() {
             color: "#e2a264",
           }}
         >
-          {site.education}
+          {site.subline}
         </div>
         <div
           style={{
