@@ -26,6 +26,8 @@ export function PageRoot({
   // rendering contexts (screenshots, preview cards). Leave off in real UIs.
   staticMotion?: boolean;
 }) {
+  // Must flip before children mount, so it can't live in an effect.
+  // eslint-disable-next-line react-hooks/immutability
   if (staticMotion) MotionGlobalConfig.skipAnimations = true;
   return <div style={ROOT_STYLE}>{children}</div>;
 }

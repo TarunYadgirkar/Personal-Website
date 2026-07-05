@@ -15,7 +15,7 @@ export const site = {
   // updated resume is ready — the old PDF has outdated positioning).
   resumeUrl: null as string | null,
   bioShort:
-    "I build AI systems, robotics platforms, and embedded intelligence — from FPGA-accelerated machine learning to assistive mobility robots and applied AI prototypes. Current work spans embedded ML research at Santa Clara University's WIN Lab, robotics and embedded-systems work at Rainier Labs, and BALANCE, an assistive mobility system filed as a provisional patent.",
+    "I build AI systems, robotics platforms, and embedded intelligence — from FPGA-accelerated machine learning to assistive mobility robots. I'm studying Applied Mathematics at UC Berkeley, research embedded ML at Santa Clara University's WIN Lab, and filed a provisional patent for BALANCE, a hybrid legged-and-wheeled mobility device.",
   links: {
     github: "https://github.com/TarunYadgirkar",
     linkedin: "https://www.linkedin.com/in/tarun-yadgirkar-74a12531b/",
@@ -23,22 +23,11 @@ export const site = {
   },
 } as const;
 
-export const proofPoints = [
-  {
-    label: "Research",
-    value: "FPGA / embedded ML",
-    detail: "SCU Wireless Intelligent Networks Lab",
-  },
-  {
-    label: "Builds",
-    value: "Applied AI prototypes",
-    detail: "Agentic, voice-first, and product systems",
-  },
-  {
-    label: "Robotics",
-    value: "BALANCE",
-    detail: "Filed provisional patent No. 63/743,085",
-  },
+export const atAGlance = [
+  { label: "Patent", value: "63/743,085", accent: "BALANCE · " },
+  { label: "Paper", value: "Youth Innov. Journal '25" },
+  { label: "Lab", value: "SCU WIN Lab" },
+  { label: "Based", value: "Berkeley, CA" },
 ] as const;
 
 export const focusAreas = [
@@ -48,7 +37,7 @@ export const focusAreas = [
   },
   {
     title: "Robotics & autonomy",
-    detail: "Robotics systems, autonomy, and sensor-driven builds",
+    detail: "Embedded and hardware robotics, autonomous systems",
   },
   {
     title: "Applied AI systems",
@@ -66,12 +55,12 @@ export const focusAreas = [
 
 export const recognition = [
   {
-    line: "Eagle Scout",
-    context: "Boy Scouts of America",
+    line: "AIME qualifier (American Invitational Mathematics Examination)",
+    context: "2026",
   },
   {
-    line: "AIME qualifier",
-    context: "2026",
+    line: "Eagle Scout",
+    context: "Boy Scouts of America",
   },
 ] as const;
 

@@ -1,90 +1,106 @@
 import Link from "next/link";
 import { HeroReveal, Pressable, Reveal } from "@/components/motion";
-import { HeroVisual } from "@/components/hero-visual";
+import { SignalTrace } from "@/components/signal-trace";
 import { Eyebrow, SectionHeading, StatusTag, Tags } from "@/components/ui";
-import { focusAreas, proofPoints, recognition, site } from "@/content/site";
+import { atAGlance, focusAreas, recognition, site } from "@/content/site";
 import { featured } from "@/content/work";
 
 export default function Home() {
   return (
     <div className="mx-auto max-w-5xl px-6">
       <section className="pt-24 sm:pt-32">
-        <HeroReveal>
-          <Eyebrow>{site.subline}</Eyebrow>
-        </HeroReveal>
-        <HeroReveal delay={0.06}>
-          <h1 className="mt-5 max-w-[20rem] break-words text-[1.9rem] font-medium leading-[1.08] tracking-tight sm:max-w-3xl sm:text-6xl sm:leading-[1.05]">
-            {site.name} builds {site.positioning}.
-          </h1>
-        </HeroReveal>
-        <HeroReveal delay={0.12}>
-          <p className="mt-5 max-w-[20rem] break-words font-mono text-sm leading-relaxed text-fg-muted sm:max-w-full">
-            {site.credentialLine}
-          </p>
-        </HeroReveal>
-        <HeroReveal delay={0.18}>
-          <p className="mt-6 max-w-[20rem] text-base leading-relaxed text-fg-muted sm:max-w-2xl">
-            {site.bioShort}
-          </p>
-        </HeroReveal>
-        <HeroReveal delay={0.24}>
-          <div className="mt-9 flex flex-wrap items-center gap-3">
-            <Pressable>
-              <Link
-                href="/work"
-                className="inline-flex h-10 items-center rounded-sm bg-accent px-5 text-sm font-medium text-bg transition-colors duration-150 hover:bg-accent-bright"
-              >
-                View work
-              </Link>
-            </Pressable>
-            <Pressable>
-              <Link
-                href="/research"
-                className="inline-flex h-10 items-center rounded-sm border border-line-strong px-5 text-sm text-fg transition-colors duration-150 hover:border-accent hover:text-accent"
-              >
-                Research
-              </Link>
-            </Pressable>
-            {site.resumeUrl && (
-              <Pressable>
-                <a
-                  href={site.resumeUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex h-10 items-center rounded-sm border border-line-strong px-5 text-sm text-fg transition-colors duration-150 hover:border-accent hover:text-accent"
-                >
-                  Resume
-                </a>
-              </Pressable>
-            )}
-            <Pressable>
-              <a
-                href={`mailto:${site.email}`}
-                className="inline-flex h-10 items-center rounded-sm border border-line-strong px-5 text-sm text-fg transition-colors duration-150 hover:border-accent hover:text-accent"
-              >
-                Contact
-              </a>
-            </Pressable>
+        <div className="grid items-start gap-12 lg:grid-cols-[1fr_320px] lg:gap-14">
+          <div>
+            <HeroReveal>
+              <Eyebrow>{site.education}</Eyebrow>
+            </HeroReveal>
+            <HeroReveal delay={0.06}>
+              <h1 className="mt-5 max-w-[20rem] break-words text-[1.9rem] font-medium leading-[1.08] tracking-tight sm:max-w-3xl sm:text-5xl sm:leading-[1.06]">
+                {site.name} builds {site.positioning}.
+              </h1>
+            </HeroReveal>
+            <HeroReveal delay={0.12}>
+              <p className="mt-5 max-w-[20rem] break-words font-mono text-sm leading-relaxed text-fg-muted sm:max-w-full">
+                {site.subline}
+              </p>
+            </HeroReveal>
+            <HeroReveal delay={0.18}>
+              <p className="mt-6 max-w-[20rem] text-base leading-relaxed text-fg-muted sm:max-w-xl">
+                {site.bioShort}
+              </p>
+            </HeroReveal>
+            <HeroReveal delay={0.24}>
+              <div className="mt-9 flex flex-wrap items-center gap-3">
+                <Pressable>
+                  <Link
+                    href="/work"
+                    className="inline-flex h-10 items-center rounded-sm bg-accent px-5 text-sm font-medium text-bg transition-colors duration-150 hover:bg-accent-bright"
+                  >
+                    View work
+                  </Link>
+                </Pressable>
+                <Pressable>
+                  <Link
+                    href="/research"
+                    className="inline-flex h-10 items-center rounded-sm border border-line-strong px-5 text-sm text-fg transition-colors duration-150 hover:border-accent hover:text-accent"
+                  >
+                    Research
+                  </Link>
+                </Pressable>
+                {site.resumeUrl && (
+                  <Pressable>
+                    <a
+                      href={site.resumeUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex h-10 items-center rounded-sm border border-line-strong px-5 text-sm text-fg transition-colors duration-150 hover:border-accent hover:text-accent"
+                    >
+                      Resume
+                    </a>
+                  </Pressable>
+                )}
+                <Pressable>
+                  <a
+                    href="#contact"
+                    className="inline-flex h-10 items-center rounded-sm border border-line-strong px-5 text-sm text-fg transition-colors duration-150 hover:border-accent hover:text-accent"
+                  >
+                    Contact
+                  </a>
+                </Pressable>
+              </div>
+            </HeroReveal>
+          </div>
+          <HeroReveal delay={0.2}>
+            <div className="rounded-sm border border-line-strong bg-surface px-5 pb-2 pt-5">
+              <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-fg-faint">
+                At a glance
+              </p>
+              <dl className="mt-3">
+                {atAGlance.map((row, i) => (
+                  <div
+                    key={row.label}
+                    className={`flex items-baseline justify-between gap-4 py-3 ${
+                      i < atAGlance.length - 1 ? "border-b border-line" : ""
+                    }`}
+                  >
+                    <dt className="whitespace-nowrap font-mono text-[10px] uppercase tracking-[0.14em] text-fg-faint">
+                      {row.label}
+                    </dt>
+                    <dd className="text-right font-mono text-[12.5px] leading-snug text-fg">
+                      {"accent" in row && <span className="text-accent">{row.accent}</span>}
+                      {row.value}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          </HeroReveal>
+        </div>
+        <HeroReveal delay={0.3}>
+          <div className="mt-12 border-b border-line pb-6">
+            <SignalTrace className="h-16 w-full sm:h-20" />
           </div>
         </HeroReveal>
-        <HeroReveal delay={0.3}>
-          <ul className="mt-12 grid gap-px overflow-hidden rounded-sm border border-line bg-line sm:grid-cols-3">
-            {proofPoints.map((point) => (
-              <li key={point.label} className="bg-surface p-5">
-                <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-fg-faint">
-                  {point.label}
-                </p>
-                <p className="mt-3 text-[15px] font-medium text-fg">{point.value}</p>
-                <p className="mt-1 text-[13px] leading-relaxed text-fg-muted">
-                  {point.detail}
-                </p>
-              </li>
-            ))}
-          </ul>
-        </HeroReveal>
-        <div className="mt-16 border-b border-line pb-px">
-          <HeroVisual />
-        </div>
       </section>
 
       <section className="pt-24" aria-labelledby="featured-work">
