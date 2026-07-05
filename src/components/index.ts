@@ -1,5 +1,4 @@
 export {
-  Eyebrow,
   SystemMark,
   SectionHeading,
   StatusTag,

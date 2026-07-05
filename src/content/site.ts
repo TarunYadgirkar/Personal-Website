@@ -6,10 +6,7 @@ export const site = {
   education: "Applied Mathematics @ UC Berkeley",
   location: "San Ramon, California",
   email: "tarun_yadgirkar@berkeley.edu",
-  emails: [
-    { label: "Berkeley", address: "tarun_yadgirkar@berkeley.edu" },
-    { label: "Personal", address: "tyadgirkar@gmail.com" },
-  ],
+  emails: [{ label: "Berkeley", address: "tarun_yadgirkar@berkeley.edu" }],
   url: "https://tarunyadgirkar.vercel.app",
   // Set to a PDF path/URL to enable the Resume button (kept null until the
   // updated resume is ready — the old PDF has outdated positioning).
@@ -24,6 +21,7 @@ export const site = {
 } as const;
 
 export const atAGlance = [
+  { label: "Study", value: "Applied Math @ UC Berkeley" },
   { label: "Patent", value: "63/743,085", accent: "BALANCE · " },
   { label: "Paper", value: "Youth Innov. Journal '25" },
   { label: "Lab", value: "SCU WIN Lab" },

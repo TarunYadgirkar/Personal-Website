@@ -32,7 +32,7 @@ export const featured: readonly Featured[] = [
     status: "Research · ongoing",
     context: "SCU Wireless Intelligent Networks (WIN) Lab · Jul 2025 – present",
     summary:
-      "Investigating FPGA-based acceleration to run machine-learning algorithms for high-throughput, low-latency workloads. Prototyping and optimizing FPGA implementations of wireless-communication algorithms, including signal processing and channel estimation.",
+      "FPGA-based acceleration for machine learning and wireless-communication algorithms — high-throughput, low-latency signal processing and channel estimation.",
     tags: ["FPGA", "Embedded ML", "Signal Processing", "Channel Estimation", "Low-Latency Systems"],
     href: "/research",
   },
@@ -42,7 +42,7 @@ export const featured: readonly Featured[] = [
     status: "Provisional patent · Published",
     context: "Co-developed with a student team · Youth Innovation Journal, Fall 2025",
     summary:
-      "A hybrid robotic mobility device combining wheeled movement on flat ground with robotic-leg assistance on stairs and uneven terrain — structural support and shock isolation paired with LiDAR, sonar, 360° cameras, and on-board computing for real-time mapping. Filed as a provisional patent (No. 63/743,085).",
+      "A hybrid mobility device — wheeled on flat ground, robotic-leg assistance on stairs and uneven terrain. Provisional patent No. 63/743,085.",
     tags: ["Assistive Robotics", "Mechatronics", "LiDAR", "Navigation", "CAD"],
     href: "/patent",
   },
@@ -52,7 +52,7 @@ export const featured: readonly Featured[] = [
     status: "Internship",
     context: "Rainier Labs · Sunnyvale, CA · Jun – Aug 2025",
     summary:
-      "Worked on an expressive robotic head system: researched, selected, and integrated display screens for a robotic facial-expression system, redesigned CAD models to ensure proper hardware fit, and evaluated microphone and speaker components across hardware/software trade-offs.",
+      "Expressive robotic head system — display integration, CAD redesign for hardware fit, and audio component evaluation.",
     tags: ["Embedded Systems", "Robotics Hardware", "CAD", "Human-Robot Interaction"],
     href: "/work#rainier",
   },
