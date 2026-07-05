@@ -216,7 +216,7 @@ export const additionalCaseStudies: readonly CaseStudy[] = [
 
 export const rainier = {
   id: "rainier",
-  title: "Robotics & Embedded Systems — Rainier Labs",
+  title: "Robotics Hardware & Embedded Systems — Rainier Labs",
   status: "Industry internship",
   context: "Sunnyvale, CA · Jun – Aug 2025",
   body: "Worked on an expressive robotic head system: researched, selected, and integrated display screens for a robotic facial-expression system and redesigned CAD models to ensure proper hardware fit; collaborated on the robotic head design, balancing aesthetics with hardware function; evaluated and sourced microphone and speaker components across hardware/software trade-offs.",
