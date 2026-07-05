@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Reveal } from "@/components/motion";
-import { Eyebrow, ExternalLink, SectionHeading, Tags } from "@/components/ui";
+import { ExternalLink, SectionHeading, Tags } from "@/components/ui";
 import { publication, roar, winLab } from "@/content/research";
 
 export const metadata: Metadata = {
@@ -12,7 +12,6 @@ export const metadata: Metadata = {
 export default function ResearchPage() {
   return (
     <div className="mx-auto max-w-5xl px-6 pb-28 pt-20">
-      <Eyebrow>Research</Eyebrow>
       <h1 className="mt-4 max-w-3xl text-3xl font-medium tracking-tight sm:text-5xl">
         Embedded ML, close to the metal
       </h1>
@@ -23,7 +22,7 @@ export default function ResearchPage() {
       </p>
 
       <section className="mt-16" aria-labelledby="win-lab">
-        <SectionHeading id="win-lab" eyebrow="Current" title="SCU WIN Lab" />
+        <SectionHeading id="win-lab"  title="SCU WIN Lab" />
         <Reveal>
           <article className="rounded-sm border border-line bg-surface p-7 sm:p-10">
             <h3 className="text-xl font-medium tracking-tight text-fg">
@@ -45,7 +44,7 @@ export default function ResearchPage() {
       </section>
 
       <section className="mt-20" aria-labelledby="publications">
-        <SectionHeading id="publications" eyebrow="Published" title="Article" />
+        <SectionHeading id="publications"  title="Article" />
         <Reveal>
           <article className="border-l-2 border-accent pl-6">
             <h3 className="max-w-3xl text-lg font-medium leading-snug tracking-tight text-fg">
@@ -68,8 +67,7 @@ export default function ResearchPage() {
       <section className="mt-20" aria-labelledby="training">
         <SectionHeading
           id="training"
-          eyebrow="Training"
-          title="Autonomy & machine learning"
+                    title="Autonomy & machine learning"
         />
         <Reveal>
           <article className="rounded-sm border border-line bg-surface p-7 sm:p-10">

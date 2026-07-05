@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Eyebrow, SectionHeading } from "@/components/ui";
+import { ArrowUpRight } from "lucide-react";
+import { SectionHeading } from "@/components/ui";
 import { aboutParagraphs } from "@/content/about";
 import { site, skills } from "@/content/site";
 
@@ -11,7 +12,6 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <div className="mx-auto max-w-5xl px-6 pb-28 pt-20">
-      <Eyebrow>About</Eyebrow>
       <h1 className="mt-4 max-w-3xl text-3xl font-medium tracking-tight sm:text-5xl">
         Where software meets the physical world
       </h1>
@@ -25,7 +25,7 @@ export default function AboutPage() {
       </div>
 
       <section className="mt-20" aria-labelledby="skills">
-        <SectionHeading id="skills" eyebrow="Capabilities" title="Skills" />
+        <SectionHeading id="skills"  title="Skills" />
         <div className="grid gap-px overflow-hidden rounded-sm border border-line bg-line sm:grid-cols-2">
           {skills.map((group) => (
             <div key={group.group} className="bg-surface p-6 sm:p-7">
@@ -43,7 +43,7 @@ export default function AboutPage() {
       </section>
 
       <section className="mt-20" aria-labelledby="connect">
-        <SectionHeading id="connect" eyebrow="Contact" title="Get in touch" />
+        <SectionHeading id="connect"  title="Get in touch" />
         <div className="flex flex-col items-start gap-2">
           {site.emails.map((email) => (
             <a
@@ -70,7 +70,8 @@ export default function AboutPage() {
                 rel="noopener noreferrer"
                 className="font-mono text-[13px] text-fg-muted transition-colors duration-150 hover:text-accent"
               >
-                {label} ↗
+                {label}{" "}
+                <ArrowUpRight aria-hidden="true" className="inline size-3 align-[-1px]" />
               </a>
             </li>
           ))}

@@ -1,9 +1,12 @@
 import Link from "next/link";
+import { ArrowRight, Bot, Cpu, HeartHandshake, Mic, Workflow } from "lucide-react";
 import { HeroReveal, Pressable, Reveal } from "@/components/motion";
 import { SignalTrace } from "@/components/signal-trace";
-import { Eyebrow, SectionHeading, StatusTag, Tags } from "@/components/ui";
+import { SectionHeading, StatusTag, Tags } from "@/components/ui";
 import { atAGlance, focusAreas, recognition, site } from "@/content/site";
 import { featured } from "@/content/work";
+
+const focusIcons = [Cpu, Bot, Workflow, Mic, HeartHandshake] as const;
 
 export default function Home() {
   return (
@@ -12,10 +15,7 @@ export default function Home() {
         <div className="grid items-start gap-12 lg:grid-cols-[1fr_320px] lg:gap-14">
           <div>
             <HeroReveal>
-              <Eyebrow>{site.education}</Eyebrow>
-            </HeroReveal>
-            <HeroReveal delay={0.06}>
-              <h1 className="mt-5 max-w-[20rem] break-words text-[1.9rem] font-medium leading-[1.08] tracking-tight sm:max-w-3xl sm:text-5xl sm:leading-[1.06]">
+              <h1 className="max-w-[20rem] break-words text-[1.9rem] font-medium leading-[1.08] tracking-tight sm:max-w-3xl sm:text-5xl sm:leading-[1.06]">
                 {site.name} builds {site.positioning}.
               </h1>
             </HeroReveal>
@@ -72,7 +72,7 @@ export default function Home() {
           </div>
           <HeroReveal delay={0.2}>
             <div className="rounded-sm border border-line-strong bg-surface px-5 pb-2 pt-5">
-              <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-fg-faint">
+              <p className="font-mono text-[11px] text-fg-faint">
                 At a glance
               </p>
               <dl className="mt-3">
@@ -83,7 +83,7 @@ export default function Home() {
                       i < atAGlance.length - 1 ? "border-b border-line" : ""
                     }`}
                   >
-                    <dt className="whitespace-nowrap font-mono text-[10px] uppercase tracking-[0.14em] text-fg-faint">
+                    <dt className="whitespace-nowrap font-mono text-[11px] text-fg-faint">
                       {row.label}
                     </dt>
                     <dd className="text-right font-mono text-[12.5px] leading-snug text-fg">
@@ -104,7 +104,7 @@ export default function Home() {
       </section>
 
       <section className="pt-24" aria-labelledby="featured-work">
-        <SectionHeading id="featured-work" eyebrow="Selected" title="Featured work" />
+        <SectionHeading id="featured-work" title="Featured work" />
         <div className="border-t border-line">
           {featured.map((item, i) => (
             <Reveal key={item.slug} delay={Math.min(i * 0.04, 0.16)}>
@@ -121,12 +121,10 @@ export default function Home() {
                 <div>
                   <h3 className="text-xl font-medium tracking-tight text-fg transition-colors duration-150 group-hover:text-accent">
                     {item.title}
-                    <span
+                    <ArrowRight
                       aria-hidden="true"
-                      className="ml-2 inline-block text-fg-faint transition-all duration-150 group-hover:translate-x-0.5 group-hover:text-accent"
-                    >
-                      →
-                    </span>
+                      className="ml-2 inline size-[18px] align-[-3px] text-fg-faint transition-all duration-150 group-hover:translate-x-0.5 group-hover:text-accent"
+                    />
                   </h3>
                   <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-fg-muted">
                     {item.summary}
@@ -142,25 +140,29 @@ export default function Home() {
       </section>
 
       <section className="pt-24" aria-labelledby="focus-areas">
-        <SectionHeading id="focus-areas" eyebrow="Focus" title="Technical focus areas" />
+        <SectionHeading id="focus-areas" title="Technical focus areas" />
         <ul className="grid gap-px overflow-hidden rounded-sm border border-line bg-line sm:grid-cols-2 lg:grid-cols-5">
-          {focusAreas.map((area) => (
-            <li key={area.title} className="group relative overflow-hidden bg-surface p-5">
-              <span
-                aria-hidden="true"
-                className="absolute inset-x-0 top-0 h-px origin-left scale-x-0 bg-accent transition-transform duration-300 ease-out group-hover:scale-x-100 motion-reduce:transition-none"
-              />
-              <p className="font-mono text-[12px] text-accent">{area.title}</p>
-              <p className="mt-2 text-[13px] leading-relaxed text-fg-muted">
-                {area.detail}
-              </p>
-            </li>
-          ))}
+          {focusAreas.map((area, i) => {
+            const Icon = focusIcons[i % focusIcons.length];
+            return (
+              <li key={area.title} className="group relative overflow-hidden bg-surface p-5">
+                <span
+                  aria-hidden="true"
+                  className="absolute inset-x-0 top-0 h-px origin-left scale-x-0 bg-accent transition-transform duration-300 ease-out group-hover:scale-x-100 motion-reduce:transition-none"
+                />
+                <Icon aria-hidden="true" className="size-5 text-accent" strokeWidth={1.5} />
+                <p className="mt-3 font-mono text-[12px] text-accent">{area.title}</p>
+                <p className="mt-2 text-[13px] leading-relaxed text-fg-muted">
+                  {area.detail}
+                </p>
+              </li>
+            );
+          })}
         </ul>
       </section>
 
       <section className="pt-24" aria-labelledby="recognition">
-        <SectionHeading id="recognition" eyebrow="Selected" title="Recognition" />
+        <SectionHeading id="recognition" title="Recognition" />
         <ul className="border-t border-line">
           {recognition.map((item) => (
             <li
@@ -175,7 +177,7 @@ export default function Home() {
       </section>
 
       <section className="py-28" aria-labelledby="contact">
-        <SectionHeading id="contact" eyebrow="Contact" title="Collaborate" />
+        <SectionHeading id="contact" title="Collaborate" />
         <p className="max-w-xl text-[15px] leading-relaxed text-fg-muted">
           Open to research collaborations, internships, and technical projects.
         </p>

@@ -1,3 +1,4 @@
+import { ArrowDown, ArrowRight } from "lucide-react";
 import { StatusTag } from "@/components/ui";
 
 type Node = { title: string; sub: string[]; accent?: boolean; grow?: boolean };
@@ -70,16 +71,13 @@ export function BalanceDiagram() {
         {COLUMNS.map((col, i) => (
           <div key={col.kick} className="contents">
             {i > 0 && (
-              <span
-                aria-hidden="true"
-                className="self-center font-mono text-[15px] text-accent"
-              >
-                <span className="hidden lg:inline">→</span>
-                <span className="lg:hidden">↓</span>
+              <span aria-hidden="true" className="self-center text-accent">
+                <ArrowRight className="hidden size-4 lg:block" strokeWidth={1.75} />
+                <ArrowDown className="size-4 lg:hidden" strokeWidth={1.75} />
               </span>
             )}
             <div className="flex flex-1 flex-col">
-              <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.18em] text-fg-faint">
+              <p className="mb-2 font-mono text-[11px] text-fg-faint">
                 {col.kick}
               </p>
               <div className="flex flex-1 flex-col gap-2.5">

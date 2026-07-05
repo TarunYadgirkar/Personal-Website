@@ -21,16 +21,7 @@ export default function OgImage() {
           fontFamily: "sans-serif",
         }}
       >
-        <div
-          style={{
-            fontSize: 22,
-            letterSpacing: "0.22em",
-            textTransform: "uppercase",
-            color: "#e2a264",
-          }}
-        >
-          {site.subline}
-        </div>
+        <div style={{ fontSize: 24, color: "#e2a264" }}>{site.subline}</div>
         <div
           style={{
             marginTop: 28,

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Eyebrow, ExternalLink } from "@/components/ui";
+import { ExternalLink } from "@/components/ui";
 import { archive } from "@/content/archive";
 
 export const metadata: Metadata = {
@@ -10,7 +10,6 @@ export const metadata: Metadata = {
 export default function ArchivePage() {
   return (
     <div className="mx-auto max-w-5xl px-6 pb-28 pt-20">
-      <Eyebrow>Archive</Eyebrow>
       <h1 className="mt-4 text-3xl font-medium tracking-tight sm:text-5xl">
         Earlier work
       </h1>

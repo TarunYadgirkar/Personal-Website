@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Reveal } from "@/components/motion";
-import { Eyebrow, ExternalLink, SectionHeading, StatusTag, Tags } from "@/components/ui";
+import { ArrowUpRight } from "lucide-react";
+import { ExternalLink, SectionHeading, StatusTag, Tags } from "@/components/ui";
 import { additionalCaseStudies, caseStudies, rainier, type CaseStudy } from "@/content/work";
 
 export const metadata: Metadata = {
@@ -12,7 +13,7 @@ export const metadata: Metadata = {
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div className="grid gap-2 sm:grid-cols-[140px_1fr] sm:gap-8">
-      <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-fg-faint">
+      <p className="font-mono text-[11px] text-fg-faint">
         {label}
       </p>
       <div className="text-[15px] leading-relaxed text-fg-muted">{children}</div>
@@ -29,8 +30,8 @@ function EventLine({ study }: { study: CaseStudy }) {
         rel="noopener noreferrer"
         className="text-fg-muted underline-offset-4 transition-colors duration-150 hover:text-accent hover:underline"
       >
-        {study.event.label}
-        <span aria-hidden="true"> ↗</span>
+        {study.event.label}{" "}
+        <ArrowUpRight aria-hidden="true" className="inline size-3 align-[-1px]" />
       </a>{" "}
       · {study.event.detail}
     </p>
@@ -80,7 +81,6 @@ function CaseStudyArticle({ study, compact = false }: { study: CaseStudy; compac
 export default function WorkPage() {
   return (
     <div className="mx-auto max-w-5xl px-6 pb-28 pt-20">
-      <Eyebrow>Work</Eyebrow>
       <h1 className="mt-4 max-w-2xl text-3xl font-medium tracking-tight sm:text-5xl">
         Industry work and selected builds
       </h1>
@@ -93,8 +93,7 @@ export default function WorkPage() {
       <section className="mt-16" aria-labelledby="rainier">
         <SectionHeading
           id="rainier"
-          eyebrow="Industry"
-          title="Industry experience"
+                    title="Industry experience"
         />
         <article className="rounded-sm border border-line bg-surface p-7 sm:p-10">
           <div className="flex flex-wrap items-center gap-3">
@@ -116,8 +115,7 @@ export default function WorkPage() {
       <section className="mt-24" aria-labelledby="selected-builds">
         <SectionHeading
           id="selected-builds"
-          eyebrow="Builds"
-          title="Selected prototypes"
+                    title="Selected prototypes"
         />
         <div className="flex flex-col gap-16">
           {caseStudies.map((cs) => (
@@ -131,8 +129,7 @@ export default function WorkPage() {
       <section className="mt-24" aria-labelledby="additional-builds">
         <SectionHeading
           id="additional-builds"
-          eyebrow="More"
-          title="Additional builds"
+                    title="Additional builds"
         />
         <details className="group border-t border-line">
           <summary className="flex cursor-pointer list-none items-center justify-between gap-4 border-b border-line py-5 text-left marker:hidden">

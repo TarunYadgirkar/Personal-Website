@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { BalanceDiagram } from "@/components/balance-diagram";
-import { Eyebrow, ExternalLink, SectionHeading, StatusTag } from "@/components/ui";
+import { ExternalLink, SectionHeading, StatusTag } from "@/components/ui";
 import { balance } from "@/content/balance";
 
 export const metadata: Metadata = {
@@ -12,7 +12,6 @@ export const metadata: Metadata = {
 export default function PatentPage() {
   return (
     <div className="mx-auto max-w-5xl px-6 pb-28 pt-20">
-      <Eyebrow>Provisional patent</Eyebrow>
       <h1 className="mt-4 text-3xl font-medium tracking-tight sm:text-5xl">
         {balance.name}
       </h1>
@@ -24,21 +23,21 @@ export default function PatentPage() {
       </div>
 
       <section className="mt-20" aria-labelledby="problem">
-        <SectionHeading id="problem" eyebrow="Why" title="The problem" />
+        <SectionHeading id="problem"  title="The problem" />
         <p className="max-w-3xl text-[16px] leading-relaxed text-fg-muted">
           {balance.problem}
         </p>
       </section>
 
       <section className="mt-20" aria-labelledby="concept">
-        <SectionHeading id="concept" eyebrow="Concept" title="Between aids and exoskeletons" />
+        <SectionHeading id="concept"  title="Between aids and exoskeletons" />
         <p className="max-w-3xl text-[16px] leading-relaxed text-fg-muted">
           {balance.concept}
         </p>
       </section>
 
       <section className="mt-20" aria-labelledby="system">
-        <SectionHeading id="system" eyebrow="System" title="Two subsystems" />
+        <SectionHeading id="system"  title="Two subsystems" />
         <div className="grid gap-px overflow-hidden rounded-sm border border-line bg-line sm:grid-cols-2">
           {balance.systems.map((s) => (
             <div key={s.name} className="bg-surface p-7 sm:p-8">
@@ -64,8 +63,7 @@ export default function PatentPage() {
       <section className="mt-20" aria-labelledby="signal-path">
         <SectionHeading
           id="signal-path"
-          eyebrow="System"
-          title="Signal path — sense → map → arbitrate → assist"
+                    title="Signal path — sense, map, arbitrate, assist"
         />
         <p className="-mt-4 mb-8 max-w-2xl text-[15px] leading-relaxed text-fg-muted">
           On-board perception continuously reclassifies terrain and hands control to
@@ -75,7 +73,7 @@ export default function PatentPage() {
       </section>
 
       <section className="mt-20" aria-labelledby="status">
-        <SectionHeading id="status" eyebrow="Status" title="Where it stands" />
+        <SectionHeading id="status"  title="Where it stands" />
         <p className="max-w-3xl text-[16px] leading-relaxed text-fg-muted">
           {balance.statusDetail}
         </p>

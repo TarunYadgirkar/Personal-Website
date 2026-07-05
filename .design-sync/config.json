@@ -8,7 +8,6 @@
   "tsconfig": "tsconfig.json",
   "cssEntry": ".design-sync/.cache/chunks/tailwind.css",
   "componentSrcMap": {
-    "Eyebrow": "src/components/ui.tsx",
     "SystemMark": "src/components/ui.tsx",
     "SectionHeading": "src/components/ui.tsx",
     "StatusTag": "src/components/ui.tsx",

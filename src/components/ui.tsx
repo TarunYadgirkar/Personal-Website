@@ -1,12 +1,5 @@
+import { ArrowUpRight } from "lucide-react";
 import type { ReactNode } from "react";
-
-export function Eyebrow({ children }: { children: ReactNode }) {
-  return (
-    <p className="max-w-[20rem] break-words font-mono text-[10px] uppercase leading-relaxed tracking-[0.16em] text-accent before:mr-2 before:inline-block before:size-1 before:bg-accent before:align-middle sm:max-w-full sm:text-[11px] sm:tracking-[0.22em]">
-      {children}
-    </p>
-  );
-}
 
 export function SystemMark({ className = "" }: { className?: string }) {
   return (
@@ -31,18 +24,10 @@ export function SystemMark({ className = "" }: { className?: string }) {
   );
 }
 
-export function SectionHeading({
-  eyebrow,
-  title,
-  id,
-}: {
-  eyebrow: string;
-  title: string;
-  id?: string;
-}) {
+export function SectionHeading({ title, id }: { title: string; id?: string }) {
   return (
-    <div className="mb-10 flex flex-col gap-3">
-      <Eyebrow>{eyebrow}</Eyebrow>
+    <div className="mb-10 flex items-center gap-3">
+      <span aria-hidden="true" className="size-1.5 shrink-0 bg-accent" />
       <h2 id={id} className="text-2xl font-medium tracking-tight text-fg sm:text-3xl">
         {title}
       </h2>
@@ -95,7 +80,8 @@ export function ExternalLink({
         "font-mono text-[13px] text-accent underline-offset-4 transition-colors duration-150 hover:text-accent-bright hover:underline"
       }
     >
-      {children} <span aria-hidden="true">↗</span>
+      {children}{" "}
+      <ArrowUpRight aria-hidden="true" className="inline size-3.5 align-[-2px]" />
     </a>
   );
 }
