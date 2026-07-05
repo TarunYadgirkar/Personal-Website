@@ -18,9 +18,9 @@ export function SectionHeading({
   id?: string;
 }) {
   return (
-    <div id={id} className="mb-10 flex flex-col gap-3">
+    <div className="mb-10 flex flex-col gap-3">
       <Eyebrow>{eyebrow}</Eyebrow>
-      <h2 className="text-2xl font-medium tracking-tight text-fg sm:text-3xl">
+      <h2 id={id} className="text-2xl font-medium tracking-tight text-fg sm:text-3xl">
         {title}
       </h2>
     </div>
@@ -54,22 +54,25 @@ export function ExternalLink({
   href,
   children,
   className,
+  ariaLabel,
 }: {
   href: string;
   children: ReactNode;
   className?: string;
+  ariaLabel?: string;
 }) {
   return (
     <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
+      aria-label={ariaLabel}
       className={
         className ??
         "font-mono text-[13px] text-accent underline-offset-4 transition-colors duration-150 hover:text-accent-bright hover:underline"
       }
     >
-      {children} ↗
+      {children} <span aria-hidden="true">↗</span>
     </a>
   );
 }

@@ -30,11 +30,17 @@ export default function WorkPage() {
       <p className="mt-5 max-w-2xl text-[15px] leading-relaxed text-fg-muted">
         Applied-AI and voice-agent products, most built and shipped in 24–48
         hours at hackathons. Research and robotics work lives on the{" "}
-        <a href="/research" className="text-accent hover:text-accent-bright">
+        <a
+          href="/research"
+          className="text-accent underline underline-offset-4 hover:text-accent-bright"
+        >
           Research
         </a>{" "}
         and{" "}
-        <a href="/patent" className="text-accent hover:text-accent-bright">
+        <a
+          href="/patent"
+          className="text-accent underline underline-offset-4 hover:text-accent-bright"
+        >
           Patent
         </a>{" "}
         pages.
