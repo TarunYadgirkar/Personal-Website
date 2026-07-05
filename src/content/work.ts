@@ -122,7 +122,7 @@ export const caseStudies: readonly CaseStudy[] = [
     status: "Shipped prototype",
     event: {
       label: "Bitrig Hacks",
-      href: "https://www.linkedin.com/posts/julianschiavo_were-so-excited-to-host-the-first-ever-bitrig-activity-7468388738302369792-6vTM",
+      href: "https://events.ycombinator.com/bitrighacks-june2026",
       detail: "Y Combinator Mountain View HQ · Jun 2026",
     },
     problem: "Making an iOS app visible to AI-powered Siri requires hand-writing App Intents.",
