@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { ArrowRight, Bot, CircuitBoard, HeartHandshake, Mic, Workflow } from "lucide-react";
+import { CopyEmailButton } from "@/components/copy-email-button";
 import { HeroReveal, Pressable, Reveal } from "@/components/motion";
 import { ScrollForMore } from "@/components/scroll-for-more";
+import { SectionNav } from "@/components/section-nav";
 import { SignalTrace } from "@/components/signal-trace";
 import { SectionHeading, StatusTag, Tags } from "@/components/ui";
 import { atAGlance, focusAreas, recognition, site } from "@/content/site";
@@ -13,11 +15,12 @@ export default function Home() {
   return (
     <div className="mx-auto max-w-5xl px-6">
       <ScrollForMore />
+      <SectionNav />
       <section className="pt-24 sm:pt-32">
         <div className="grid items-start gap-12 lg:grid-cols-[1fr_320px] lg:gap-14">
           <div>
             <HeroReveal>
-              <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent">
+              <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-accent">
                 {site.education}
               </p>
             </HeroReveal>
@@ -79,7 +82,7 @@ export default function Home() {
           </div>
           <HeroReveal delay={0.2}>
             <div className="rounded-sm border border-line-strong bg-surface px-5 pb-2 pt-5">
-              <p className="font-mono text-[11px] text-fg-faint">
+              <p className="font-mono text-[12px] text-fg-faint">
                 At a glance
               </p>
               <dl className="mt-3">
@@ -90,7 +93,7 @@ export default function Home() {
                       i < atAGlance.length - 1 ? "border-b border-line" : ""
                     }`}
                   >
-                    <dt className="whitespace-nowrap font-mono text-[11px] text-fg-faint">
+                    <dt className="whitespace-nowrap font-mono text-[12px] text-fg-faint">
                       {row.label}
                     </dt>
                     <dd className="text-right font-mono text-[12.5px] leading-snug text-fg">
@@ -121,7 +124,7 @@ export default function Home() {
               >
                 <div className="flex flex-col items-start gap-2">
                   <StatusTag>{item.status}</StatusTag>
-                  <p className="font-mono text-[11px] leading-relaxed text-fg-faint">
+                  <p className="font-mono text-[12px] leading-relaxed text-fg-faint">
                     {item.context}
                   </p>
                 </div>
@@ -190,13 +193,15 @@ export default function Home() {
         </p>
         <div className="mt-6 flex flex-col items-start gap-2">
           {site.emails.map((email) => (
-            <a
-              key={email.address}
-              href={`mailto:${email.address}`}
-              className="text-xl font-medium tracking-tight text-fg underline-offset-8 transition-colors duration-150 hover:text-accent hover:underline sm:text-3xl"
-            >
-              {email.address}
-            </a>
+            <div key={email.address} className="flex items-center gap-1">
+              <a
+                href={`mailto:${email.address}`}
+                className="text-xl font-medium tracking-tight text-fg underline-offset-8 transition-colors duration-150 hover:text-accent hover:underline sm:text-3xl"
+              >
+                {email.address}
+              </a>
+              <CopyEmailButton email={email.address} />
+            </div>
           ))}
         </div>
       </section>

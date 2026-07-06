@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Mono, Schibsted_Grotesk } from "next/font/google";
 import { BackToTop } from "@/components/back-to-top";
+import { CommandPalette } from "@/components/command-palette";
 import { Footer } from "@/components/footer";
 import { MotionProvider } from "@/components/motion";
 import { Nav } from "@/components/nav";
+import { PageTransition } from "@/components/page-transition";
 import { ScrollProgress } from "@/components/scroll-progress";
 import { SocialBubble } from "@/components/social-bubble";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -59,10 +61,13 @@ export default function RootLayout({
               Skip to content
             </a>
             <Nav />
-            <main id="main">{children}</main>
+            <main id="main">
+              <PageTransition>{children}</PageTransition>
+            </main>
             <Footer />
             <SocialBubble />
             <BackToTop />
+            <CommandPalette />
           </MotionProvider>
         </ThemeProvider>
       </body>
