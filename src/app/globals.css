@@ -27,9 +27,9 @@
   --fg-muted: #635d4e;
   --fg-faint: #857e6a;
   /* darker rust, not the dark-mode orange — #e2a264 on this bg is ~1.7:1 contrast */
-  --accent: #8a4b12;
-  --accent-bright: #6e3a0d;
-  --accent-dim: rgba(138, 75, 18, 0.16);
+  --accent: #9a520f;
+  --accent-bright: #7e410a;
+  --accent-dim: rgba(154, 82, 15, 0.16);
 }
 
 .dark {

@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div className="grid gap-2 sm:grid-cols-[140px_1fr] sm:gap-8">
-      <p className="font-mono text-[11px] text-fg-faint">
+      <p className="font-mono text-[12px] text-fg-faint">
         {label}
       </p>
       <div className="text-[15px] leading-relaxed text-fg-muted">{children}</div>
@@ -23,7 +23,7 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 
 function EventLine({ study }: { study: CaseStudy }) {
   return (
-    <p className="mt-1 font-mono text-[11px] text-fg-faint">
+    <p className="mt-1 font-mono text-[12px] text-fg-faint">
       <a
         href={study.event.href}
         target="_blank"
@@ -102,7 +102,7 @@ export default function WorkPage() {
             </h2>
             <StatusTag>{rainier.status}</StatusTag>
           </div>
-          <p className="mt-1 font-mono text-[11px] text-fg-faint">{rainier.context}</p>
+          <p className="mt-1 font-mono text-[12px] text-fg-faint">{rainier.context}</p>
           <p className="mt-5 max-w-3xl text-[15px] leading-relaxed text-fg-muted">
             {rainier.body}
           </p>

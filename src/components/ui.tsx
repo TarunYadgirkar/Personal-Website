@@ -37,7 +37,7 @@ export function SectionHeading({ title, id }: { title: string; id?: string }) {
 
 export function StatusTag({ children }: { children: ReactNode }) {
   return (
-    <span className="inline-flex items-center rounded-sm border border-line-strong bg-accent-dim px-2 py-0.5 font-mono text-[11px] tracking-wide text-accent-bright">
+    <span className="inline-flex items-center rounded-sm border border-line-strong bg-accent-dim px-2 py-0.5 font-mono text-[12px] tracking-wide text-accent-bright">
       {children}
     </span>
   );
@@ -49,7 +49,7 @@ export function Tags({ items }: { items: readonly string[] }) {
       {items.map((tag) => (
         <li
           key={tag}
-          className="font-mono text-[11px] tracking-wide text-fg-faint"
+          className="font-mono text-[12px] tracking-wide text-fg-faint"
         >
           {tag}
         </li>

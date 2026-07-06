@@ -28,8 +28,8 @@ export function Footer() {
             {(
               [
                 ["GitHub", site.links.github],
-                ["LinkedIn", site.links.linkedin],
                 ["X", site.links.x],
+                ["LinkedIn", site.links.linkedin],
               ] as const
             ).map(([label, href]) => (
               <li key={label}>
@@ -44,7 +44,7 @@ export function Footer() {
               </li>
             ))}
           </ul>
-          <p className="font-mono text-[11px] text-fg-faint">
+          <p className="font-mono text-[12px] text-fg-faint">
             Next.js · TypeScript · Tailwind · Vercel
           </p>
         </div>
