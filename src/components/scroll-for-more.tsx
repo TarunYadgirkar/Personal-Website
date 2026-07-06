@@ -18,10 +18,14 @@ export function ScrollForMore() {
         scrolled ? "opacity-0" : "opacity-100"
       }`}
     >
-      <div className="mx-auto flex max-w-5xl items-center gap-3 px-6">
+      <button
+        type="button"
+        onClick={() => window.scrollBy({ top: window.innerHeight, behavior: "smooth" })}
+        className="pointer-events-auto mx-auto flex items-center gap-3 px-6"
+      >
         <p className="font-mono text-[13px] text-fg-muted">Scroll for more</p>
         <ArrowDown aria-hidden="true" className="size-4 animate-bounce text-fg-muted" strokeWidth={1.5} />
-      </div>
+      </button>
     </div>
   );
 }

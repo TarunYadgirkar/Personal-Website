@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { SystemMark } from "@/components/ui";
 
-const LINKS = [
+export const NAV_LINKS = [
   { href: "/", label: "Home" },
   { href: "/work", label: "Work" },
   { href: "/research", label: "Research" },
@@ -32,7 +32,7 @@ export function Nav() {
           </Link>
 
           <ul className="hidden items-center gap-5 md:flex">
-            {LINKS.map(({ href, label }) => {
+            {NAV_LINKS.map(({ href, label }) => {
               const active =
                 href === "/" ? pathname === "/" : pathname.startsWith(href);
               return (
@@ -59,16 +59,30 @@ export function Nav() {
             })}
           </ul>
 
-          <button
-            type="button"
-            className="inline-flex h-10 min-w-10 items-center justify-center rounded-sm font-mono text-[13px] text-fg-muted transition-colors duration-150 hover:text-fg md:hidden"
-            aria-label={open ? "Close menu" : "Open menu"}
-            aria-expanded={open}
-            aria-controls="mobile-menu"
-            onClick={() => setOpen((v) => !v)}
-          >
-            {open ? "close" : "menu"}
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => window.dispatchEvent(new Event("open-command-palette"))}
+              aria-label="Open command palette"
+              className="hidden h-9 items-center gap-2 rounded-sm border border-line-strong px-3 font-mono text-xs text-fg-muted transition-colors duration-150 hover:border-accent hover:text-accent md:inline-flex"
+            >
+              Search
+              <kbd className="rounded-sm border border-line-strong px-1 py-0.5 text-[11px]">
+                ⌘K
+              </kbd>
+            </button>
+
+            <button
+              type="button"
+              className="inline-flex h-10 min-w-10 items-center justify-center rounded-sm font-mono text-[13px] text-fg-muted transition-colors duration-150 hover:text-fg md:hidden"
+              aria-label={open ? "Close menu" : "Open menu"}
+              aria-expanded={open}
+              aria-controls="mobile-menu"
+              onClick={() => setOpen((v) => !v)}
+            >
+              {open ? "close" : "menu"}
+            </button>
+          </div>
         </div>
 
         <ul
@@ -76,7 +90,7 @@ export function Nav() {
           hidden={!open}
           className="border-t border-line py-4 md:hidden"
         >
-          {LINKS.map(({ href, label }) => {
+          {NAV_LINKS.map(({ href, label }) => {
             const active =
               href === "/" ? pathname === "/" : pathname.startsWith(href);
             return (
