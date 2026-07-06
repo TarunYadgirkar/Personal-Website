@@ -7,7 +7,7 @@ import { additionalCaseStudies, caseStudies, rainier, type CaseStudy } from "@/c
 export const metadata: Metadata = {
   title: "Work",
   description:
-    "Industry experience and selected builds across AI systems, voice agents, and robotics systems.",
+    "Industry experience and selected builds across AI systems, voice agents, and robotics.",
 };
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
@@ -91,10 +91,7 @@ export default function WorkPage() {
       </p>
 
       <section className="mt-16" aria-labelledby="rainier">
-        <SectionHeading
-          id="rainier"
-                    title="Industry experience"
-        />
+        <SectionHeading id="rainier" title="Industry experience" />
         <article className="rounded-sm border border-line bg-surface p-7 sm:p-10">
           <div className="flex flex-wrap items-center gap-3">
             <h2 className="text-xl font-medium tracking-tight text-fg">
@@ -113,10 +110,7 @@ export default function WorkPage() {
       </section>
 
       <section className="mt-24" aria-labelledby="selected-builds">
-        <SectionHeading
-          id="selected-builds"
-                    title="Selected prototypes"
-        />
+        <SectionHeading id="selected-builds" title="Selected prototypes" />
         <div className="flex flex-col gap-16">
           {caseStudies.map((cs) => (
             <Reveal key={cs.slug}>
@@ -127,10 +121,7 @@ export default function WorkPage() {
       </section>
 
       <section className="mt-24" aria-labelledby="additional-builds">
-        <SectionHeading
-          id="additional-builds"
-                    title="Additional builds"
-        />
+        <SectionHeading id="additional-builds" title="Additional builds" />
         <details className="group border-t border-line">
           <summary className="flex cursor-pointer list-none items-center justify-between gap-4 border-b border-line py-5 text-left marker:hidden">
             <span>
@@ -138,7 +129,7 @@ export default function WorkPage() {
                 Show VoiceVision, GuestFlow, and GuardianAlert
               </span>
               <span className="mt-1 block text-[13px] leading-relaxed text-fg-muted">
-                Other shipped builds, kept compact so the strongest work stays first.
+                Voice-first accessibility, hospitality automation, and elder-care escalation tooling.
               </span>
             </span>
             <span

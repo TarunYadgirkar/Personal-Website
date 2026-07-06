@@ -23,21 +23,21 @@ export default function PatentPage() {
       </div>
 
       <section className="mt-20" aria-labelledby="problem">
-        <SectionHeading id="problem"  title="The problem" />
+        <SectionHeading id="problem" title="The problem" />
         <p className="max-w-3xl text-[16px] leading-relaxed text-fg-muted">
           {balance.problem}
         </p>
       </section>
 
       <section className="mt-20" aria-labelledby="concept">
-        <SectionHeading id="concept"  title="Between aids and exoskeletons" />
+        <SectionHeading id="concept" title="Between aids and exoskeletons" />
         <p className="max-w-3xl text-[16px] leading-relaxed text-fg-muted">
           {balance.concept}
         </p>
       </section>
 
       <section className="mt-20" aria-labelledby="system">
-        <SectionHeading id="system"  title="Two subsystems" />
+        <SectionHeading id="system" title="Two subsystems" />
         <div className="grid gap-px overflow-hidden rounded-sm border border-line bg-line sm:grid-cols-2">
           {balance.systems.map((s) => (
             <div key={s.name} className="bg-surface p-7 sm:p-8">
@@ -61,10 +61,7 @@ export default function PatentPage() {
       </section>
 
       <section className="mt-20" aria-labelledby="signal-path">
-        <SectionHeading
-          id="signal-path"
-                    title="Signal path — sense, map, arbitrate, assist"
-        />
+        <SectionHeading id="signal-path" title="Signal path — sense, map, arbitrate, assist" />
         <p className="-mt-4 mb-8 max-w-2xl text-[15px] leading-relaxed text-fg-muted">
           On-board perception continuously reclassifies terrain and hands control to
           the right locomotion mode in real time.
@@ -73,7 +70,7 @@ export default function PatentPage() {
       </section>
 
       <section className="mt-20" aria-labelledby="status">
-        <SectionHeading id="status"  title="Where it stands" />
+        <SectionHeading id="status" title="Where it stands" />
         <p className="max-w-3xl text-[16px] leading-relaxed text-fg-muted">
           {balance.statusDetail}
         </p>

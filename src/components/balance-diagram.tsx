@@ -89,7 +89,7 @@ export function BalanceDiagram() {
       </div>
       <div className="mt-7 flex flex-wrap items-center gap-3 border-t border-line pt-4">
         <StatusTag>Provisional patent · No. 63/743,085</StatusTag>
-        <p className="font-mono text-[11.5px] text-fg-faint">
+        <p className="font-mono text-[12px] text-fg-faint">
           Published · Youth Innovation Journal, Fall 2025
         </p>
       </div>
