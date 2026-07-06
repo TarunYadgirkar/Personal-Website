@@ -16,16 +16,16 @@ export const site = {
   links: {
     github: "https://github.com/TarunYadgirkar",
     linkedin: "https://www.linkedin.com/in/tarun-yadgirkar-74a12531b/",
-    devpost: "https://devpost.com/tyadgirkar",
+    x: "https://x.com/tarun__y?s=11",
   },
 } as const;
 
 export const atAGlance = [
-  { label: "Study", value: "Applied Math @ UC Berkeley" },
   { label: "Patent", value: "63/743,085", accent: "BALANCE · " },
   { label: "Paper", value: "Youth Innov. Journal '25" },
   { label: "Lab", value: "SCU WIN Lab" },
-  { label: "Based", value: "Berkeley, CA" },
+  { label: "Robotics", value: "VEX Worlds qualifier" },
+  { label: "Based", value: "San Ramon, CA" },
 ] as const;
 
 export const focusAreas = [
