@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Mono, Schibsted_Grotesk } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import { BackToTop } from "@/components/back-to-top";
 import { CommandPalette } from "@/components/command-palette";
 import { Footer } from "@/components/footer";
@@ -70,6 +71,7 @@ export default function RootLayout({
             <CommandPalette />
           </MotionProvider>
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );
