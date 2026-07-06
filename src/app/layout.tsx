@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Mono, Schibsted_Grotesk } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { BackToTop } from "@/components/back-to-top";
 import { CommandPalette } from "@/components/command-palette";
 import { Footer } from "@/components/footer";
@@ -72,6 +73,7 @@ export default function RootLayout({
           </MotionProvider>
         </ThemeProvider>
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
