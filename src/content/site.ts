@@ -31,7 +31,7 @@ export const atAGlance = [
 export const focusAreas = [
   {
     title: "Embedded ML",
-    detail: "Machine learning on FPGAs and constrained hardware",
+    detail: "PyTorch/TensorFlow models, quantized and ported to FPGAs and constrained hardware",
   },
   {
     title: "Robotics & autonomy",
@@ -89,12 +89,15 @@ export const skills = [
     group: "AI / ML",
     items: [
       "Embedded ML",
+      "PyTorch",
+      "TensorFlow",
       "Computer vision",
       "CNNs / LSTMs",
       "Reinforcement learning",
       "LLM orchestration",
       "Voice agents",
       "Model optimization",
+      "Quantization",
     ],
   },
   {

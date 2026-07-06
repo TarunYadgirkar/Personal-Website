@@ -5,9 +5,10 @@ export const winLab = {
   location: "Santa Clara, CA",
   bullets: [
     "Investigating FPGA-based acceleration to run machine-learning algorithms for high-throughput, low-latency workloads.",
+    "Training and quantizing models in PyTorch and TensorFlow, then porting them to fixed-point FPGA implementations.",
     "Prototyping and optimizing FPGA implementations of wireless-communication algorithms, including signal processing and channel estimation.",
   ],
-  tags: ["FPGA", "Embedded ML", "Signal Processing", "Channel Estimation"],
+  tags: ["FPGA", "Embedded ML", "PyTorch", "TensorFlow", "Signal Processing", "Channel Estimation"],
 } as const;
 
 export const publication = {
