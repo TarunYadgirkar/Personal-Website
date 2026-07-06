@@ -22,7 +22,7 @@ export default function ResearchPage() {
       </p>
 
       <section className="mt-16" aria-labelledby="win-lab">
-        <SectionHeading id="win-lab"  title="SCU WIN Lab" />
+        <SectionHeading id="win-lab" title="SCU WIN Lab" />
         <Reveal>
           <article className="rounded-sm border border-line bg-surface p-7 sm:p-10">
             <h3 className="text-xl font-medium tracking-tight text-fg">
@@ -44,7 +44,7 @@ export default function ResearchPage() {
       </section>
 
       <section className="mt-20" aria-labelledby="publications">
-        <SectionHeading id="publications"  title="Article" />
+        <SectionHeading id="publications" title="Article" />
         <Reveal>
           <article className="border-l-2 border-accent pl-6">
             <h3 className="max-w-3xl text-lg font-medium leading-snug tracking-tight text-fg">
@@ -65,10 +65,7 @@ export default function ResearchPage() {
       </section>
 
       <section className="mt-20" aria-labelledby="training">
-        <SectionHeading
-          id="training"
-                    title="Autonomy & machine learning"
-        />
+        <SectionHeading id="training" title="Autonomy & machine learning" />
         <Reveal>
           <article className="rounded-sm border border-line bg-surface p-7 sm:p-10">
             <h3 className="text-lg font-medium tracking-tight text-fg">

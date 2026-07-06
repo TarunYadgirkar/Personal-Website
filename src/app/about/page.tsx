@@ -25,7 +25,7 @@ export default function AboutPage() {
       </div>
 
       <section className="mt-20" aria-labelledby="skills">
-        <SectionHeading id="skills"  title="Skills" />
+        <SectionHeading id="skills" title="Skills" />
         <div className="grid gap-px overflow-hidden rounded-sm border border-line bg-line sm:grid-cols-2">
           {skills.map((group) => (
             <div key={group.group} className="bg-surface p-6 sm:p-7">
@@ -43,7 +43,7 @@ export default function AboutPage() {
       </section>
 
       <section className="mt-20" aria-labelledby="connect">
-        <SectionHeading id="connect"  title="Get in touch" />
+        <SectionHeading id="connect" title="Get in touch" />
         <div className="flex flex-col items-start gap-2">
           {site.emails.map((email) => (
             <a
@@ -59,8 +59,8 @@ export default function AboutPage() {
           {(
             [
               ["GitHub", site.links.github],
-              ["LinkedIn", site.links.linkedin],
               ["X", site.links.x],
+              ["LinkedIn", site.links.linkedin],
             ] as const
           ).map(([label, href]) => (
             <li key={label}>
