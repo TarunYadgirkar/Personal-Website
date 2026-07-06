@@ -51,7 +51,7 @@ function DiagramNode({ node }: { node: Node }) {
       <p className={`text-[15px] font-medium ${node.accent ? "text-accent" : "text-fg"}`}>
         {node.title}
       </p>
-      <p className="mt-2 font-mono text-[11px] leading-relaxed text-fg-muted">
+      <p className="mt-2 font-mono text-[12px] leading-relaxed text-fg-muted">
         {node.sub.map((line) => (
           <span key={line} className="block">
             {line}
@@ -75,7 +75,7 @@ export function BalanceDiagram() {
               </span>
             )}
             <div className="flex flex-1 flex-col">
-              <p className="mb-2 font-mono text-[11px] text-fg-faint">
+              <p className="mb-2 font-mono text-[12px] text-fg-faint">
                 {col.kick}
               </p>
               <div className="flex flex-1 flex-col justify-center gap-2.5">

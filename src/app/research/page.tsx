@@ -28,7 +28,7 @@ export default function ResearchPage() {
             <h3 className="text-xl font-medium tracking-tight text-fg">
               {winLab.role} — {winLab.org}
             </h3>
-            <p className="mt-1 font-mono text-[11px] text-fg-faint">
+            <p className="mt-1 font-mono text-[12px] text-fg-faint">
               {winLab.period} · {winLab.location}
             </p>
             <ul className="mt-6 flex max-w-3xl list-disc flex-col gap-3 pl-5 text-[15px] leading-relaxed text-fg-muted marker:text-accent">
@@ -74,7 +74,7 @@ export default function ResearchPage() {
             <h3 className="text-lg font-medium tracking-tight text-fg">
               {roar.title}
             </h3>
-            <p className="mt-1 font-mono text-[11px] text-fg-faint">{roar.period}</p>
+            <p className="mt-1 font-mono text-[12px] text-fg-faint">{roar.period}</p>
             <p className="mt-5 max-w-3xl text-[15px] leading-relaxed text-fg-muted">
               {roar.detail}
             </p>
