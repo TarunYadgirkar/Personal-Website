@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Reveal } from "@/components/motion";
-import { ArrowUpRight } from "lucide-react";
 import { ExternalLink, SectionHeading, StatusTag, Tags } from "@/components/ui";
 import { additionalCaseStudies, caseStudies, rainier, type CaseStudy } from "@/content/work";
 
@@ -24,15 +23,12 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 function EventLine({ study }: { study: CaseStudy }) {
   return (
     <p className="mt-1 font-mono text-[12px] text-fg-faint">
-      <a
+      <ExternalLink
         href={study.event.href}
-        target="_blank"
-        rel="noopener noreferrer"
         className="text-fg-muted underline-offset-4 transition-colors duration-150 hover:text-accent hover:underline"
       >
-        {study.event.label}{" "}
-        <ArrowUpRight aria-hidden="true" className="inline size-3 align-[-1px]" />
-      </a>{" "}
+        {study.event.label}
+      </ExternalLink>{" "}
       · {study.event.detail}
     </p>
   );

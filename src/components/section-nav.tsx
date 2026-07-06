@@ -13,7 +13,8 @@ export function SectionNav() {
   const [activeId, setActiveId] = useState<string>(SECTIONS[0].id);
 
   useEffect(() => {
-    const onScroll = () => {
+    let ticking = false;
+    const updateActiveSection = () => {
       const reference = window.scrollY + window.innerHeight * 0.4;
       let current: string = SECTIONS[0].id;
       for (const { id } of SECTIONS) {
@@ -21,8 +22,14 @@ export function SectionNav() {
         if (el && el.offsetTop <= reference) current = id;
       }
       setActiveId(current);
+      ticking = false;
     };
-    onScroll();
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(updateActiveSection);
+    };
+    updateActiveSection();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);

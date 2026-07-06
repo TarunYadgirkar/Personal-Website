@@ -7,7 +7,7 @@ export function MotionProvider({ children }: { children: ReactNode }) {
   return <MotionConfig reducedMotion="user">{children}</MotionConfig>;
 }
 
-const EASE_OUT = [0.16, 1, 0.3, 1] as const;
+export const EASE_OUT = [0.16, 1, 0.3, 1] as const;
 
 export function Reveal({
   children,
