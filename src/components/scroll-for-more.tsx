@@ -14,7 +14,7 @@ export function ScrollForMore() {
 
   return (
     <div
-      className={`pointer-events-none fixed inset-x-0 bottom-0 z-30 border-t border-line pb-4 pt-3 transition-opacity duration-300 ${
+      className={`pointer-events-none fixed inset-x-0 bottom-5 z-30 transition-opacity duration-300 ${
         scrolled ? "opacity-0" : "opacity-100"
       }`}
     >
