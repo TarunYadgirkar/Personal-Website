@@ -4,7 +4,7 @@ import { GithubLogo, LinkedinLogo, MoonIcon, SunIcon, XLogo } from "@phosphor-ic
 import { motion } from "framer-motion";
 import { useTheme } from "next-themes";
 import { useSyncExternalStore } from "react";
-import { site } from "@/content/site";
+import { socialLinks } from "@/content/site";
 
 const magnetic = {
   whileHover: { scale: 1.18, y: -2 },
@@ -14,11 +14,11 @@ const magnetic = {
 
 const iconClass = "size-[18px] text-fg-muted transition-colors duration-150";
 
-const LINKS = [
-  { icon: GithubLogo, href: site.links.github, label: "GitHub" },
-  { icon: XLogo, href: site.links.x, label: "X" },
-  { icon: LinkedinLogo, href: site.links.linkedin, label: "LinkedIn" },
-] as const;
+const SOCIAL_ICONS: Record<string, typeof GithubLogo> = {
+  GitHub: GithubLogo,
+  X: XLogo,
+  LinkedIn: LinkedinLogo,
+};
 
 const subscribeNoop = () => () => {};
 
@@ -37,19 +37,22 @@ export function SocialBubble() {
 
   return (
     <div className="fixed bottom-5 right-5 z-40 flex items-center gap-4 rounded-full border border-line-strong bg-surface/90 px-5 py-3 shadow-lg backdrop-blur-sm">
-      {LINKS.map(({ icon: Icon, href, label }) => (
-        <motion.a
-          key={label}
-          href={href}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={label}
-          title={label}
-          {...magnetic}
-        >
-          <Icon weight="regular" className={`${iconClass} hover:text-accent`} />
-        </motion.a>
-      ))}
+      {socialLinks.map(({ label, href }) => {
+        const Icon = SOCIAL_ICONS[label];
+        return (
+          <motion.a
+            key={label}
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={label}
+            title={label}
+            {...magnetic}
+          >
+            <Icon weight="regular" className={`${iconClass} hover:text-accent`} />
+          </motion.a>
+        );
+      })}
       <span aria-hidden="true" className="h-5 w-px bg-line-strong" />
       <motion.button
         type="button"

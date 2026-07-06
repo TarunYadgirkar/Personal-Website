@@ -1,16 +1,10 @@
 "use client";
 
 import { ArrowDown } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useScrollPast } from "@/components/use-scroll-past";
 
 export function ScrollForMore() {
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > window.innerHeight * 0.05);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  const scrolled = useScrollPast(0.05);
 
   return (
     <div

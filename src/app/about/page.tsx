@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
-import { ArrowUpRight } from "lucide-react";
-import { SectionHeading } from "@/components/ui";
+import { ExternalLink, SectionHeading } from "@/components/ui";
 import { aboutParagraphs } from "@/content/about";
-import { site, skills } from "@/content/site";
+import { site, skills, socialLinks } from "@/content/site";
 
 export const metadata: Metadata = {
   title: "About",
@@ -17,8 +16,8 @@ export default function AboutPage() {
       </h1>
 
       <div className="mt-10 flex max-w-2xl flex-col gap-5">
-        {aboutParagraphs.map((p) => (
-          <p key={p.slice(0, 40)} className="text-[16px] leading-relaxed text-fg-muted">
+        {aboutParagraphs.map((p, i) => (
+          <p key={i} className="text-[16px] leading-relaxed text-fg-muted">
             {p}
           </p>
         ))}
@@ -56,23 +55,14 @@ export default function AboutPage() {
           ))}
         </div>
         <ul className="mt-6 flex gap-6">
-          {(
-            [
-              ["GitHub", site.links.github],
-              ["X", site.links.x],
-              ["LinkedIn", site.links.linkedin],
-            ] as const
-          ).map(([label, href]) => (
+          {socialLinks.map(({ label, href }) => (
             <li key={label}>
-              <a
+              <ExternalLink
                 href={href}
-                target="_blank"
-                rel="noopener noreferrer"
                 className="font-mono text-[13px] text-fg-muted transition-colors duration-150 hover:text-accent"
               >
-                {label}{" "}
-                <ArrowUpRight aria-hidden="true" className="inline size-3 align-[-1px]" />
-              </a>
+                {label}
+              </ExternalLink>
             </li>
           ))}
         </ul>

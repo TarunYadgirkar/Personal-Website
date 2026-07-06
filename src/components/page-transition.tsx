@@ -3,8 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
-
-const EASE_OUT = [0.16, 1, 0.3, 1] as const;
+import { EASE_OUT } from "@/components/motion";
 
 export function PageTransition({ children }: { children: ReactNode }) {
   const pathname = usePathname();

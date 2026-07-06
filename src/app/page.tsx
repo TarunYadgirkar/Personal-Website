@@ -9,7 +9,13 @@ import { SectionHeading, StatusTag, Tags } from "@/components/ui";
 import { atAGlance, focusAreas, recognition, site } from "@/content/site";
 import { featured } from "@/content/work";
 
-const focusIcons = [CircuitBoard, Bot, Workflow, Mic, HeartHandshake] as const;
+const focusIcons: Record<string, typeof CircuitBoard> = {
+  "embedded-ml": CircuitBoard,
+  robotics: Bot,
+  "applied-ai": Workflow,
+  "voice-agents": Mic,
+  "assistive-robotics": HeartHandshake,
+};
 
 export default function Home() {
   return (
@@ -97,7 +103,7 @@ export default function Home() {
                       {row.label}
                     </dt>
                     <dd className="text-right font-mono text-[12.5px] leading-snug text-fg">
-                      {"accent" in row && <span className="text-accent">{row.accent}</span>}
+                      {row.accent && <span className="text-accent">{row.accent}</span>}
                       {row.value}
                     </dd>
                   </div>
@@ -152,8 +158,8 @@ export default function Home() {
       <section className="pt-24" aria-labelledby="focus-areas">
         <SectionHeading id="focus-areas" title="Technical focus areas" />
         <ul className="grid gap-px overflow-hidden rounded-sm border border-line bg-line sm:grid-cols-2 lg:grid-cols-5">
-          {focusAreas.map((area, i) => {
-            const Icon = focusIcons[i % focusIcons.length];
+          {focusAreas.map((area) => {
+            const Icon = focusIcons[area.id];
             return (
               <li key={area.title} className="group relative overflow-hidden bg-surface p-5">
                 <span

@@ -5,19 +5,15 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { SystemMark } from "@/components/ui";
-
-export const NAV_LINKS = [
-  { href: "/", label: "Home" },
-  { href: "/work", label: "Work" },
-  { href: "/research", label: "Research" },
-  { href: "/patent", label: "Patent" },
-  { href: "/archive", label: "Archive" },
-  { href: "/about", label: "About" },
-] as const;
+import { navLinks } from "@/content/site";
 
 export function Nav() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const navItems = navLinks.map((link) => ({
+    ...link,
+    active: link.href === "/" ? pathname === "/" : pathname.startsWith(link.href),
+  }));
 
   return (
     <header className="sticky top-0 z-50 border-b border-line bg-bg/90 backdrop-blur-sm">
@@ -32,9 +28,7 @@ export function Nav() {
           </Link>
 
           <ul className="hidden items-center gap-5 md:flex">
-            {NAV_LINKS.map(({ href, label }) => {
-              const active =
-                href === "/" ? pathname === "/" : pathname.startsWith(href);
+            {navItems.map(({ href, label, active }) => {
               return (
                 <li key={href} className="relative">
                   <Link
@@ -90,9 +84,7 @@ export function Nav() {
           hidden={!open}
           className="border-t border-line py-4 md:hidden"
         >
-          {NAV_LINKS.map(({ href, label }) => {
-            const active =
-              href === "/" ? pathname === "/" : pathname.startsWith(href);
+          {navItems.map(({ href, label, active }) => {
             return (
               <li key={href}>
                 <Link

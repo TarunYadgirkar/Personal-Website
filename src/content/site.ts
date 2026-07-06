@@ -2,10 +2,8 @@ export const site = {
   name: "Tarun Yadgirkar",
   positioning: "AI systems, robotics, and embedded intelligence",
   subline: "Embedded ML · robotics & autonomy · applied AI",
-  credentialLine: "SCU WIN Lab · Rainier Labs · UC Berkeley Applied Mathematics",
   education: "Applied Mathematics @ UC Berkeley",
   location: "San Ramon, California",
-  email: "tarun_yadgirkar@berkeley.edu",
   emails: [{ label: "Berkeley", address: "tarun_yadgirkar@berkeley.edu" }],
   url: "https://tarunyadgirkar.vercel.app",
   // Set to a PDF path/URL to enable the Resume button (kept null until the
@@ -20,32 +18,54 @@ export const site = {
   },
 } as const;
 
-export const atAGlance = [
+export const navLinks = [
+  { href: "/", label: "Home" },
+  { href: "/work", label: "Work" },
+  { href: "/research", label: "Research" },
+  { href: "/patent", label: "Patent" },
+  { href: "/archive", label: "Archive" },
+  { href: "/about", label: "About" },
+] as const;
+
+export const socialLinks = [
+  { label: "GitHub", href: site.links.github },
+  { label: "X", href: site.links.x },
+  { label: "LinkedIn", href: site.links.linkedin },
+] as const;
+
+type AtAGlanceRow = { label: string; value: string; accent?: string };
+
+export const atAGlance: readonly AtAGlanceRow[] = [
   { label: "Patent", value: "63/743,085", accent: "BALANCE · " },
   { label: "Paper", value: "Youth Innov. Journal '25" },
   { label: "Lab", value: "SCU WIN Lab" },
   { label: "Robotics", value: "VEX Worlds qualifier" },
   { label: "Based", value: "San Ramon, CA" },
-] as const;
+];
 
 export const focusAreas = [
   {
+    id: "embedded-ml",
     title: "Embedded ML",
     detail: "PyTorch/TensorFlow models, quantized and ported to FPGAs and constrained hardware",
   },
   {
+    id: "robotics",
     title: "Robotics & autonomy",
     detail: "Embedded and hardware robotics, autonomous systems",
   },
   {
+    id: "applied-ai",
     title: "Applied AI systems",
     detail: "Agentic pipelines and LLM-backed products",
   },
   {
+    id: "voice-agents",
     title: "Voice agents",
     detail: "Voice-first interfaces and real-time voice AI",
   },
   {
+    id: "assistive-robotics",
     title: "Human-assistive robotics",
     detail: "Mobility and accessibility systems",
   },

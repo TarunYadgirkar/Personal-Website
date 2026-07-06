@@ -1,4 +1,4 @@
-import { site } from "@/content/site";
+import { site, socialLinks } from "@/content/site";
 import { SystemMark } from "@/components/ui";
 
 export function Footer() {
@@ -25,13 +25,7 @@ export function Footer() {
         </div>
         <div className="flex flex-col gap-2 sm:items-end">
           <ul className="flex gap-5">
-            {(
-              [
-                ["GitHub", site.links.github],
-                ["X", site.links.x],
-                ["LinkedIn", site.links.linkedin],
-              ] as const
-            ).map(([label, href]) => (
+            {socialLinks.map(({ label, href }) => (
               <li key={label}>
                 <a
                   href={href}

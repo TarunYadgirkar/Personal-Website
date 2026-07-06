@@ -3,9 +3,9 @@
 import { CornerDownLeft, Search } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import { NAV_LINKS } from "@/components/nav";
+import { navLinks } from "@/content/site";
 
-const ITEMS = [...NAV_LINKS, { href: "/#contact", label: "Contact" }] as const;
+const ITEMS = [...navLinks, { href: "/#contact", label: "Contact" }] as const;
 
 export function CommandPalette() {
   const router = useRouter();
