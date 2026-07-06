@@ -1,7 +1,7 @@
 import { ArrowDown, ArrowRight } from "lucide-react";
 import { StatusTag } from "@/components/ui";
 
-type Node = { title: string; sub: string[]; accent?: boolean; grow?: boolean };
+type Node = { title: string; sub: string[]; accent?: boolean };
 type Column = { kick: string; nodes: Node[] };
 
 const COLUMNS: readonly Column[] = [
@@ -20,7 +20,6 @@ const COLUMNS: readonly Column[] = [
         title: "On-board compute",
         sub: ["Real-time mapping", "Terrain classification", "Gait & path planning"],
         accent: true,
-        grow: true,
       },
     ],
   },
@@ -30,15 +29,14 @@ const COLUMNS: readonly Column[] = [
       {
         title: "Mode arbitration",
         sub: ["Structural support", "Shock isolation"],
-        grow: true,
       },
     ],
   },
   {
     kick: "Output · locomotion",
     nodes: [
-      { title: "Wheeled base", sub: ["flat ground"], grow: true },
-      { title: "Robotic-leg assist", sub: ["stairs · uneven terrain"], grow: true },
+      { title: "Wheeled base", sub: ["flat ground"] },
+      { title: "Robotic-leg assist", sub: ["stairs · uneven terrain"] },
     ],
   },
 ];
@@ -46,7 +44,7 @@ const COLUMNS: readonly Column[] = [
 function DiagramNode({ node }: { node: Node }) {
   return (
     <div
-      className={`rounded-sm border p-4 ${node.grow ? "flex flex-1 flex-col justify-center" : ""} ${
+      className={`rounded-sm border p-4 ${
         node.accent ? "border-accent/40 bg-accent-dim" : "border-line-strong bg-surface"
       }`}
     >
@@ -80,7 +78,7 @@ export function BalanceDiagram() {
               <p className="mb-2 font-mono text-[11px] text-fg-faint">
                 {col.kick}
               </p>
-              <div className="flex flex-1 flex-col gap-2.5">
+              <div className="flex flex-1 flex-col justify-center gap-2.5">
                 {col.nodes.map((node) => (
                   <DiagramNode key={node.title} node={node} />
                 ))}

@@ -60,7 +60,7 @@ export default function AboutPage() {
             [
               ["GitHub", site.links.github],
               ["LinkedIn", site.links.linkedin],
-              ["Devpost", site.links.devpost],
+              ["X", site.links.x],
             ] as const
           ).map(([label, href]) => (
             <li key={label}>

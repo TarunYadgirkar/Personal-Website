@@ -1,21 +1,28 @@
 import Link from "next/link";
-import { ArrowRight, Bot, Cpu, HeartHandshake, Mic, Workflow } from "lucide-react";
+import { ArrowRight, Bot, CircuitBoard, HeartHandshake, Mic, Workflow } from "lucide-react";
 import { HeroReveal, Pressable, Reveal } from "@/components/motion";
+import { ScrollForMore } from "@/components/scroll-for-more";
 import { SignalTrace } from "@/components/signal-trace";
 import { SectionHeading, StatusTag, Tags } from "@/components/ui";
 import { atAGlance, focusAreas, recognition, site } from "@/content/site";
 import { featured } from "@/content/work";
 
-const focusIcons = [Cpu, Bot, Workflow, Mic, HeartHandshake] as const;
+const focusIcons = [CircuitBoard, Bot, Workflow, Mic, HeartHandshake] as const;
 
 export default function Home() {
   return (
     <div className="mx-auto max-w-5xl px-6">
+      <ScrollForMore />
       <section className="pt-24 sm:pt-32">
         <div className="grid items-start gap-12 lg:grid-cols-[1fr_320px] lg:gap-14">
           <div>
             <HeroReveal>
-              <h1 className="max-w-[20rem] break-words text-[1.9rem] font-medium leading-[1.08] tracking-tight sm:max-w-3xl sm:text-5xl sm:leading-[1.06]">
+              <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent">
+                {site.education}
+              </p>
+            </HeroReveal>
+            <HeroReveal delay={0.06}>
+              <h1 className="mt-3 max-w-[20rem] break-words text-[1.9rem] font-medium leading-[1.08] tracking-tight sm:max-w-3xl sm:text-5xl sm:leading-[1.06]">
                 {site.name} builds {site.positioning}.
               </h1>
             </HeroReveal>

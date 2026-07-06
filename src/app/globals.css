@@ -1,20 +1,49 @@
 @import "tailwindcss";
 
-@theme inline {
-  --color-bg: #0b0e15;
-  --color-surface: #111622;
-  --color-raised: #161c2b;
-  --color-line: rgba(226, 232, 240, 0.09);
-  --color-line-strong: rgba(226, 232, 240, 0.18);
-  --color-fg: #e7eaf2;
-  --color-fg-muted: #98a1b3;
-  --color-fg-faint: #7d87a3;
-  --color-accent: #e2a264;
-  --color-accent-bright: #edb57c;
-  --color-accent-dim: rgba(226, 162, 100, 0.14);
+@theme {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-raised: var(--raised);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-fg: var(--fg);
+  --color-fg-muted: var(--fg-muted);
+  --color-fg-faint: var(--fg-faint);
+  --color-accent: var(--accent);
+  --color-accent-bright: var(--accent-bright);
+  --color-accent-dim: var(--accent-dim);
 
   --font-sans: var(--font-schibsted), system-ui, sans-serif;
   --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+}
+
+:root {
+  --bg: #e9e3d2;
+  --surface: #e2dcc8;
+  --raised: #dad3bc;
+  --line: rgba(43, 39, 30, 0.1);
+  --line-strong: rgba(43, 39, 30, 0.18);
+  --fg: #2a2620;
+  --fg-muted: #635d4e;
+  --fg-faint: #857e6a;
+  /* darker rust, not the dark-mode orange — #e2a264 on this bg is ~1.7:1 contrast */
+  --accent: #8a4b12;
+  --accent-bright: #6e3a0d;
+  --accent-dim: rgba(138, 75, 18, 0.16);
+}
+
+.dark {
+  --bg: #0b0e15;
+  --surface: #111622;
+  --raised: #161c2b;
+  --line: rgba(226, 232, 240, 0.09);
+  --line-strong: rgba(226, 232, 240, 0.18);
+  --fg: #e7eaf2;
+  --fg-muted: #98a1b3;
+  --fg-faint: #7d87a3;
+  --accent: #e2a264;
+  --accent-bright: #edb57c;
+  --accent-dim: rgba(226, 162, 100, 0.14);
 }
 
 html {
@@ -42,6 +71,7 @@ body {
   font-family: var(--font-schibsted), system-ui, sans-serif;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 ::selection {
