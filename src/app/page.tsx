@@ -121,10 +121,11 @@ export default function Home() {
 
       <section className="pt-24" aria-labelledby="featured-work">
         <SectionHeading id="featured-work" title="Featured work" />
-        <div className="border-t border-line">
-          {featured.map((item, i) => (
-            <Reveal key={item.slug} delay={Math.min(i * 0.04, 0.16)}>
+        <Reveal>
+          <div className="border-t border-line">
+            {featured.map((item) => (
               <Link
+                key={item.slug}
                 href={item.href}
                 className="group grid gap-4 border-b border-line py-8 transition-colors duration-150 sm:grid-cols-[200px_1fr] sm:gap-10"
               >
@@ -150,31 +151,29 @@ export default function Home() {
                   </div>
                 </div>
               </Link>
-            </Reveal>
-          ))}
-        </div>
+            ))}
+          </div>
+        </Reveal>
       </section>
 
       <section className="pt-24" aria-labelledby="focus-areas">
         <SectionHeading id="focus-areas" title="Technical focus areas" />
-        <ul className="grid gap-px overflow-hidden rounded-sm border border-line bg-line sm:grid-cols-2 lg:grid-cols-5">
-          {focusAreas.map((area) => {
-            const Icon = focusIcons[area.id];
-            return (
-              <li key={area.title} className="group relative overflow-hidden bg-surface p-5">
-                <span
-                  aria-hidden="true"
-                  className="absolute inset-x-0 top-0 h-px origin-left scale-x-0 bg-accent transition-transform duration-300 ease-out group-hover:scale-x-100 motion-reduce:transition-none"
-                />
-                <Icon aria-hidden="true" className="size-5 text-accent" strokeWidth={1.5} />
-                <p className="mt-3 font-mono text-[12px] text-accent">{area.title}</p>
-                <p className="mt-2 text-[13px] leading-relaxed text-fg-muted">
-                  {area.detail}
-                </p>
-              </li>
-            );
-          })}
-        </ul>
+        <Reveal>
+          <ul className="grid gap-px overflow-hidden rounded-sm border border-line bg-line sm:grid-cols-2 lg:grid-cols-5">
+            {focusAreas.map((area) => {
+              const Icon = focusIcons[area.id];
+              return (
+                <li key={area.title} className="relative overflow-hidden bg-surface p-5">
+                  <Icon aria-hidden="true" className="size-5 text-accent" strokeWidth={1.5} />
+                  <p className="mt-3 font-mono text-[12px] text-accent">{area.title}</p>
+                  <p className="mt-2 text-[13px] leading-relaxed text-fg-muted">
+                    {area.detail}
+                  </p>
+                </li>
+              );
+            })}
+          </ul>
+        </Reveal>
       </section>
 
       <section className="pt-24" aria-labelledby="recognition">
