@@ -15,6 +15,13 @@ export function SectionNav() {
   useEffect(() => {
     let ticking = false;
     const updateActiveSection = () => {
+      const atBottom =
+        window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2;
+      if (atBottom) {
+        setActiveId(SECTIONS[SECTIONS.length - 1].id);
+        ticking = false;
+        return;
+      }
       const reference = window.scrollY + window.innerHeight * 0.4;
       let current: string = SECTIONS[0].id;
       for (const { id } of SECTIONS) {
