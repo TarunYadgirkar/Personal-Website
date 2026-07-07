@@ -57,12 +57,12 @@ export const focusAreas = [
   {
     id: "applied-ai",
     title: "Applied AI systems",
-    detail: "Agentic pipelines and LLM-backed products",
+    detail: "CarePath, Klarity VoiceNote, GuestFlow — shipped AI product prototypes",
   },
   {
     id: "voice-agents",
     title: "Voice agents",
-    detail: "Voice-first interfaces and real-time voice AI",
+    detail: "Grok Voice, Retell AI, ElevenLabs across four shipped prototypes",
   },
   {
     id: "assistive-robotics",
