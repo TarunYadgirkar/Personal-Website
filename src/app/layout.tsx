@@ -4,6 +4,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { BackToTop } from "@/components/back-to-top";
 import { CommandPalette } from "@/components/command-palette";
+import { CursorArms } from "@/components/cursor-arms";
 import { Footer } from "@/components/footer";
 import { MotionProvider } from "@/components/motion";
 import { Nav } from "@/components/nav";
@@ -56,6 +57,7 @@ export default function RootLayout({
         <ThemeProvider>
           <MotionProvider>
             <ScrollProgress />
+            <CursorArms />
             <a
               href="#main"
               className="sr-only focus:not-sr-only focus:absolute focus:left-6 focus:top-4 focus:z-[60] focus:bg-bg focus:px-3 focus:py-2 focus:font-mono focus:text-xs focus:text-accent"
