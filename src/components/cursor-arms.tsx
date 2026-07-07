@@ -22,7 +22,7 @@ const GEOMETRY: readonly Geometry[] = [
     wrist: [198, -31],
     clawA: [235, -58],
     clawB: [222, -4],
-    scale: 1,
+    scale: 0.78,
     opacity: 0.85,
     showRing: false,
   },
@@ -42,6 +42,15 @@ const GEOMETRY: readonly Geometry[] = [
     clawB: [158, 104],
     scale: 0.7,
     opacity: 0.5,
+    showRing: false,
+  },
+  {
+    elbow: [110, 17],
+    wrist: [198, -31],
+    clawA: [235, -58],
+    clawB: [222, -4],
+    scale: 1,
+    opacity: 0.85,
     showRing: false,
   },
 ];
@@ -65,7 +74,7 @@ const ARMS: readonly ArmSpec[] = [
   {
     side: "right",
     topPercent: 14,
-    geometry: 0,
+    geometry: 3,
     restAngle: 180,
     tau: 0.9,
     clamp: [150, 210],
