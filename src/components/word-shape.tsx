@@ -124,9 +124,13 @@ function renderShape(shape: WordShapeKind): ReactNode {
     case "mic":
       return (
         <>
-          <rect x={38} y={12} width={24} height={34} rx={12} />
-          <rect x={45} y={44} width={10} height={44} rx={4} />
-          <rect x={36} y={86} width={28} height={5} rx={2} />
+          <rect x={28} y={6} width={44} height={60} rx={21} />
+          <circle cx={24} cy={40} r={5} />
+          <circle cx={76} cy={40} r={5} />
+          <line x1={24} y1={40} x2={35} y2={80} />
+          <line x1={76} y1={40} x2={65} y2={80} />
+          <rect x={46} y={64} width={8} height={15} />
+          <ellipse cx={50} cy={86} rx={27} ry={7} />
         </>
       );
   }
