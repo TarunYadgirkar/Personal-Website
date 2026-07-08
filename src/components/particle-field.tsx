@@ -4,7 +4,6 @@ import { useEffect, useRef } from "react";
 import { useReducedMotion } from "framer-motion";
 
 type Props = { className?: string };
-type Phase = "form" | "hold" | "scatter";
 type DrawFn = (ctx: CanvasRenderingContext2D, w: number, h: number) => void;
 
 const TWO_PI = Math.PI * 2;
@@ -13,13 +12,15 @@ const NARROW_COUNT = 450;
 const NARROW_BREAKPOINT = 640;
 const MAX_DPR = 2;
 const BRIGHT_FRACTION = 0.16;
-const FORM_MS = 1500;
-const HOLD_MS = 2500;
-const SCATTER_MS = 900;
-const FORM_EASE = 0.09;
-const SCATTER_EASE = 0.05;
 const ALPHA_MIN = 0.5;
 const ALPHA_RANGE = 0.35;
+const SPRING = 0.012;
+const DAMPING = 0.86;
+const REPEL_RADIUS = 90;
+const REPEL_STRENGTH = 2.5;
+const AUTO_MIN_MS = 6000;
+const AUTO_MAX_MS = 9000;
+const AUTO_SWEEP_MS = 1500;
 
 function parseRgb(value: string, fallback: string): string {
   const v = value.trim();
@@ -69,86 +70,6 @@ const drawWaveform: DrawFn = (ctx, w, h) => {
   ctx.stroke();
 };
 
-const NODES: readonly [number, number][] = [
-  [0.1, 0.55], [0.24, 0.25], [0.3, 0.78], [0.45, 0.5], [0.58, 0.22],
-  [0.62, 0.75], [0.76, 0.45], [0.88, 0.68], [0.9, 0.3],
-];
-const EDGES: readonly [number, number][] = [
-  [0, 1], [0, 2], [1, 3], [2, 3], [3, 4], [3, 5], [4, 6], [5, 6], [6, 7], [6, 8], [4, 8],
-];
-
-const drawNodes: DrawFn = (ctx, w, h) => {
-  const pad = Math.min(w, h) * 0.12;
-  const px = (n: number) => pad + n * (w - 2 * pad);
-  const py = (n: number) => pad + n * (h - 2 * pad);
-  ctx.strokeStyle = "#fff";
-  ctx.lineCap = "round";
-  ctx.lineWidth = Math.max(1.2, h * 0.03);
-  for (const [a, b] of EDGES) {
-    ctx.beginPath();
-    ctx.moveTo(px(NODES[a][0]), py(NODES[a][1]));
-    ctx.lineTo(px(NODES[b][0]), py(NODES[b][1]));
-    ctx.stroke();
-  }
-  ctx.fillStyle = "#fff";
-  NODES.forEach((node, i) => {
-    ctx.beginPath();
-    ctx.arc(px(node[0]), py(node[1]), h * (0.09 + (i % 3) * 0.02), 0, TWO_PI);
-    ctx.fill();
-  });
-};
-
-const drawArm: DrawFn = (ctx, w, h) => {
-  const px = (n: number) => n * w;
-  const py = (n: number) => n * h;
-  const base: [number, number] = [0.12, 0.82];
-  const shoulder: [number, number] = [0.16, 0.55];
-  const elbow: [number, number] = [0.42, 0.3];
-  const wrist: [number, number] = [0.66, 0.62];
-  const bx = px(base[0]);
-  const by = py(base[1]);
-  ctx.fillStyle = "#fff";
-  ctx.fillRect(bx - w * 0.03, by, w * 0.06, h - by - h * 0.04);
-  ctx.fillRect(bx - w * 0.05, h - h * 0.1, w * 0.1, h * 0.05);
-  ctx.strokeStyle = "#fff";
-  ctx.lineCap = "round";
-  ctx.lineJoin = "round";
-  ctx.lineWidth = Math.max(3, h * 0.13);
-  ctx.beginPath();
-  ctx.moveTo(bx, by);
-  ctx.lineTo(px(shoulder[0]), py(shoulder[1]));
-  ctx.lineTo(px(elbow[0]), py(elbow[1]));
-  ctx.lineTo(px(wrist[0]), py(wrist[1]));
-  ctx.stroke();
-  for (const j of [shoulder, elbow, wrist]) {
-    ctx.beginPath();
-    ctx.arc(px(j[0]), py(j[1]), Math.max(3, h * 0.09), 0, TWO_PI);
-    ctx.fill();
-  }
-  const gx = px(wrist[0]);
-  const gy = py(wrist[1]);
-  const dx = px(wrist[0]) - px(elbow[0]);
-  const dy = py(wrist[1]) - py(elbow[1]);
-  const len = Math.hypot(dx, dy) || 1;
-  const ux = dx / len;
-  const uy = dy / len;
-  const nx = -uy;
-  const ny = ux;
-  const gl = h * 0.22;
-  const spread = h * 0.14;
-  ctx.lineWidth = Math.max(2, h * 0.07);
-  ctx.beginPath();
-  ctx.moveTo(gx, gy);
-  ctx.lineTo(gx + ux * gl * 0.4 + nx * spread, gy + uy * gl * 0.4 + ny * spread);
-  ctx.lineTo(gx + ux * gl + nx * spread, gy + uy * gl + ny * spread);
-  ctx.moveTo(gx, gy);
-  ctx.lineTo(gx + ux * gl * 0.4 - nx * spread, gy + uy * gl * 0.4 - ny * spread);
-  ctx.lineTo(gx + ux * gl - nx * spread, gy + uy * gl - ny * spread);
-  ctx.stroke();
-};
-
-const SHAPES: readonly DrawFn[] = [drawWaveform, drawNodes, drawArm];
-
 export function ParticleField({ className }: Props) {
   const prefersReduced = useReducedMotion();
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -167,31 +88,31 @@ export function ParticleField({ className }: Props) {
     let raf = 0;
     let running = false;
     let visible = true;
-    let pauseTs = 0;
     let w = 0;
     let h = 0;
     let dpr = 1;
     let n = 0;
-    let shapes: Float32Array[] = [];
-    let shapeIndex = 0;
-    let phase: Phase = "form";
-    let phaseStart = 0;
     let rgb = "154,82,15";
     let rgbBright = "126,65,10";
+    let mouseX: number | null = null;
+    let mouseY: number | null = null;
+    let ghost: { x: number; y: number } | null = null;
+    let ghostStart = 0;
+    let nextAutoAt = 0;
+    let sweepDir = 1;
 
     let px = new Float32Array(0);
     let py = new Float32Array(0);
     let hx = new Float32Array(0);
     let hy = new Float32Array(0);
-    let sx = new Float32Array(0);
-    let sy = new Float32Array(0);
+    let vx = new Float32Array(0);
+    let vy = new Float32Array(0);
     let ba = new Float32Array(0);
     let jp = new Float32Array(0);
     let jf = new Float32Array(0);
     let ja = new Float32Array(0);
     let rx = new Float32Array(0);
     let ry = new Float32Array(0);
-    let ra = new Float32Array(0);
     let bright = new Uint8Array(0);
 
     const readColors = () => {
@@ -254,15 +175,14 @@ export function ParticleField({ className }: Props) {
       py = new Float32Array(n);
       hx = new Float32Array(n);
       hy = new Float32Array(n);
-      sx = new Float32Array(n);
-      sy = new Float32Array(n);
+      vx = new Float32Array(n);
+      vy = new Float32Array(n);
       ba = new Float32Array(n);
       jp = new Float32Array(n);
       jf = new Float32Array(n);
       ja = new Float32Array(n);
       rx = new Float32Array(n);
       ry = new Float32Array(n);
-      ra = new Float32Array(n);
       bright = new Uint8Array(n);
       for (let i = 0; i < n; i++) {
         px[i] = Math.random() * w;
@@ -275,23 +195,10 @@ export function ParticleField({ className }: Props) {
       }
     };
 
-    const assignHome = (index: number) => {
-      const s = shapes[index];
+    const applyHome = (target: Float32Array) => {
       for (let i = 0; i < n; i++) {
-        hx[i] = s[i * 2];
-        hy[i] = s[i * 2 + 1];
-      }
-    };
-
-    const computeScatter = () => {
-      const cx = w / 2;
-      const cy = h / 2;
-      const diag = Math.hypot(w, h);
-      for (let i = 0; i < n; i++) {
-        const a = Math.random() * TWO_PI;
-        const rr = (0.25 + Math.random() * 0.45) * diag;
-        sx[i] = cx + Math.cos(a) * rr;
-        sy[i] = cy + Math.sin(a) * rr;
+        hx[i] = target[i * 2];
+        hy[i] = target[i * 2 + 1];
       }
     };
 
@@ -306,8 +213,7 @@ export function ParticleField({ className }: Props) {
         Math.round(nw) === Math.round(w) &&
         Math.round(nh) === Math.round(h) &&
         ndpr === dpr &&
-        nn === n &&
-        shapes.length === SHAPES.length
+        nn === n
       ) {
         return false;
       }
@@ -319,12 +225,9 @@ export function ParticleField({ className }: Props) {
       canvas.height = Math.round(h * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       readColors();
-      shapes = SHAPES.map((fn) => sampleTargets(fn, n));
+      const target = sampleTargets(drawWaveform, n);
       buildParticles();
-      shapeIndex = 0;
-      assignHome(0);
-      phase = "form";
-      phaseStart = performance.now();
+      applyHome(target);
       return true;
     };
 
@@ -333,52 +236,67 @@ export function ParticleField({ className }: Props) {
       const r = brightPass ? 1.5 : 1.05;
       for (let i = 0; i < n; i++) {
         if ((bright[i] === 1) !== brightPass) continue;
-        const a = ra[i];
-        if (a <= 0.02) continue;
-        ctx.globalAlpha = a;
+        ctx.globalAlpha = ba[i];
         ctx.beginPath();
         ctx.arc(rx[i], ry[i], r, 0, TWO_PI);
         ctx.fill();
       }
     };
 
-    const advance = (now: number) => {
-      const elapsed = now - phaseStart;
-      if (phase === "form" && elapsed >= FORM_MS) {
-        phase = "hold";
-        phaseStart = now;
-      } else if (phase === "hold" && elapsed >= HOLD_MS) {
-        phase = "scatter";
-        phaseStart = now;
-        computeScatter();
-      } else if (phase === "scatter" && elapsed >= SCATTER_MS) {
-        shapeIndex = (shapeIndex + 1) % shapes.length;
-        assignHome(shapeIndex);
-        phase = "form";
-        phaseStart = now;
-      }
-    };
-
     const render = (now: number) => {
+      if (nextAutoAt === 0) nextAutoAt = now + 3500;
+
+      let effX: number | null = null;
+      let effY: number | null = null;
+      if (mouseX !== null && mouseY !== null) {
+        ghost = null;
+        nextAutoAt = now + AUTO_MAX_MS;
+        effX = mouseX;
+        effY = mouseY;
+      } else {
+        if (ghost === null && now >= nextAutoAt) {
+          sweepDir *= -1;
+          ghostStart = now;
+          ghost = { x: sweepDir === 1 ? -REPEL_RADIUS : w + REPEL_RADIUS, y: h / 2 };
+        }
+        if (ghost !== null) {
+          const t = (now - ghostStart) / AUTO_SWEEP_MS;
+          if (t >= 1) {
+            ghost = null;
+            nextAutoAt = now + AUTO_MIN_MS + Math.random() * (AUTO_MAX_MS - AUTO_MIN_MS);
+          } else {
+            const te = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+            const start = sweepDir === 1 ? -REPEL_RADIUS : w + REPEL_RADIUS;
+            const end = sweepDir === 1 ? w + REPEL_RADIUS : -REPEL_RADIUS;
+            ghost = { x: start + (end - start) * te, y: h / 2 + Math.sin(t * Math.PI) * 6 };
+          }
+        }
+        if (ghost !== null) {
+          effX = ghost.x;
+          effY = ghost.y;
+        }
+      }
+
       ctx.clearRect(0, 0, w, h);
-      const scatter = phase === "scatter";
-      const dur = phase === "form" ? FORM_MS : phase === "hold" ? HOLD_MS : SCATTER_MS;
-      const p = Math.min(1, (now - phaseStart) / dur);
-      let sa: number;
-      if (phase === "form") sa = 0.25 + 0.75 * (1 - (1 - p) * (1 - p));
-      else if (phase === "hold") sa = 1;
-      else sa = 1 - 0.75 * (p * p);
-      const ease = scatter ? SCATTER_EASE : FORM_EASE;
       for (let i = 0; i < n; i++) {
-        const tx = scatter ? sx[i] : hx[i];
-        const ty = scatter ? sy[i] : hy[i];
-        const x = px[i] + (tx - px[i]) * ease;
-        const y = py[i] + (ty - py[i]) * ease;
-        px[i] = x;
-        py[i] = y;
-        rx[i] = x + Math.sin(now * jf[i] + jp[i]) * ja[i];
-        ry[i] = y + Math.cos(now * jf[i] + jp[i] * 1.3) * ja[i];
-        ra[i] = ba[i] * sa;
+        let ax = (hx[i] - px[i]) * SPRING;
+        let ay = (hy[i] - py[i]) * SPRING;
+        if (effX !== null && effY !== null) {
+          const dx = px[i] - effX;
+          const dy = py[i] - effY;
+          const dist = Math.hypot(dx, dy);
+          if (dist > 0 && dist < REPEL_RADIUS) {
+            const push = 1 - dist / REPEL_RADIUS;
+            ax += (dx / dist) * push * REPEL_STRENGTH;
+            ay += (dy / dist) * push * REPEL_STRENGTH;
+          }
+        }
+        vx[i] = (vx[i] + ax) * DAMPING;
+        vy[i] = (vy[i] + ay) * DAMPING;
+        px[i] += vx[i];
+        py[i] += vy[i];
+        rx[i] = px[i] + Math.sin(now * jf[i] + jp[i]) * ja[i];
+        ry[i] = py[i] + Math.cos(now * jf[i] + jp[i] * 1.3) * ja[i];
       }
       drawPass(false);
       drawPass(true);
@@ -386,7 +304,6 @@ export function ParticleField({ className }: Props) {
     };
 
     const frame = (now: number) => {
-      advance(now);
       render(now);
       raf = requestAnimationFrame(frame);
     };
@@ -396,7 +313,6 @@ export function ParticleField({ className }: Props) {
       for (let i = 0; i < n; i++) {
         rx[i] = hx[i];
         ry[i] = hy[i];
-        ra[i] = ba[i];
       }
       drawPass(false);
       drawPass(true);
@@ -408,15 +324,30 @@ export function ParticleField({ className }: Props) {
       const run = visible && !document.hidden;
       if (run && !running) {
         running = true;
-        if (pauseTs) phaseStart += performance.now() - pauseTs;
-        pauseTs = 0;
         raf = requestAnimationFrame(frame);
       } else if (!run && running) {
         running = false;
-        pauseTs = performance.now();
         if (raf) cancelAnimationFrame(raf);
         raf = 0;
       }
+    };
+
+    const onPointerMove = (e: PointerEvent) => {
+      const rect = canvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      if (x < -REPEL_RADIUS || y < -REPEL_RADIUS || x > rect.width + REPEL_RADIUS || y > rect.height + REPEL_RADIUS) {
+        mouseX = null;
+        mouseY = null;
+        return;
+      }
+      mouseX = x;
+      mouseY = y;
+    };
+
+    const onPointerLeave = () => {
+      mouseX = null;
+      mouseY = null;
     };
 
     const ready = setup();
@@ -444,7 +375,12 @@ export function ParticleField({ className }: Props) {
     });
     ro.observe(canvas);
 
-    if (!reduced) sync();
+    if (!reduced) {
+      sync();
+      window.addEventListener("pointermove", onPointerMove, { passive: true });
+      window.addEventListener("pointerleave", onPointerLeave, { passive: true });
+      window.addEventListener("mouseout", onPointerLeave, { passive: true });
+    }
 
     return () => {
       running = false;
@@ -452,6 +388,9 @@ export function ParticleField({ className }: Props) {
       io.disconnect();
       ro.disconnect();
       document.removeEventListener("visibilitychange", onVisibility);
+      window.removeEventListener("pointermove", onPointerMove);
+      window.removeEventListener("pointerleave", onPointerLeave);
+      window.removeEventListener("mouseout", onPointerLeave);
     };
   }, [prefersReduced]);
 
