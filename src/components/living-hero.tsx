@@ -1,142 +1,63 @@
 "use client";
 
-import { useEffect } from "react";
-import {
-  motion,
-  useMotionValue,
-  useReducedMotion,
-  useSpring,
-  useTransform,
-} from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 
-type BlobSpec = {
-  id: string;
-  size: number;
-  top: string;
-  left: string;
-  color: string;
+type Wave = {
+  d: string;
+  drift: number;
+  dur: number;
   opacity: number;
-  drift: { x: number; y: number };
-  duration: number;
+  width: number;
+  bright: boolean;
 };
 
-const BACK_BLOBS: readonly BlobSpec[] = [
-  {
-    id: "b1",
-    size: 620,
-    top: "-14%",
-    left: "-10%",
-    color: "var(--color-accent)",
-    opacity: 0.09,
-    drift: { x: 24, y: 16 },
-    duration: 34,
-  },
-  {
-    id: "b2",
-    size: 460,
-    top: "6%",
-    left: "36%",
-    color: "var(--color-accent-dim)",
-    opacity: 0.07,
-    drift: { x: 18, y: -20 },
-    duration: 38,
-  },
+function buildWave(span: number, y: number, amp: number, wavelength: number): string {
+  const pts: string[] = [];
+  for (let x = 0; x <= span; x += 18) {
+    const yy = y + amp * Math.sin((x / wavelength) * Math.PI * 2);
+    pts.push(`${x},${yy.toFixed(1)}`);
+  }
+  return `M${pts.join(" L")}`;
+}
+
+const SPAN = 1600;
+
+const WAVES: readonly Wave[] = [
+  { d: buildWave(SPAN, 70, 14, 300), drift: 300, dur: 27, opacity: 0.16, width: 1.5, bright: false },
+  { d: buildWave(SPAN, 130, 22, 380), drift: 380, dur: 34, opacity: 0.13, width: 1.5, bright: false },
+  { d: buildWave(SPAN, 190, 18, 260), drift: 260, dur: 21, opacity: 0.2, width: 1.25, bright: true },
+  { d: buildWave(SPAN, 238, 12, 220), drift: 220, dur: 16, opacity: 0.1, width: 1, bright: false },
 ];
 
-const FRONT_BLOBS: readonly BlobSpec[] = [
-  {
-    id: "f1",
-    size: 520,
-    top: "38%",
-    left: "56%",
-    color: "var(--color-accent-bright)",
-    opacity: 0.08,
-    drift: { x: -22, y: 24 },
-    duration: 26,
-  },
-];
-
-const SPRING = { stiffness: 60, damping: 20, mass: 0.6 } as const;
-const PARALLAX_FRONT = 8;
-const PARALLAX_BACK = 3;
-
-export function LivingBackdrop({ className }: { className?: string }) {
+export function WaveBackdrop({ className }: { className?: string }) {
   const reduced = useReducedMotion();
-
-  const mx = useMotionValue(0);
-  const my = useMotionValue(0);
-  const sx = useSpring(mx, SPRING);
-  const sy = useSpring(my, SPRING);
-  const frontX = useTransform(sx, (v) => v * PARALLAX_FRONT);
-  const frontY = useTransform(sy, (v) => v * PARALLAX_FRONT);
-  const backX = useTransform(sx, (v) => v * PARALLAX_BACK);
-  const backY = useTransform(sy, (v) => v * PARALLAX_BACK);
-
-  useEffect(() => {
-    if (reduced) return;
-    if (!window.matchMedia("(pointer: fine)").matches) return;
-
-    let frame = 0;
-    let nx = 0;
-    let ny = 0;
-    const handleMove = (e: MouseEvent) => {
-      nx = (e.clientX / window.innerWidth) * 2 - 1;
-      ny = (e.clientY / window.innerHeight) * 2 - 1;
-      if (frame) return;
-      frame = window.requestAnimationFrame(() => {
-        frame = 0;
-        mx.set(nx);
-        my.set(ny);
-      });
-    };
-
-    window.addEventListener("mousemove", handleMove, { passive: true });
-    return () => {
-      window.removeEventListener("mousemove", handleMove);
-      if (frame) window.cancelAnimationFrame(frame);
-    };
-  }, [reduced, mx, my]);
-
-  const renderBlob = (b: BlobSpec) => (
-    <motion.div
-      key={b.id}
-      style={{
-        position: "absolute",
-        top: b.top,
-        left: b.left,
-        width: b.size,
-        height: b.size,
-        borderRadius: "50%",
-        background: `radial-gradient(circle at 50% 50%, ${b.color}, transparent 68%)`,
-        opacity: b.opacity,
-        filter: "blur(32px)",
-        willChange: "transform",
-      }}
-      animate={reduced ? undefined : { x: [0, b.drift.x, 0], y: [0, b.drift.y, 0] }}
-      transition={
-        reduced
-          ? undefined
-          : { duration: b.duration, repeat: Infinity, ease: "easeInOut" }
-      }
-    />
-  );
 
   return (
     <div
       aria-hidden="true"
       className={className}
-      style={{ position: "absolute", inset: 0, pointerEvents: "none" }}
+      style={{ position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none" }}
     >
-      <motion.div
-        style={{ position: "absolute", inset: 0, x: backX, y: backY, willChange: "transform" }}
+      <svg
+        viewBox="0 0 1200 300"
+        preserveAspectRatio="none"
+        fill="none"
+        style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}
       >
-        {BACK_BLOBS.map(renderBlob)}
-      </motion.div>
-      <motion.div
-        style={{ position: "absolute", inset: 0, x: frontX, y: frontY, willChange: "transform" }}
-      >
-        {FRONT_BLOBS.map(renderBlob)}
-      </motion.div>
+        {WAVES.map((w, i) => (
+          <motion.path
+            key={i}
+            d={w.d}
+            stroke={w.bright ? "var(--color-accent-bright)" : "var(--color-accent)"}
+            strokeOpacity={w.opacity}
+            strokeWidth={w.width}
+            strokeLinecap="round"
+            vectorEffect="non-scaling-stroke"
+            animate={reduced ? undefined : { x: [0, -w.drift] }}
+            transition={reduced ? undefined : { duration: w.dur, repeat: Infinity, ease: "linear" }}
+          />
+        ))}
+      </svg>
     </div>
   );
 }
@@ -157,11 +78,7 @@ export function SequentialCaptions({ lines, className }: CaptionsProps) {
           style={{ display: "block" }}
           initial={reduced ? false : { opacity: 0, y: 8, filter: "blur(6px)" }}
           animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          transition={
-            reduced
-              ? { duration: 0 }
-              : { duration: 0.7, delay: i * 0.55, ease: "easeOut" }
-          }
+          transition={reduced ? { duration: 0 } : { duration: 0.7, delay: i * 0.55, ease: "easeOut" }}
         >
           {line}
         </motion.span>

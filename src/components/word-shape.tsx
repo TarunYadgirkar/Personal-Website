@@ -5,7 +5,7 @@ import type { ReactNode } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import type { Variants } from "framer-motion";
 
-export type WordShapeKind = "arm" | "chip" | "graph" | "wave" | "hand";
+export type WordShapeKind = "arm" | "chip" | "graph" | "wave" | "hand" | "rover" | "mic";
 
 type Props = {
   word: string;
@@ -15,9 +15,9 @@ type Props = {
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
-const FONT_SIZE = 7.2;
-const ROW_STEP = 7.4;
-const ROW_COUNT = 14;
+const FONT_SIZE = 7.8;
+const ROW_STEP = 8.0;
+const ROW_COUNT = 13;
 const TEXT_X = -6;
 const LETTER_SPACING = -0.3;
 
@@ -27,18 +27,24 @@ const CHIP_PIN_POS = [33, 44, 55, 66] as const;
 
 const WAVE_BAR_HEIGHTS = [16, 30, 24, 46, 38, 60, 42, 52, 28, 38, 18] as const;
 
-const GRAPH_NODES = [
-  { cx: 28, cy: 32, r: 8 },
-  { cx: 72, cy: 26, r: 7 },
-  { cx: 34, cy: 74, r: 8 },
-  { cx: 74, cy: 70, r: 7 },
+const NET_NODES = [
+  { cx: 20, cy: 28, r: 7.5 },
+  { cx: 20, cy: 50, r: 7.5 },
+  { cx: 20, cy: 72, r: 7.5 },
+  { cx: 50, cy: 38, r: 7.5 },
+  { cx: 50, cy: 62, r: 7.5 },
+  { cx: 80, cy: 50, r: 8.5 },
 ] as const;
 
-const GRAPH_EDGES = [
-  "28.27,33.98 72.27,27.98 71.73,24.02 27.73,30.02",
-  "29.98,31.72 35.98,73.72 32.02,74.28 26.02,32.28",
-  "34.2,75.99 74.2,71.99 73.8,68.01 33.8,72.01",
-  "73.998,25.91 75.998,69.91 72.002,70.09 70.002,26.09",
+const NET_EDGES = [
+  [20, 28, 50, 38],
+  [20, 28, 50, 62],
+  [20, 50, 50, 38],
+  [20, 50, 50, 62],
+  [20, 72, 50, 38],
+  [20, 72, 50, 62],
+  [50, 38, 80, 50],
+  [50, 62, 80, 50],
 ] as const;
 
 const ARM_BARS = [
@@ -87,10 +93,10 @@ function renderShape(shape: WordShapeKind): ReactNode {
     case "graph":
       return (
         <>
-          {GRAPH_EDGES.map((pts) => (
-            <polygon key={pts} points={pts} />
+          {NET_EDGES.map(([x1, y1, x2, y2]) => (
+            <line key={`${x1}-${y1}-${x2}-${y2}`} x1={x1} y1={y1} x2={x2} y2={y2} />
           ))}
-          {GRAPH_NODES.map((n) => (
+          {NET_NODES.map((n) => (
             <circle key={`${n.cx}-${n.cy}`} cx={n.cx} cy={n.cy} r={n.r} />
           ))}
         </>
@@ -105,6 +111,24 @@ function renderShape(shape: WordShapeKind): ReactNode {
       );
     case "hand":
       return <path d={HEART_PATH} />;
+    case "rover":
+      return (
+        <>
+          <rect x={16} y={42} width={68} height={28} rx={6} />
+          <circle cx={30} cy={72} r={11} />
+          <circle cx={70} cy={72} r={11} />
+          <rect x={47} y={26} width={6} height={18} />
+          <circle cx={50} cy={23} r={7} />
+        </>
+      );
+    case "mic":
+      return (
+        <>
+          <rect x={38} y={12} width={24} height={34} rx={12} />
+          <rect x={45} y={44} width={10} height={44} rx={4} />
+          <rect x={36} y={86} width={28} height={5} rx={2} />
+        </>
+      );
   }
 }
 
@@ -152,7 +176,7 @@ export function WordShape({ word, shape, className }: Props): ReactNode {
               y={baseY}
               fontFamily="var(--font-mono)"
               fontSize={FONT_SIZE}
-              fontWeight={500}
+              fontWeight={700}
               letterSpacing={LETTER_SPACING}
               fill="var(--color-accent)"
             >
@@ -162,7 +186,7 @@ export function WordShape({ word, shape, className }: Props): ReactNode {
         ))}
       </motion.g>
 
-      <g fill="none" stroke="var(--color-line-strong)" strokeWidth={1}>
+      <g fill="none" stroke="var(--color-accent)" strokeWidth={1.4} strokeOpacity={0.5}>
         {renderShape(shape)}
       </g>
     </svg>
