@@ -1,20 +1,23 @@
 import Link from "next/link";
-import { ArrowRight, Bot, CircuitBoard, HeartHandshake, Mic, Workflow } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { CopyEmailButton } from "@/components/copy-email-button";
+import { LivingBackdrop, SequentialCaptions } from "@/components/living-hero";
 import { HeroReveal, Pressable, Reveal } from "@/components/motion";
+import { ParticleField } from "@/components/particle-field";
+import { WordShape } from "@/components/word-shape";
+import type { WordShapeKind } from "@/components/word-shape";
+import { SectionHeading, StatusTag, Tags } from "@/components/ui";
 import { ScrollForMore } from "@/components/scroll-for-more";
 import { SectionNav } from "@/components/section-nav";
-import { SignalTrace } from "@/components/signal-trace";
-import { SectionHeading, StatusTag, Tags } from "@/components/ui";
 import { atAGlance, focusAreas, recognition, site } from "@/content/site";
 import { featured } from "@/content/work";
 
-const focusIcons: Record<string, typeof CircuitBoard> = {
-  "embedded-ml": CircuitBoard,
-  robotics: Bot,
-  "applied-ai": Workflow,
-  "voice-agents": Mic,
-  "assistive-robotics": HeartHandshake,
+const focusGlyphs: Record<string, { shape: WordShapeKind; word: string }> = {
+  "embedded-ml": { shape: "chip", word: "EMBEDDED ML" },
+  robotics: { shape: "arm", word: "ROBOTICS" },
+  "applied-ai": { shape: "graph", word: "APPLIED AI" },
+  "voice-agents": { shape: "wave", word: "VOICE" },
+  "assistive-robotics": { shape: "hand", word: "ASSIST" },
 };
 
 export default function Home() {
@@ -22,8 +25,9 @@ export default function Home() {
     <div className="mx-auto max-w-5xl px-6">
       <ScrollForMore />
       <SectionNav />
-      <section className="pt-24 sm:pt-32">
-        <div className="grid items-start gap-12 lg:grid-cols-[1fr_320px] lg:gap-14">
+      <section className="relative pt-24 sm:pt-32">
+        <LivingBackdrop className="overflow-hidden" />
+        <div className="relative grid items-start gap-12 lg:grid-cols-[1fr_320px] lg:gap-14">
           <div>
             <HeroReveal>
               <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-accent">
@@ -35,11 +39,10 @@ export default function Home() {
                 {site.name} builds {site.positioning}.
               </h1>
             </HeroReveal>
-            <HeroReveal delay={0.12}>
-              <p className="mt-5 max-w-[20rem] break-words font-mono text-sm leading-relaxed text-fg-muted sm:max-w-full">
-                {site.subline}
-              </p>
-            </HeroReveal>
+            <SequentialCaptions
+              lines={site.subline.split(" · ")}
+              className="mt-5 max-w-[20rem] space-y-0.5 break-words font-mono text-sm leading-relaxed text-fg-muted sm:max-w-full"
+            />
             <HeroReveal delay={0.18}>
               <p className="mt-6 max-w-[20rem] text-base leading-relaxed text-fg-muted sm:max-w-xl">
                 {site.bioShort}
@@ -113,8 +116,8 @@ export default function Home() {
           </HeroReveal>
         </div>
         <HeroReveal delay={0.3}>
-          <div className="mt-12 border-b border-line pb-6">
-            <SignalTrace className="h-16 w-full sm:h-20" />
+          <div className="relative mt-12 border-b border-line pb-6">
+            <ParticleField className="h-16 w-full sm:h-20" />
           </div>
         </HeroReveal>
       </section>
@@ -161,10 +164,10 @@ export default function Home() {
         <Reveal>
           <ul className="grid gap-px overflow-hidden rounded-sm border border-line bg-line sm:grid-cols-2 lg:grid-cols-5">
             {focusAreas.map((area) => {
-              const Icon = focusIcons[area.id];
+              const glyph = focusGlyphs[area.id];
               return (
                 <li key={area.title} className="relative overflow-hidden bg-surface p-5">
-                  <Icon aria-hidden="true" className="size-5 text-accent" strokeWidth={1.5} />
+                  <WordShape shape={glyph.shape} word={glyph.word} className="size-16" />
                   <p className="mt-3 font-mono text-[12px] text-accent">{area.title}</p>
                   <p className="mt-2 text-[13px] leading-relaxed text-fg-muted">
                     {area.detail}
