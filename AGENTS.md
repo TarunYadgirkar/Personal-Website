@@ -42,6 +42,12 @@ Reference material (not in repo): parent dir `../cool images to copy theme:style
 
 - DONE + on main: ParticleField (waveform-only + cursor-repel + timed auto-sweep); WordShape glyphs wired into the 5 focus cards, size-18/weight-700; CursorArms as 2-bone IK arms + parallel-jaw gripper + clamped cones; SequentialCaptions on the hero subline. Focus glyphs finalized: embedded-ml=chip, robotics=rover, applied-ai=neural network, voice-agents=mic, assistive-robotics=heart. Hero background is PLAIN (blobs then waves both tried and rejected by the user; `WaveBackdrop` kept as an unused export only).
 - All verified green (build+lint) and screenshot-checked in both themes before push.
-- Open follow-ups: none outstanding at last check.
+
+**2026-07-09 — motion/integration follow-up (pushed to branch `claude/instructions-zwixaq`, not merged to main yet).** User feedback: icons needed more motion, particle trail needed to feel more integrated with the site.
+
+- `WordShape` now loops a seamless marquee drift (`y: [0, -ROW_STEP]`, linear, infinite) of the tiled text plus a slow breathing pulse on the outline stroke opacity, both skipped under reduced-motion.
+- `ParticleField`'s hero wrapper dropped its `border-b` box treatment; the canvas gained a `.fade-x` mask (new util in `globals.css`) so the dust fades at its left/right edges instead of ending in a hard rectangle.
+- Verified green (build+lint) and screenshot-checked in both themes, plus a 2.5s-apart screenshot pair confirming the drift/pulse actually animate.
+- Open follow-ups: branch not yet merged to main — confirm the user is happy with this motion/integration direction before merging.
 
 _Update this block when you finish a chunk of work._
