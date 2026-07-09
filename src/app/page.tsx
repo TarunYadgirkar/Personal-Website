@@ -115,8 +115,8 @@ export default function Home() {
           </HeroReveal>
         </div>
         <HeroReveal delay={0.3}>
-          <div className="relative mt-12 border-b border-line pb-6">
-            <ParticleField className="h-16 w-full sm:h-20" />
+          <div className="relative mt-12">
+            <ParticleField className="h-16 w-full fade-x sm:h-20" />
           </div>
         </HeroReveal>
       </section>

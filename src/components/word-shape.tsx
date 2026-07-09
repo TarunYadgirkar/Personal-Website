@@ -146,6 +146,8 @@ const rowVariants: Variants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: EASE } },
 };
 
+const DRIFT_DURATION = 7;
+
 export function WordShape({ word, shape, className }: Props): ReactNode {
   const reduced = useReducedMotion();
   const rawId = useId();
@@ -173,26 +175,44 @@ export function WordShape({ word, shape, className }: Props): ReactNode {
         viewport={{ once: true, margin: "-20px" }}
         variants={reduced ? undefined : container}
       >
-        {ROWS.map((baseY, i) => (
-          <motion.g key={i} variants={reduced ? undefined : rowVariants}>
-            <text
-              x={TEXT_X}
-              y={baseY}
-              fontFamily="var(--font-mono)"
-              fontSize={FONT_SIZE}
-              fontWeight={700}
-              letterSpacing={LETTER_SPACING}
-              fill="var(--color-accent)"
-            >
-              {filler}
-            </text>
-          </motion.g>
-        ))}
+        <motion.g
+          animate={reduced ? undefined : { y: [0, -ROW_STEP] }}
+          transition={
+            reduced
+              ? undefined
+              : { duration: DRIFT_DURATION, repeat: Infinity, ease: "linear" }
+          }
+        >
+          {ROWS.map((baseY, i) => (
+            <motion.g key={i} variants={reduced ? undefined : rowVariants}>
+              <text
+                x={TEXT_X}
+                y={baseY}
+                fontFamily="var(--font-mono)"
+                fontSize={FONT_SIZE}
+                fontWeight={700}
+                letterSpacing={LETTER_SPACING}
+                fill="var(--color-accent)"
+              >
+                {filler}
+              </text>
+            </motion.g>
+          ))}
+        </motion.g>
       </motion.g>
 
-      <g fill="none" stroke="var(--color-accent)" strokeWidth={1.4} strokeOpacity={0.5}>
+      <motion.g
+        fill="none"
+        stroke="var(--color-accent)"
+        strokeWidth={1.4}
+        initial={false}
+        animate={reduced ? { strokeOpacity: 0.5 } : { strokeOpacity: [0.35, 0.6, 0.35] }}
+        transition={
+          reduced ? undefined : { duration: 4.5, repeat: Infinity, ease: "easeInOut" }
+        }
+      >
         {renderShape(shape)}
-      </g>
+      </motion.g>
     </svg>
   );
 }
