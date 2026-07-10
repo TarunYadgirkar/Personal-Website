@@ -30,8 +30,9 @@ Distinct, self-contained client components. **All must:** use palette CSS vars o
 
 - `src/components/particle-field.tsx` — `ParticleField`: canvas dust that forms a single signal WAVEFORM, springs back, disperses from the cursor (repel physics), and auto-sweeps a "ghost" disturbance across every ~6–9s when idle. Used as the hero divider strip in `page.tsx`.
 - `src/components/word-shape.tsx` — `WordShape`: an SVG silhouette filled with repeated tiled mono text of its own name (concrete-poetry). Kinds: `chip | rover | graph | mic | hand | wave | arm`. Used as the 5 "Technical focus areas" glyphs via `focusGlyphs` in `page.tsx`: embedded-ml=chip, robotics=rover, applied-ai=graph(neural net), voice-agents=mic, assistive-robotics=hand.
-- `src/components/cursor-arms.tsx` — `CursorArms`: SVG robot arms anchored to the screen edges that track the cursor via **2-bone IK** (shoulder+elbow hinge), with a parallel-jaw gripper and cone-clamped rotation. `lg:` only, `-z-10`, reduced-motion → null.
-- `src/components/living-hero.tsx` — `SequentialCaptions` (hero subline revealed line-by-line, subtitle cadence). Also still exports `WaveBackdrop` (a drifting sine-wave layer) which is **currently unused** — kept as an option; the user tried both blob and wave hero backdrops and chose a plain hero.
+- `src/components/cursor-arms.tsx` — `CursorArms`: SVG robot arms anchored to the screen edges that track the cursor via **2-bone IK** (shoulder+elbow hinge), with a parallel-jaw gripper and cone-clamped rotation. Only mounts at `lg:` viewport widths (`matchMedia`-gated, not just CSS-hidden) and pauses its rAF loop on tab hide; reduced-motion → null.
+- `src/components/living-hero.tsx` — `SequentialCaptions` (hero subline revealed line-by-line, subtitle cadence).
+- `src/components/wave-backdrop.tsx` — `WaveBackdrop` (a drifting sine-wave layer), split into its own file so it's excluded from the bundle since nothing imports it. **Currently unused** — kept as an option; the user tried both blob and wave hero backdrops and chose a plain hero.
 - Design spec: `docs/superpowers/specs/2026-07-08-cool-animations-design.md`.
 
 Reference material (not in repo): parent dir `../cool images to copy theme:style:animations from/` — screenshots of Anthropic's "global workspace" video (particle dust, concrete-poetry typography, living-painting ships) that seeded these.

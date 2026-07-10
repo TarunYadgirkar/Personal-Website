@@ -1,7 +1,7 @@
 "use client";
 
 import { useReducedMotion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 
 const BOX = 460;
 const HALF = BOX / 2;
@@ -33,7 +33,7 @@ const ARMS: readonly ArmSpec[] = [
   { side: "left", topPercent: 22, segment: 0, restDeg: 8, coneDeg: 52, bend: 1, tau: 0.28, wanderDeg: 7, wanderPeriod: 7, wanderPhase: 0 },
   { side: "left", topPercent: 50, segment: 1, restDeg: -4, coneDeg: 52, bend: -1, tau: 0.32, wanderDeg: 8, wanderPeriod: 9, wanderPhase: 2 },
   { side: "left", topPercent: 78, segment: 2, restDeg: 18, coneDeg: 48, bend: 1, tau: 0.26, wanderDeg: 6, wanderPeriod: 6, wanderPhase: 4 },
-  { side: "right", topPercent: 14, segment: 3, restDeg: 180, coneDeg: 34, bend: -1, tau: 0.6, wanderDeg: 4, wanderPeriod: 11, wanderPhase: 1 },
+  { side: "right", topPercent: 14, segment: 3, restDeg: 165, coneDeg: 34, bend: -1, tau: 0.6, wanderDeg: 4, wanderPeriod: 11, wanderPhase: 1 },
 ];
 
 type Pose = { ex: number; ey: number; wx: number; wy: number };
@@ -58,6 +58,22 @@ function solve(spec: ArmSpec, seg: Segment, tx: number, ty: number): Pose {
 function restPose(spec: ArmSpec, seg: Segment): Pose {
   const r = (seg.l1 + seg.l2) * 0.88;
   return solve(spec, seg, Math.cos(spec.restDeg * DEG) * r, Math.sin(spec.restDeg * DEG) * r);
+}
+
+const DESKTOP_QUERY = "(min-width: 1024px)";
+
+function subscribeDesktopQuery(callback: () => void) {
+  const mql = window.matchMedia(DESKTOP_QUERY);
+  mql.addEventListener("change", callback);
+  return () => mql.removeEventListener("change", callback);
+}
+
+function getIsDesktop() {
+  return window.matchMedia(DESKTOP_QUERY).matches;
+}
+
+function useIsDesktop(): boolean {
+  return useSyncExternalStore(subscribeDesktopQuery, getIsDesktop, () => false);
 }
 
 function useMousePosition(isEnabled: boolean) {
@@ -198,7 +214,9 @@ function Arm({
 
 export function CursorArms() {
   const reduced = useReducedMotion();
-  const mouseRef = useMousePosition(!reduced);
+  const isDesktop = useIsDesktop();
+  const isEnabled = isDesktop && !reduced;
+  const mouseRef = useMousePosition(isEnabled);
   const pivotRefs = useRef<(HTMLDivElement | null)[]>([]);
   const current = useRef<Pose[]>(ARMS.map((spec) => restPose(spec, SEGMENTS[spec.segment])));
   const [poses, setPoses] = useState<Pose[]>(() =>
@@ -206,8 +224,9 @@ export function CursorArms() {
   );
 
   useEffect(() => {
-    if (reduced) return;
+    if (!isEnabled) return;
     let raf = 0;
+    let running = false;
     let last = performance.now();
 
     const tick = (now: number) => {
@@ -252,11 +271,30 @@ export function CursorArms() {
       raf = requestAnimationFrame(tick);
     };
 
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [reduced, mouseRef]);
+    const sync = () => {
+      const shouldRun = !document.hidden;
+      if (shouldRun && !running) {
+        running = true;
+        last = performance.now();
+        raf = requestAnimationFrame(tick);
+      } else if (!shouldRun && running) {
+        running = false;
+        if (raf) cancelAnimationFrame(raf);
+        raf = 0;
+      }
+    };
 
-  if (reduced) return null;
+    document.addEventListener("visibilitychange", sync);
+    sync();
+
+    return () => {
+      running = false;
+      if (raf) cancelAnimationFrame(raf);
+      document.removeEventListener("visibilitychange", sync);
+    };
+  }, [isEnabled, mouseRef]);
+
+  if (!isEnabled) return null;
 
   return (
     <>
