@@ -41,7 +41,9 @@ const drawWaveform: DrawFn = (ctx, w, h) => {
   const x0 = w * 0.05;
   const x1 = w - x0;
   const splitX = x0 + (x1 - x0) * 0.5;
-  const sinePeriod = (splitX - x0) / 2.6;
+  // 2.25 cycles lands the sine exactly on a peak (mid - amp) at splitX, so
+  // it hands off to the box wave's first level with no vertical jump.
+  const sinePeriod = (splitX - x0) / 2.25;
   ctx.strokeStyle = "#fff";
   ctx.lineCap = "round";
   ctx.lineJoin = "round";
@@ -54,8 +56,9 @@ const drawWaveform: DrawFn = (ctx, w, h) => {
     if (i === 0) ctx.moveTo(x, y);
     else ctx.lineTo(x, y);
   }
+  // The sine ends within float epsilon of mid - amp (see above); snapping to
+  // the exact constant keeps the box alternation's equality check exact.
   let level = mid - amp;
-  ctx.lineTo(splitX, level);
   const cells = 6;
   const cw = (x1 - splitX) / cells;
   let cx = splitX;
