@@ -41,5 +41,13 @@ After changing the production domain, update `site.url` in `src/content/site.ts`
 ## Structure
 
 - `src/app/` — routes: `/` `/work` `/research` `/patent` `/archive` `/about`, plus `opengraph-image.tsx`, `sitemap.ts`, `robots.ts`
-- `src/components/` — nav, footer, motion primitives, signal-trace hero, small UI pieces
+- `src/components/` — nav, footer, motion primitives, small UI pieces, and the hero animation set:
+  - `particle-field.tsx` — canvas dust waveform (cursor-repel, idle auto-sweep)
+  - `word-shape.tsx` — concrete-poetry SVG glyphs for the focus-area cards
+  - `cursor-arms.tsx` — IK-driven robot arms tracking the cursor (`lg:`+ only)
+  - `living-hero.tsx` — sequential hero subline captions
+  - `signal-trace.tsx` — signal-trace hero visual
+  - `wave-backdrop.tsx` — unused, kept as an alternate hero backdrop option
 - `src/content/` — all site copy (typed)
+
+All animated components read palette CSS vars only, respect `prefers-reduced-motion`, and pause offscreen (see `AGENTS.md` for details).
