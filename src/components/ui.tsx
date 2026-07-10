@@ -58,6 +58,10 @@ export function Tags({ items }: { items: readonly string[] }) {
   );
 }
 
+export function isSafeUrl(url: string): boolean {
+  return url.startsWith("https://");
+}
+
 export function ExternalLink({
   href,
   children,

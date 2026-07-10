@@ -3,21 +3,21 @@
 import { useEffect, useState } from "react";
 
 export function useScrollPast(fraction: number): boolean {
-  const [past, setPast] = useState(false);
+  const [isPast, setIsPast] = useState(false);
 
   useEffect(() => {
-    let ticking = false;
+    let isTicking = false;
     const onScroll = () => {
-      if (ticking) return;
-      ticking = true;
+      if (isTicking) return;
+      isTicking = true;
       requestAnimationFrame(() => {
-        setPast(window.scrollY > window.innerHeight * fraction);
-        ticking = false;
+        setIsPast(window.scrollY > window.innerHeight * fraction);
+        isTicking = false;
       });
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, [fraction]);
 
-  return past;
+  return isPast;
 }

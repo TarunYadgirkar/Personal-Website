@@ -6,7 +6,7 @@ import { HeroReveal, Pressable, Reveal } from "@/components/motion";
 import { ParticleField } from "@/components/particle-field";
 import { WordShape } from "@/components/word-shape";
 import type { WordShapeKind } from "@/components/word-shape";
-import { SectionHeading, StatusTag, Tags } from "@/components/ui";
+import { SectionHeading, StatusTag, Tags, isSafeUrl } from "@/components/ui";
 import { ScrollForMore } from "@/components/scroll-for-more";
 import { SectionNav } from "@/components/section-nav";
 import { atAGlance, focusAreas, recognition, site } from "@/content/site";
@@ -65,7 +65,7 @@ export default function Home() {
                     Research
                   </Link>
                 </Pressable>
-                {site.resumeUrl && (
+                {site.resumeUrl && isSafeUrl(site.resumeUrl) && (
                   <Pressable>
                     <a
                       href={site.resumeUrl}

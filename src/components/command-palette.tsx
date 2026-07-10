@@ -9,7 +9,7 @@ const ITEMS = [...navLinks, { href: "/#contact", label: "Contact" }] as const;
 
 export function CommandPalette() {
   const router = useRouter();
-  const [open, setOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -22,18 +22,18 @@ export function CommandPalette() {
     const openPalette = () => {
       setQuery("");
       setActiveIndex(0);
-      setOpen(true);
+      setIsOpen(true);
     };
     const onKeyDown = (event: KeyboardEvent) => {
       if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
         event.preventDefault();
-        if (open) {
-          setOpen(false);
+        if (isOpen) {
+          setIsOpen(false);
         } else {
           openPalette();
         }
       }
-      if (event.key === "Escape") setOpen(false);
+      if (event.key === "Escape") setIsOpen(false);
     };
     window.addEventListener("keydown", onKeyDown);
     window.addEventListener("open-command-palette", openPalette);
@@ -41,19 +41,19 @@ export function CommandPalette() {
       window.removeEventListener("keydown", onKeyDown);
       window.removeEventListener("open-command-palette", openPalette);
     };
-  }, [open]);
+  }, [isOpen]);
 
-  if (!open) return null;
+  if (!isOpen) return null;
 
   const navigate = (href: string) => {
-    setOpen(false);
+    setIsOpen(false);
     router.push(href);
   };
 
   return (
     <div
       className="fixed inset-0 z-[70] flex items-start justify-center bg-bg/70 pt-[15vh] backdrop-blur-sm"
-      onClick={() => setOpen(false)}
+      onClick={() => setIsOpen(false)}
     >
       <div
         role="dialog"

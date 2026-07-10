@@ -27,13 +27,13 @@ export function SocialBubble() {
   // Hydration gate without setState-in-effect: false on the server
   // snapshot, true on the client — next-themes needs a mounted check
   // before resolvedTheme is trustworthy.
-  const mounted = useSyncExternalStore(
+  const isMounted = useSyncExternalStore(
     subscribeNoop,
     () => true,
     () => false,
   );
 
-  if (!mounted) return null;
+  if (!isMounted) return null;
 
   return (
     <div className="fixed bottom-5 right-5 z-40 flex items-center gap-4 rounded-full border border-line-strong bg-surface/90 px-5 py-3 shadow-lg backdrop-blur-sm">

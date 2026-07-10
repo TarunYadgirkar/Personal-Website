@@ -8,7 +8,7 @@ type Wave = {
   dur: number;
   opacity: number;
   width: number;
-  bright: boolean;
+  isBright: boolean;
 };
 
 function buildWave(span: number, y: number, amp: number, wavelength: number): string {
@@ -23,10 +23,10 @@ function buildWave(span: number, y: number, amp: number, wavelength: number): st
 const SPAN = 1600;
 
 const WAVES: readonly Wave[] = [
-  { d: buildWave(SPAN, 70, 14, 300), drift: 300, dur: 27, opacity: 0.16, width: 1.5, bright: false },
-  { d: buildWave(SPAN, 130, 22, 380), drift: 380, dur: 34, opacity: 0.13, width: 1.5, bright: false },
-  { d: buildWave(SPAN, 190, 18, 260), drift: 260, dur: 21, opacity: 0.2, width: 1.25, bright: true },
-  { d: buildWave(SPAN, 238, 12, 220), drift: 220, dur: 16, opacity: 0.1, width: 1, bright: false },
+  { d: buildWave(SPAN, 70, 14, 300), drift: 300, dur: 27, opacity: 0.16, width: 1.5, isBright: false },
+  { d: buildWave(SPAN, 130, 22, 380), drift: 380, dur: 34, opacity: 0.13, width: 1.5, isBright: false },
+  { d: buildWave(SPAN, 190, 18, 260), drift: 260, dur: 21, opacity: 0.2, width: 1.25, isBright: true },
+  { d: buildWave(SPAN, 238, 12, 220), drift: 220, dur: 16, opacity: 0.1, width: 1, isBright: false },
 ];
 
 export function WaveBackdrop({ className }: { className?: string }) {
@@ -48,7 +48,7 @@ export function WaveBackdrop({ className }: { className?: string }) {
           <motion.path
             key={i}
             d={w.d}
-            stroke={w.bright ? "var(--color-accent-bright)" : "var(--color-accent)"}
+            stroke={w.isBright ? "var(--color-accent-bright)" : "var(--color-accent)"}
             strokeOpacity={w.opacity}
             strokeWidth={w.width}
             strokeLinecap="round"

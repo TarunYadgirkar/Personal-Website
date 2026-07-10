@@ -5,7 +5,7 @@ export const site = {
   education: "Applied Mathematics @ UC Berkeley",
   location: "San Ramon, California",
   emails: [{ label: "Berkeley", address: "tarun_yadgirkar@berkeley.edu" }],
-  url: "https://tarunyadgirkar.vercel.app",
+  url: "https://tarunyadgirkar.com",
   // Set to a PDF path/URL to enable the Resume button (kept null until the
   // updated resume is ready — the old PDF has outdated positioning).
   resumeUrl: null as string | null,

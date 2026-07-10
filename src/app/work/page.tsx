@@ -34,16 +34,16 @@ function EventLine({ study }: { study: CaseStudy }) {
   );
 }
 
-function CaseStudyArticle({ study, compact = false }: { study: CaseStudy; compact?: boolean }) {
+function CaseStudyArticle({ study, isCompact = false }: { study: CaseStudy; isCompact?: boolean }) {
   return (
     <article
       id={study.slug}
       className={`rounded-sm border border-line bg-surface ${
-        compact ? "p-6 sm:p-7" : "p-7 sm:p-10"
+        isCompact ? "p-6 sm:p-7" : "p-7 sm:p-10"
       }`}
     >
       <div className="flex flex-wrap items-center gap-3">
-        <h2 className={`${compact ? "text-xl" : "text-2xl"} font-medium tracking-tight text-fg`}>
+        <h2 className={`${isCompact ? "text-xl" : "text-2xl"} font-medium tracking-tight text-fg`}>
           {study.title}
         </h2>
         <StatusTag>{study.status}</StatusTag>
@@ -138,7 +138,7 @@ export default function WorkPage() {
           <div className="mt-8 flex flex-col gap-8">
             {additionalCaseStudies.map((cs) => (
               <Reveal key={cs.slug}>
-                <CaseStudyArticle study={cs} compact />
+                <CaseStudyArticle study={cs} isCompact />
               </Reveal>
             ))}
           </div>
