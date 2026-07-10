@@ -9,7 +9,7 @@ import { navLinks } from "@/content/site";
 
 export function Nav() {
   const pathname = usePathname();
-  const [open, setOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const navItems = navLinks.map((link) => ({
     ...link,
     active: link.href === "/" ? pathname === "/" : pathname.startsWith(link.href),
@@ -69,19 +69,19 @@ export function Nav() {
             <button
               type="button"
               className="inline-flex h-10 min-w-10 items-center justify-center rounded-sm font-mono text-[13px] text-fg-muted transition-colors duration-150 hover:text-fg md:hidden"
-              aria-label={open ? "Close menu" : "Open menu"}
-              aria-expanded={open}
+              aria-label={isOpen ? "Close menu" : "Open menu"}
+              aria-expanded={isOpen}
               aria-controls="mobile-menu"
-              onClick={() => setOpen((v) => !v)}
+              onClick={() => setIsOpen((v) => !v)}
             >
-              {open ? "close" : "menu"}
+              {isOpen ? "close" : "menu"}
             </button>
           </div>
         </div>
 
         <ul
           id="mobile-menu"
-          hidden={!open}
+          hidden={!isOpen}
           className="border-t border-line py-4 md:hidden"
         >
           {navItems.map(({ href, label, active }) => {
@@ -90,7 +90,7 @@ export function Nav() {
                 <Link
                   href={href}
                   aria-current={active ? "page" : undefined}
-                  onClick={() => setOpen(false)}
+                  onClick={() => setIsOpen(false)}
                   className={`block py-2.5 text-sm ${
                     active ? "text-accent" : "text-fg-muted"
                   }`}

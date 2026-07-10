@@ -4,7 +4,7 @@ Canonical living doc for any Claude Code or Codex session working in this repo. 
 
 ## Project
 
-Tarun Yadgirkar's personal site. Live: https://tarunyadgirkar.vercel.app (repo `TarunYadgirkar/Personal-Website`, auto-deploys `main` via Vercel).
+Tarun Yadgirkar's personal site. Live: https://tarunyadgirkar.com (repo `TarunYadgirkar/Personal-Website`, auto-deploys `main` via Vercel).
 
 - Stack: Next.js 16 (App Router), React 19, TypeScript strict, Tailwind v4, framer-motion 12. Package manager: **npm** (no pnpm on this machine).
 - All copy lives in `src/content/*.ts`. Components in `src/components/`. Pages in `src/app/`.

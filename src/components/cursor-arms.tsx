@@ -7,13 +7,13 @@ const BOX = 460;
 const HALF = BOX / 2;
 const DEG = Math.PI / 180;
 
-type Segment = { l1: number; l2: number; scale: number; opacity: number; showRing: boolean };
+type Segment = { l1: number; l2: number; scale: number; opacity: number; hasRing: boolean };
 
 const SEGMENTS: readonly Segment[] = [
-  { l1: 111, l2: 100, scale: 0.78, opacity: 0.85, showRing: false },
-  { l1: 96, l2: 106, scale: 0.85, opacity: 0.65, showRing: true },
-  { l1: 82, l2: 78, scale: 0.7, opacity: 0.5, showRing: false },
-  { l1: 111, l2: 100, scale: 1, opacity: 0.85, showRing: false },
+  { l1: 111, l2: 100, scale: 0.78, opacity: 0.85, hasRing: false },
+  { l1: 96, l2: 106, scale: 0.85, opacity: 0.65, hasRing: true },
+  { l1: 82, l2: 78, scale: 0.7, opacity: 0.5, hasRing: false },
+  { l1: 111, l2: 100, scale: 1, opacity: 0.85, hasRing: false },
 ];
 
 type ArmSpec = {
@@ -60,17 +60,17 @@ function restPose(spec: ArmSpec, seg: Segment): Pose {
   return solve(spec, seg, Math.cos(spec.restDeg * DEG) * r, Math.sin(spec.restDeg * DEG) * r);
 }
 
-function useMousePosition(enabled: boolean) {
+function useMousePosition(isEnabled: boolean) {
   const ref = useRef<{ x: number; y: number } | null>(null);
 
   useEffect(() => {
-    if (!enabled) return;
+    if (!isEnabled) return;
     const onMove = (event: MouseEvent) => {
       ref.current = { x: event.clientX, y: event.clientY };
     };
     window.addEventListener("mousemove", onMove, { passive: true });
     return () => window.removeEventListener("mousemove", onMove);
-  }, [enabled]);
+  }, [isEnabled]);
 
   return ref;
 }
@@ -87,7 +87,7 @@ function Arm({
   pivotRef: React.Ref<HTMLDivElement>;
 }) {
   const { ex, ey, wx, wy } = pose;
-  const { scale, opacity, showRing } = seg;
+  const { scale, opacity, hasRing } = seg;
 
   const fx = wx - ex;
   const fy = wy - ey;
@@ -122,7 +122,7 @@ function Arm({
     >
       <svg viewBox={`${-HALF} ${-HALF} ${BOX} ${BOX}`} width={BOX} height={BOX} fill="none">
         <g transform={`scale(${scale})`}>
-          {showRing && (
+          {hasRing && (
             <circle
               cx="0"
               cy="0"

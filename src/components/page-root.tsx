@@ -19,15 +19,15 @@ const ROOT_STYLE = {
 
 export function PageRoot({
   children,
-  staticMotion = false,
+  isStaticMotion = false,
 }: {
   children: ReactNode;
   // Jump every framer-motion animation to its final state — for static
   // rendering contexts (screenshots, preview cards). Leave off in real UIs.
-  staticMotion?: boolean;
+  isStaticMotion?: boolean;
 }) {
   // Must flip before children mount, so it can't live in an effect.
   // eslint-disable-next-line react-hooks/immutability
-  if (staticMotion) MotionGlobalConfig.skipAnimations = true;
+  if (isStaticMotion) MotionGlobalConfig.skipAnimations = true;
   return <div style={ROOT_STYLE}>{children}</div>;
 }

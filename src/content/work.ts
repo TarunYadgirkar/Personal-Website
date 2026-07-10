@@ -9,7 +9,7 @@ export type Featured = {
   summary: string;
   tags: readonly string[];
   href: string;
-  external?: boolean;
+  isExternal?: boolean;
 };
 
 export type CaseStudy = {

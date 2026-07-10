@@ -4,9 +4,9 @@ import { ArrowUp } from "lucide-react";
 import { useScrollPast } from "@/components/use-scroll-past";
 
 export function BackToTop() {
-  const visible = useScrollPast(0.6);
+  const isVisible = useScrollPast(0.6);
 
-  if (!visible) return null;
+  if (!isVisible) return null;
 
   return (
     <button

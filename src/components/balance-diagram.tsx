@@ -1,7 +1,7 @@
 import { ArrowDown, ArrowRight } from "lucide-react";
 import { StatusTag } from "@/components/ui";
 
-type Node = { title: string; sub: string[]; accent?: boolean };
+type Node = { title: string; sub: string[]; isAccent?: boolean };
 type Column = { kick: string; nodes: Node[] };
 
 const COLUMNS: readonly Column[] = [
@@ -19,7 +19,7 @@ const COLUMNS: readonly Column[] = [
       {
         title: "On-board compute",
         sub: ["Real-time mapping", "Terrain classification", "Gait & path planning"],
-        accent: true,
+        isAccent: true,
       },
     ],
   },
@@ -45,10 +45,10 @@ function DiagramNode({ node }: { node: Node }) {
   return (
     <div
       className={`rounded-sm border p-4 ${
-        node.accent ? "border-accent/40 bg-accent-dim" : "border-line-strong bg-surface"
+        node.isAccent ? "border-accent/40 bg-accent-dim" : "border-line-strong bg-surface"
       }`}
     >
-      <p className={`text-[15px] font-medium ${node.accent ? "text-accent" : "text-fg"}`}>
+      <p className={`text-[15px] font-medium ${node.isAccent ? "text-accent" : "text-fg"}`}>
         {node.title}
       </p>
       <p className="mt-2 font-mono text-[12px] leading-relaxed text-fg-muted">
