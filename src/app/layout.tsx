@@ -10,6 +10,7 @@ import { MotionProvider } from "@/components/motion";
 import { Nav } from "@/components/nav";
 import { PageTransition } from "@/components/page-transition";
 import { ScrollProgress } from "@/components/scroll-progress";
+import { SmoothScroll } from "@/components/smooth-scroll";
 import { SocialBubble } from "@/components/social-bubble";
 import { ThemeProvider } from "@/components/theme-provider";
 import { site } from "@/content/site";
@@ -59,26 +60,28 @@ export default function RootLayout({
   return (
     <html lang="en" data-scroll-behavior="smooth" suppressHydrationWarning>
       <body className={`${schibsted.variable} ${plexMono.variable} antialiased`}>
-        <ThemeProvider>
-          <MotionProvider>
-            <ScrollProgress />
-            <CursorArms />
-            <a
-              href="#main"
-              className="sr-only focus:not-sr-only focus:absolute focus:left-6 focus:top-4 focus:z-[60] focus:bg-bg focus:px-3 focus:py-2 focus:font-mono focus:text-xs focus:text-accent"
-            >
-              Skip to content
-            </a>
-            <Nav />
-            <main id="main">
-              <PageTransition>{children}</PageTransition>
-            </main>
-            <Footer />
-            <SocialBubble />
-            <BackToTop />
-            <CommandPalette />
-          </MotionProvider>
-        </ThemeProvider>
+        <SmoothScroll>
+          <ThemeProvider>
+            <MotionProvider>
+              <ScrollProgress />
+              <CursorArms />
+              <a
+                href="#main"
+                className="sr-only focus:not-sr-only focus:absolute focus:left-6 focus:top-4 focus:z-[60] focus:bg-bg focus:px-3 focus:py-2 focus:font-mono focus:text-xs focus:text-accent"
+              >
+                Skip to content
+              </a>
+              <Nav />
+              <main id="main">
+                <PageTransition>{children}</PageTransition>
+              </main>
+              <Footer />
+              <SocialBubble />
+              <BackToTop />
+              <CommandPalette />
+            </MotionProvider>
+          </ThemeProvider>
+        </SmoothScroll>
         <Analytics />
         <SpeedInsights />
       </body>

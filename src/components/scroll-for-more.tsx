@@ -1,10 +1,12 @@
 "use client";
 
 import { ArrowDown } from "lucide-react";
+import { useLenis } from "lenis/react";
 import { useScrollPast } from "@/components/use-scroll-past";
 
 export function ScrollForMore() {
   const scrolled = useScrollPast(0.05);
+  const lenis = useLenis();
 
   return (
     <div
@@ -14,7 +16,11 @@ export function ScrollForMore() {
     >
       <button
         type="button"
-        onClick={() => window.scrollBy({ top: window.innerHeight, behavior: "smooth" })}
+        onClick={() =>
+          lenis
+            ? lenis.scrollTo(window.scrollY + window.innerHeight)
+            : window.scrollBy({ top: window.innerHeight, behavior: "smooth" })
+        }
         className="pointer-events-auto mx-auto flex items-center gap-3 px-6"
       >
         <p className="font-mono text-[13px] text-fg-muted">Scroll for more</p>
