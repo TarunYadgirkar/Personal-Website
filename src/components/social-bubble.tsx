@@ -14,7 +14,7 @@ const magnetic = {
 
 const iconClass = "size-[18px] text-fg-muted transition-colors duration-150";
 
-const SOCIAL_ICONS: Record<string, typeof GithubLogo> = {
+export const SOCIAL_ICONS: Record<string, typeof GithubLogo> = {
   GitHub: GithubLogo,
   X: XLogo,
   LinkedIn: LinkedinLogo,
@@ -22,7 +22,10 @@ const SOCIAL_ICONS: Record<string, typeof GithubLogo> = {
 
 const subscribeNoop = () => () => {};
 
-export function SocialBubble() {
+// Shared across the desktop floating bubble and the mobile nav menu (which
+// docks these controls instead of floating them, since a fixed pill has no
+// safe gutter to sit in once content runs edge-to-edge on narrow screens).
+export function useMountedTheme() {
   const { resolvedTheme, setTheme } = useTheme();
   // Hydration gate without setState-in-effect: false on the server
   // snapshot, true on the client — next-themes needs a mounted check
@@ -32,11 +35,16 @@ export function SocialBubble() {
     () => true,
     () => false,
   );
+  return { resolvedTheme, setTheme, isMounted };
+}
+
+export function SocialBubble() {
+  const { resolvedTheme, setTheme, isMounted } = useMountedTheme();
 
   if (!isMounted) return null;
 
   return (
-    <div className="fixed bottom-5 right-5 z-40 flex items-center gap-4 rounded-full border border-line-strong bg-surface/90 px-5 py-3 shadow-lg backdrop-blur-sm">
+    <div className="fixed bottom-5 right-5 z-40 hidden items-center gap-4 rounded-full border border-line-strong bg-surface/90 px-5 py-3 shadow-lg backdrop-blur-sm md:flex">
       {socialLinks.map(({ label, href }) => {
         const Icon = SOCIAL_ICONS[label];
         return (
