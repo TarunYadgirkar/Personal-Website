@@ -65,6 +65,15 @@ html {
   }
 }
 
+/* Lenis drives scroll easing itself; native smooth-scroll would double it up. */
+html.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+html.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
 body {
   background: var(--color-bg);
   color: var(--color-fg);
