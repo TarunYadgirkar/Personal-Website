@@ -62,4 +62,12 @@ Reference material (not in repo): parent dir `../cool images to copy theme:style
 - Note: rebased on top of a concurrent session's commits (CursorArms gating, security headers, `next.config.ts` redirect) — one trivial rename conflict in `back-to-top.tsx`, resolved.
 - DONE + on main as of this pass. No open follow-ups.
 
+**2026-07-09 — mobile audit (merged to main).** User asked to verify the whole site works on phone. Ran a Playwright audit (iPhone 13 viewport) across all 6 routes × both themes: no horizontal overflow anywhere, `CursorArms` correctly absent (its `lg:` matchMedia gate works), Lenis doesn't set any `touch-action`/`overflow` that would block native touch scroll, sticky nav genuinely stays pinned (the "double header" look on scroll is just the intended `bg-bg/90 backdrop-blur-sm` translucency, not a bug).
+
+- Found a real bug: `SocialBubble` (fixed `bottom-5 right-5`) floats in the page's side gutter on desktop (safe because content is capped at `max-w-5xl` and centered), but on mobile content runs edge-to-edge, so the pill sat directly on top of body text — confirmed via bounding-box intersection checks, it overlapped real copy on **every single page** at first paint.
+- Fix: `social-bubble.tsx` now hides the floating pill below `md:` (`hidden md:flex`, matching the same breakpoint `nav.tsx` already uses for its own desktop-links/hamburger split) and exports `SOCIAL_ICONS` + a shared `useMountedTheme()` hook. `nav.tsx`'s mobile menu now renders the GitHub/X/LinkedIn links and the theme toggle inline at the bottom of the slide-down menu, so mobile users still get both, just docked instead of floating over content.
+- Re-verified after the fix: bubble has a zero-size rect (truly hidden, not just visually covered) on mobile, mobile-menu theme toggle actually flips `html.dark`, social links carry correct `href`s, no overflow/overlap regressions across all 6 pages × both themes.
+- Build+lint green. Also hit and fixed an unrelated local-testing snag: a stale `next-server` process surviving a rebuild served mismatched chunk hashes (500 on the CSS chunk) — not a code bug, just a leftover process from an earlier `npm run start` in the same sandbox.
+- DONE + on main as of this pass. No open follow-ups.
+
 _Update this block when you finish a chunk of work._

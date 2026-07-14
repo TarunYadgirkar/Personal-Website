@@ -1,15 +1,18 @@
 "use client";
 
+import { MoonIcon, SunIcon } from "@phosphor-icons/react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { SOCIAL_ICONS, useMountedTheme } from "@/components/social-bubble";
 import { SystemMark } from "@/components/ui";
-import { navLinks } from "@/content/site";
+import { navLinks, socialLinks } from "@/content/site";
 
 export function Nav() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
+  const { resolvedTheme, setTheme, isMounted } = useMountedTheme();
   const navItems = navLinks.map((link) => ({
     ...link,
     active: link.href === "/" ? pathname === "/" : pathname.startsWith(link.href),
@@ -100,6 +103,37 @@ export function Nav() {
               </li>
             );
           })}
+          {isMounted && (
+            <li className="mt-2 flex items-center gap-5 border-t border-line pt-4">
+              {socialLinks.map(({ label, href }) => {
+                const Icon = SOCIAL_ICONS[label];
+                return (
+                  <a
+                    key={label}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={label}
+                    className="text-fg-muted transition-colors duration-150 hover:text-accent"
+                  >
+                    <Icon weight="regular" className="size-5" />
+                  </a>
+                );
+              })}
+              <button
+                type="button"
+                onClick={() => setTheme(resolvedTheme === "light" ? "dark" : "light")}
+                aria-label="Toggle color theme"
+                className="ml-auto text-fg-muted transition-colors duration-150 hover:text-accent"
+              >
+                {resolvedTheme === "light" ? (
+                  <MoonIcon weight="regular" className="size-5" />
+                ) : (
+                  <SunIcon weight="regular" className="size-5" />
+                )}
+              </button>
+            </li>
+          )}
         </ul>
       </nav>
     </header>
