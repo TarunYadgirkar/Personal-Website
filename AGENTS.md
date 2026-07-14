@@ -52,4 +52,14 @@ Reference material (not in repo): parent dir `../cool images to copy theme:style
 - Verified green (build+lint) and screenshot-checked in both themes each round, plus a 2.5s-apart screenshot pair confirming the drift/pulse actually animate.
 - DONE + on main as of this pass. No open follow-ups.
 
+**2026-07-09 — Lenis smooth scroll (merged to main).** Added `lenis` (npm `lenis` package, `lenis/react` bindings) for inertial scrolling site-wide.
+
+- `src/components/smooth-scroll.tsx` — `SmoothScroll`: wraps the app in `<ReactLenis root>` (no extra DOM wrapper). Falls back to `lerp: 1, duration: 0, smoothWheel: false` under `prefers-reduced-motion` (component tree stays identical either way — only the Lenis options differ — so there's no hydration mismatch).
+- Wired into `layout.tsx` around `ThemeProvider`. `anchors: true` makes Lenis auto-intercept in-page `href="#..."` clicks (skip link, `SectionNav` dots), so no per-link code changes were needed.
+- `back-to-top.tsx` and `scroll-for-more.tsx` now call `lenis.scrollTo(...)` (via `useLenis()`) instead of native `window.scrollTo`/`scrollBy`, with a native fallback if `lenis` isn't mounted yet.
+- `globals.css` overrides `scroll-behavior: auto !important` while `.lenis-smooth` is on `<html>` — Lenis's own recommended setup, since native CSS smooth-scroll would otherwise double up with Lenis's easing on every programmatic scroll.
+- Verified: `html.lenis` class present, wheel-scroll and anchor-click both produce a decelerating eased scrollY curve (checked via a Playwright script sampling `window.scrollY`), build+lint green, screenshot-checked in both themes for layout regressions.
+- Note: rebased on top of a concurrent session's commits (CursorArms gating, security headers, `next.config.ts` redirect) — one trivial rename conflict in `back-to-top.tsx`, resolved.
+- DONE + on main as of this pass. No open follow-ups.
+
 _Update this block when you finish a chunk of work._
