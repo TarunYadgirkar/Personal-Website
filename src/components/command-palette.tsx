@@ -5,7 +5,11 @@ import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { navLinks } from "@/content/site";
 
-const ITEMS = [...navLinks, { href: "/#contact", label: "Contact" }] as const;
+const ITEMS = [
+  ...navLinks,
+  { href: "/#resume", label: "Résumé" },
+  { href: "/#contact", label: "Contact" },
+] as const;
 
 export function CommandPalette() {
   const router = useRouter();

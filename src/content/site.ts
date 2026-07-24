@@ -6,9 +6,7 @@ export const site = {
   location: "San Ramon, California",
   emails: [{ label: "Berkeley", address: "tarun_yadgirkar@berkeley.edu" }],
   url: "https://tarunyadgirkar.com",
-  // Set to a PDF path/URL to enable the Resume button (kept null until the
-  // updated resume is ready — the old PDF has outdated positioning).
-  resumeUrl: null as string | null,
+  resumeUrl: "/resume/tarun-yadgirkar-resume.pdf",
   bioShort:
     "I build AI systems, robotics platforms, and embedded intelligence — from FPGA-accelerated machine learning to assistive mobility robots. I'm studying Applied Mathematics at UC Berkeley, research embedded ML at Santa Clara University's WIN Lab, and filed a provisional patent for BALANCE, a hybrid legged-and-wheeled mobility device.",
   links: {
