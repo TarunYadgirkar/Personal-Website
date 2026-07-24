@@ -70,4 +70,11 @@ Reference material (not in repo): parent dir `../cool images to copy theme:style
 - Build+lint green. Also hit and fixed an unrelated local-testing snag: a stale `next-server` process surviving a rebuild served mismatched chunk hashes (500 on the CSS chunk) — not a code bug, just a leftover process from an earlier `npm run start` in the same sandbox.
 - DONE + on main as of this pass. No open follow-ups.
 
+**2026-07-23 — résumé section.** Added Tarun's current résumé PDF as a local,
+versioned site asset. The homepage now includes a dedicated résumé section with
+open/download actions; the hero résumé button, section navigator, and command
+palette all link to the current document. Verified with lint and a production
+build on Node 20; screenshot-checked in light, dark, and mobile layouts; confirmed
+the deployed asset route returns `application/pdf`.
+
 _Update this block when you finish a chunk of work._

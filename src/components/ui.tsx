@@ -58,8 +58,8 @@ export function Tags({ items }: { items: readonly string[] }) {
   );
 }
 
-export function isSafeUrl(url: string): boolean {
-  return url.startsWith("https://");
+export function isSafeHref(href: string): boolean {
+  return (href.startsWith("/") && !href.startsWith("//")) || href.startsWith("https://");
 }
 
 export function ExternalLink({
