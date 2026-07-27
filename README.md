@@ -51,3 +51,20 @@ After changing the production domain, update `site.url` in `src/content/site.ts`
 - `src/content/` — all site copy (typed)
 
 All animated components read palette CSS vars only, respect `prefers-reduced-motion`, and pause offscreen (see `AGENTS.md` for details).
+
+## Claude Code setup (`.claude/`)
+
+This repo ships committed Claude Code config in `.claude/`, so any clone gets the same
+setup automatically — Claude Code discovers `.claude/` when launched from the repo root,
+and the skills below fire on their own when the matching work comes up:
+
+- **`ship-checklist`** — the verify-before-push gate (build + lint green, screenshots in
+  both themes, conventional commit to `main`).
+- **`site-content`** — editing copy in `src/content/*.ts` and the non-negotiable
+  positioning rules (patent wording, no phone number, framing).
+- **`animation-components`** — the mandatory rules for visual components (palette vars
+  only, reduced-motion, offscreen pause, DPR, `aria-hidden`) plus the component inventory.
+
+`.claude/settings.json` is shared (a permissions allowlist for the routine
+build/lint/dev commands). `.claude/settings.local.json` is per-developer and gitignored.
+`AGENTS.md` remains the canonical living project doc these skills point back to.

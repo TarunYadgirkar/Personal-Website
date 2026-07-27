@@ -48,3 +48,6 @@ ds-bundle/
 .design-sync/.cache/
 .design-sync/learnings/
 .design-sync/node_modules
+
+# claude code — per-developer local settings (shared config is committed)
+.claude/settings.local.json
