@@ -11,7 +11,7 @@ export const site = {
     "I build AI systems, robotics platforms, and embedded intelligence — from FPGA-accelerated machine learning to assistive mobility robots. I'm studying Applied Mathematics at UC Berkeley, research embedded ML at Santa Clara University's WIN Lab, and filed a provisional patent for BALANCE, a hybrid legged-and-wheeled mobility device.",
   links: {
     github: "https://github.com/TarunYadgirkar",
-    linkedin: "https://www.linkedin.com/in/tarun-yadgirkar-74a12531b/",
+    linkedin: "https://www.linkedin.com/in/tarun-yadgirkar/",
     x: "https://x.com/tarun__y?s=11",
   },
 } as const;

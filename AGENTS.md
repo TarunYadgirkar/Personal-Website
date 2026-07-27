@@ -77,4 +77,9 @@ palette all link to the current document. Verified with lint and a production
 build on Node 20; screenshot-checked in light, dark, and mobile layouts; confirmed
 the deployed asset route returns `application/pdf`.
 
+**2026-07-27 — LinkedIn URL refresh.** Replaced the former numbered LinkedIn
+slug with `linkedin.com/in/tarun-yadgirkar/` in the live site content and both
+source documents. Verified with lint, a production build on Node 20.20.0, and
+light/dark browser checks confirming the new URL renders and the old URL does not.
+
 _Update this block when you finish a chunk of work._
