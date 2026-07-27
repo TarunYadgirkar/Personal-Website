@@ -22,7 +22,7 @@ Tarun Yadgirkar's personal site. Live: https://tarunyadgirkar.com (repo `TarunYa
 - **Verify before push:** `npm run build` + `npm run lint` green, and screenshot the affected UI in BOTH themes. Never claim done without evidence.
 - **Conventional commits** (`feat:`/`fix:`/`chore:`/`docs:`), short imperative subject.
 - **Division of labor:** Opus/Claude does the hard thinking, planning, and design-critical code (e.g. IK math, novel visuals). Sonnet subagents and Codex do mechanical execution (build-fix loops, screenshot capture, transcribing a specified change). Keep heavy/iterative work off the main context.
-- **Positioning rules** (from info2.md): never say "granted patent"/"patented" for BALANCE (it's provisional, No. 63/743,085); no phone number in UI; not "high school student"; VEX/science-fair → Archive only.
+- **Positioning rules** (from info2.md): never say "granted patent"/"patented" for BALANCE (it's provisional, No. 63/743,085); the phone number is intentionally public in the résumé and source documents; not "high school student"; VEX/science-fair → Archive only.
 
 ## Animation system (built 2026-07-08)
 
@@ -83,8 +83,8 @@ source documents. Verified with lint, a production build on Node 20.20.0, and
 light/dark browser checks confirming the new URL renders and the old URL does not.
 
 **2026-07-27 — codebase audit and hardening.** Upgraded Next.js and
-`eslint-config-next` to 16.2.12; removed the private phone number from tracked
-source and redacted it from the public résumé PDF while preserving its page and
+`eslint-config-next` to 16.2.12; temporarily removed the phone number from tracked
+source and the public résumé PDF while preserving its page and
 external links; converted the command palette to a native modal dialog with
 keyboard focus containment and restoration; raised light-theme faint-text
 contrast; and limited development-only CSP allowances to Next.js and Vercel
@@ -92,5 +92,9 @@ observability requirements. Verified all routes, both themes, modal keyboard
 behavior, privacy/PDF invariants, lint, and a production build on Node 20.20.0.
 `npm audit --omit=dev` still reports unsupported transitive `postcss` and `sharp`
 ranges; its forced fix downgrades Next.js to 9.3.3, so it was not applied.
+
+**2026-07-27 — phone publication correction.** User confirmed the phone number
+is intentionally public. Restored all prior source references and the exact
+pre-audit résumé PDF; updated the positioning rule so future audits preserve it.
 
 _Update this block when you finish a chunk of work._
