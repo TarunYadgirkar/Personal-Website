@@ -25,7 +25,7 @@
   --line-strong: rgba(43, 39, 30, 0.18);
   --fg: #2a2620;
   --fg-muted: #635d4e;
-  --fg-faint: #857e6a;
+  --fg-faint: #675f50;
   /* darker rust, not the dark-mode orange — #e2a264 on this bg is ~1.7:1 contrast */
   --accent: #9a520f;
   --accent-bright: #7e410a;

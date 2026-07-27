@@ -82,4 +82,15 @@ slug with `linkedin.com/in/tarun-yadgirkar/` in the live site content and both
 source documents. Verified with lint, a production build on Node 20.20.0, and
 light/dark browser checks confirming the new URL renders and the old URL does not.
 
+**2026-07-27 — codebase audit and hardening.** Upgraded Next.js and
+`eslint-config-next` to 16.2.12; removed the private phone number from tracked
+source and redacted it from the public résumé PDF while preserving its page and
+external links; converted the command palette to a native modal dialog with
+keyboard focus containment and restoration; raised light-theme faint-text
+contrast; and limited development-only CSP allowances to Next.js and Vercel
+observability requirements. Verified all routes, both themes, modal keyboard
+behavior, privacy/PDF invariants, lint, and a production build on Node 20.20.0.
+`npm audit --omit=dev` still reports unsupported transitive `postcss` and `sharp`
+ranges; its forced fix downgrades Next.js to 9.3.3, so it was not applied.
+
 _Update this block when you finish a chunk of work._
