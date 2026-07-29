@@ -97,4 +97,45 @@ ranges; its forced fix downgrades Next.js to 9.3.3, so it was not applied.
 is intentionally public. Restored all prior source references and the exact
 pre-audit résumé PDF; updated the positioning rule so future audits preserve it.
 
+**2026-07-29 — "engineering document" redesign (PREVIEW ONLY — NOT on `main`).**
+User wanted the site to stop looking basic, kept the patent-page diagrams, and
+rejected the hero particle banner and the side robot arms. Direction: keep the
+visual identity (palette, type, radii, hairline-grid motif) and instead push the
+patent page's *schematic* language across every page.
+
+> **The commit-directly-to-`main` protocol above was deliberately suspended for
+> this work.** The user asked that the live site not be affected, so everything
+> lives on `claude/website-homepage-redesign-4khest` and is reviewed on a Vercel
+> preview deployment. Do not merge to `main` without the user's explicit say-so.
+
+- **Deleted:** `cursor-arms.tsx`, `particle-field.tsx`, `word-shape.tsx`,
+  `living-hero.tsx` (`SequentialCaptions`), the already-dead `wave-backdrop.tsx`,
+  and the orphaned `.fade-x` utility.
+- **New shared components:** `system-rule.tsx` (scroll-linked drawn signal rule —
+  replaces the particle strip), `schematic.tsx` (generalised from
+  `BalanceDiagram`; `/patent` and the homepage now share it, data in
+  `balance.signalPath` / `site.buildPipeline`), `schematic-glyph.tsx` (self-drawing
+  line-art focus icons at the same 1.5 stroke as the diagram arrows),
+  `spotlight.tsx` (cursor-follow tint, adapted from KokonutUI onto our tokens —
+  inert under reduced motion *and* on coarse pointers), `section-frame.tsx`
+  (numbered inline heading + scroll-filled gutter rule, used on every page).
+- **Dependency:** `framer-motion` → `motion` (motion.dev). Same API, import path
+  only. `Reveal` now takes a `variant` (`up | mask | stagger`) so scroll
+  entrances stop being one uniform fade. Fixed pre-existing reduced-motion gaps
+  in `scroll-progress.tsx` and `social-bubble.tsx`.
+- **Deviation from plan:** the `<details>` disclosure on `/work` kept native
+  semantics and got a CSS `::details-content` transition behind `@supports`
+  instead of an `AnimatePresence` rewrite — a controlled React disclosure would
+  have cost find-in-page and no-JS behaviour for a cosmetic gain.
+- **Gotcha for future edits:** `SectionFrame` is `position: relative`, which makes
+  it the `offsetParent` for the headings inside it. `section-nav.tsx` was switched
+  from `offsetTop` to `getBoundingClientRect().top + scrollY` for this reason —
+  don't switch it back.
+- Verified: build + lint green; all 6 routes × both themes at 1440px and iPhone-13
+  width with no horizontal overflow; reduced-motion pass (static complete frames,
+  no spotlight overlays, read-head absent); coarse-pointer pass; anchor +
+  section-nav + ⌘K palette contract incl. the new `#how-i-build`. `/patent`
+  regression-checked by pixel-diffing the diagram against a `main` worktree —
+  identical geometry, 0.17% of pixels differ and all of it is text antialiasing.
+
 _Update this block when you finish a chunk of work._

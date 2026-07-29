@@ -1,7 +1,7 @@
 "use client";
 
 import { GithubLogo, LinkedinLogo, MoonIcon, SunIcon, XLogo } from "@phosphor-icons/react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "motion/react";
 import { useTheme } from "next-themes";
 import { useSyncExternalStore } from "react";
 import { socialLinks } from "@/content/site";
@@ -11,6 +11,8 @@ const magnetic = {
   whileTap: { scale: 0.94 },
   transition: { type: "spring", stiffness: 400, damping: 20 },
 } as const;
+
+const still = {} as const;
 
 const iconClass = "size-[18px] text-fg-muted transition-colors duration-150";
 
@@ -40,6 +42,8 @@ export function useMountedTheme() {
 
 export function SocialBubble() {
   const { resolvedTheme, setTheme, isMounted } = useMountedTheme();
+  const reduced = useReducedMotion();
+  const hover = reduced ? still : magnetic;
 
   if (!isMounted) return null;
 
@@ -55,7 +59,7 @@ export function SocialBubble() {
             rel="noopener noreferrer"
             aria-label={label}
             title={label}
-            {...magnetic}
+            {...hover}
           >
             <Icon weight="regular" className={`${iconClass} hover:text-accent`} />
           </motion.a>
@@ -66,7 +70,7 @@ export function SocialBubble() {
         type="button"
         onClick={() => setTheme(resolvedTheme === "light" ? "dark" : "light")}
         aria-label="Toggle color theme"
-        {...magnetic}
+        {...hover}
       >
         {resolvedTheme === "light" ? (
           <MoonIcon weight="regular" className={`${iconClass} hover:text-accent`} />

@@ -18,15 +18,25 @@ export default function ArchivePage() {
         lives on the homepage.
       </p>
 
-      <div className="mt-14 border-t border-line">
+      {/* A time axis rather than a table: the years are the through-line here,
+          so they sit on a rule with a tick per entry. */}
+      <div className="relative mt-14">
+        <span
+          aria-hidden="true"
+          className="absolute bottom-6 left-[64px] top-6 hidden w-px bg-line sm:block"
+        />
         {archive.map((item) => (
           <article
             key={item.title}
             id={item.id}
-            className="grid gap-2 border-b border-line py-6 sm:grid-cols-[110px_120px_1fr] sm:gap-8"
+            className="relative grid gap-2 border-b border-line py-6 sm:grid-cols-[64px_120px_1fr] sm:gap-8"
           >
-            <p className="font-mono text-[12px] text-fg-faint">{item.years}</p>
-            <p className="font-mono text-[12px] text-fg-faint">{item.type}</p>
+            <p className="font-mono text-[12px] tabular-nums text-fg-faint">{item.years}</p>
+            <span
+              aria-hidden="true"
+              className="absolute left-[61px] top-[30px] hidden size-1.5 rounded-full bg-accent sm:block"
+            />
+            <p className="font-mono text-[12px] text-fg-faint sm:pl-4">{item.type}</p>
             <div>
               <h2 className="text-[15px] font-medium text-fg-muted">{item.title}</h2>
               <p className="mt-1.5 text-[14px] leading-relaxed text-fg-faint">

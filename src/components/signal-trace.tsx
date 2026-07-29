@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "motion/react";
 
 // An analog wave resolving into a clean digital signal — the site's one
 // signature visual, echoing the FPGA / signal-processing research.

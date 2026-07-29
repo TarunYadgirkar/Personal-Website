@@ -1,6 +1,6 @@
 "use client";
 
-import { MotionGlobalConfig } from "framer-motion";
+import { MotionGlobalConfig } from "motion/react";
 import type { CSSProperties, ReactNode } from "react";
 
 // Standalone equivalent of the app's <body> styling (globals.css + next/font

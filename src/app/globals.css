@@ -95,7 +95,34 @@ body {
   scroll-margin-top: 5rem;
 }
 
-.fade-x {
-  mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
-  -webkit-mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+/* Animate <details> open/close without giving up native semantics (find-in-page,
+   no-JS, built-in a11y). Progressive enhancement: browsers without
+   ::details-content just snap open, exactly as before. */
+@supports selector(::details-content) {
+  /* lets `block-size: auto` participate in a transition */
+  :root {
+    interpolate-size: allow-keywords;
+  }
+
+  details::details-content {
+    block-size: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition:
+      block-size 0.32s ease,
+      content-visibility 0.32s allow-discrete,
+      opacity 0.32s ease;
+    transition-behavior: allow-discrete;
+  }
+
+  details[open]::details-content {
+    block-size: auto;
+    opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    details::details-content {
+      transition: none;
+    }
+  }
 }

@@ -69,6 +69,44 @@ export const focusAreas = [
   },
 ] as const;
 
+// Drives the <Schematic> on the homepage — the shape most of this work takes,
+// from raw signal to something that moves in the physical world.
+export const buildPipeline = [
+  {
+    kick: "Signal · capture",
+    nodes: [
+      { title: "Sensors", sub: ["LiDAR · sonar · NIR"] },
+      { title: "Audio & vision", sub: ["mic arrays · cameras"] },
+    ],
+  },
+  {
+    kick: "Model · on device",
+    nodes: [
+      {
+        title: "Quantized inference",
+        sub: ["PyTorch / TensorFlow", "FPGA & edge targets", "Latency budget first"],
+        isAccent: true,
+      },
+    ],
+  },
+  {
+    kick: "Decide",
+    nodes: [
+      {
+        title: "Control logic",
+        sub: ["State & arbitration", "Agent orchestration"],
+      },
+    ],
+  },
+  {
+    kick: "Act · in the world",
+    nodes: [
+      { title: "Actuation", sub: ["motion · assistance"] },
+      { title: "Interface", sub: ["voice · visual"] },
+    ],
+  },
+] as const;
+
 export const recognition = [
   {
     line: "AIME qualifier (American Invitational Mathematics Examination)",

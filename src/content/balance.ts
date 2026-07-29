@@ -24,6 +24,43 @@ export const balance = {
     "Lithium battery management",
     "User interface for adjustable assistance levels",
   ],
+  // Drives the <Schematic> on /patent.
+  signalPath: [
+    {
+      kick: "Input · sensing",
+      nodes: [
+        { title: "LiDAR", sub: ["depth · ranging"] },
+        { title: "Sonar", sub: ["near-field"] },
+        { title: "360° cameras", sub: ["visual field"] },
+      ],
+    },
+    {
+      kick: "Perception · compute",
+      nodes: [
+        {
+          title: "On-board compute",
+          sub: ["Real-time mapping", "Terrain classification", "Gait & path planning"],
+          isAccent: true,
+        },
+      ],
+    },
+    {
+      kick: "Control",
+      nodes: [
+        {
+          title: "Mode arbitration",
+          sub: ["Structural support", "Shock isolation"],
+        },
+      ],
+    },
+    {
+      kick: "Output · locomotion",
+      nodes: [
+        { title: "Wheeled base", sub: ["flat ground"] },
+        { title: "Robotic-leg assist", sub: ["stairs · uneven terrain"] },
+      ],
+    },
+  ],
   statusDetail:
     "The system was filed as provisional patent No. 63/743,085. A related article describing the BALANCE design was published in the Youth Innovation Journal (Fall 2025). Co-developed with a student team.",
   links: [

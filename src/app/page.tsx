@@ -1,23 +1,25 @@
 import Link from "next/link";
 import { ArrowRight, Download, FileText } from "lucide-react";
 import { CopyEmailButton } from "@/components/copy-email-button";
-import { SequentialCaptions } from "@/components/living-hero";
-import { HeroReveal, Pressable, Reveal } from "@/components/motion";
-import { ParticleField } from "@/components/particle-field";
-import { WordShape } from "@/components/word-shape";
-import type { WordShapeKind } from "@/components/word-shape";
-import { SectionHeading, StatusTag, Tags, isSafeHref } from "@/components/ui";
+import { HeroReveal, Pressable, Reveal, WordReveal } from "@/components/motion";
+import { Schematic } from "@/components/schematic";
+import { SchematicGlyph } from "@/components/schematic-glyph";
+import type { GlyphKind } from "@/components/schematic-glyph";
+import { SectionFrame } from "@/components/section-frame";
+import { Spotlight } from "@/components/spotlight";
+import { SystemRule } from "@/components/system-rule";
+import { StatusTag, Tags, isSafeHref } from "@/components/ui";
 import { ScrollForMore } from "@/components/scroll-for-more";
 import { SectionNav } from "@/components/section-nav";
-import { atAGlance, focusAreas, recognition, site } from "@/content/site";
+import { atAGlance, buildPipeline, focusAreas, recognition, site } from "@/content/site";
 import { featured } from "@/content/work";
 
-const focusGlyphs: Record<string, { shape: WordShapeKind; word: string }> = {
-  "embedded-ml": { shape: "chip", word: "EMBEDDED ML" },
-  robotics: { shape: "rover", word: "ROBOTICS" },
-  "applied-ai": { shape: "graph", word: "APPLIED AI" },
-  "voice-agents": { shape: "mic", word: "VOICE" },
-  "assistive-robotics": { shape: "hand", word: "ASSIST" },
+const focusGlyphs: Record<string, GlyphKind> = {
+  "embedded-ml": "chip",
+  robotics: "rover",
+  "applied-ai": "graph",
+  "voice-agents": "mic",
+  "assistive-robotics": "hand",
 };
 
 export default function Home() {
@@ -25,6 +27,7 @@ export default function Home() {
     <div className="mx-auto max-w-5xl px-6">
       <ScrollForMore />
       <SectionNav />
+
       <section className="pt-24 sm:pt-32">
         <div className="grid items-start gap-12 lg:grid-cols-[1fr_320px] lg:gap-14">
           <div>
@@ -33,15 +36,14 @@ export default function Home() {
                 {site.education}
               </p>
             </HeroReveal>
-            <HeroReveal delay={0.06}>
-              <h1 className="mt-3 max-w-[20rem] break-words text-[1.9rem] font-medium leading-[1.08] tracking-tight sm:max-w-3xl sm:text-5xl sm:leading-[1.06]">
-                {site.name} builds {site.positioning}.
-              </h1>
+            <h1 className="mt-3 max-w-[20rem] break-words text-[1.9rem] font-medium leading-[1.08] tracking-tight sm:max-w-3xl sm:text-5xl sm:leading-[1.06]">
+              <WordReveal text={`${site.name} builds ${site.positioning}.`} delay={0.06} />
+            </h1>
+            <HeroReveal delay={0.12}>
+              <p className="mt-5 max-w-[20rem] break-words font-mono text-sm leading-relaxed text-fg-muted sm:max-w-full">
+                {site.subline}
+              </p>
             </HeroReveal>
-            <SequentialCaptions
-              lines={site.subline.split(" · ")}
-              className="mt-5 max-w-[20rem] space-y-0.5 break-words font-mono text-sm leading-relaxed text-fg-muted sm:max-w-full"
-            />
             <HeroReveal delay={0.18}>
               <p className="mt-6 max-w-[20rem] text-base leading-relaxed text-fg-muted sm:max-w-xl">
                 {site.bioShort}
@@ -88,22 +90,26 @@ export default function Home() {
               </div>
             </HeroReveal>
           </div>
+
           <HeroReveal delay={0.2}>
-            <div className="rounded-sm border border-line-strong bg-surface px-5 pb-2 pt-5">
-              <p className="font-mono text-[12px] text-fg-faint">
-                At a glance
-              </p>
-              <dl className="mt-3">
-                {atAGlance.map((row, i) => (
-                  <div
-                    key={row.label}
-                    className={`flex items-baseline justify-between gap-4 py-3 ${
-                      i < atAGlance.length - 1 ? "border-b border-line" : ""
-                    }`}
-                  >
+            <div className="rounded-sm border border-line-strong bg-surface px-5 pb-5 pt-5">
+              <div className="flex items-center justify-between">
+                <p className="font-mono text-[12px] text-fg-faint">At a glance</p>
+                <span aria-hidden="true" className="font-mono text-[11px] text-fg-faint">
+                  {String(atAGlance.length).padStart(2, "0")}
+                </span>
+              </div>
+              <dl className="mt-4 space-y-3">
+                {atAGlance.map((row) => (
+                  <div key={row.label} className="flex items-baseline gap-3">
                     <dt className="whitespace-nowrap font-mono text-[12px] text-fg-faint">
                       {row.label}
                     </dt>
+                    {/* leader rule, as on a spec sheet — carries the eye across */}
+                    <span
+                      aria-hidden="true"
+                      className="h-px min-w-4 flex-1 translate-y-[-2px] bg-line"
+                    />
                     <dd className="text-right font-mono text-[12.5px] leading-snug text-fg">
                       {row.accent && <span className="text-accent">{row.accent}</span>}
                       {row.value}
@@ -114,87 +120,110 @@ export default function Home() {
             </div>
           </HeroReveal>
         </div>
+
         <HeroReveal delay={0.3}>
-          <div className="relative mt-12">
-            <ParticleField className="h-16 w-full fade-x sm:h-20" />
-          </div>
+          <SystemRule className="mt-12 h-24 w-full sm:h-28" />
         </HeroReveal>
       </section>
 
-      <section className="pt-24" aria-labelledby="featured-work">
-        <SectionHeading id="featured-work" title="Featured work" />
-        <Reveal>
+      <SectionFrame index="01" title="Featured work" id="featured-work">
+        <Reveal variant="mask">
           <div className="border-t border-line">
-            {featured.map((item) => (
-              <Link
-                key={item.slug}
-                href={item.href}
-                className="group grid gap-4 border-b border-line py-8 transition-colors duration-150 sm:grid-cols-[200px_1fr] sm:gap-10"
-              >
-                <div className="flex flex-col items-start gap-2">
-                  <StatusTag>{item.status}</StatusTag>
-                  <p className="font-mono text-[12px] leading-relaxed text-fg-faint">
-                    {item.context}
-                  </p>
-                </div>
-                <div>
-                  <h3 className="text-xl font-medium tracking-tight text-fg transition-colors duration-150 group-hover:text-accent">
-                    {item.title}
-                    <ArrowRight
-                      aria-hidden="true"
-                      className="ml-2 inline size-[18px] align-[-3px] text-fg-faint transition-all duration-150 group-hover:translate-x-0.5 group-hover:text-accent"
-                    />
-                  </h3>
-                  <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-fg-muted">
-                    {item.summary}
-                  </p>
-                  <div className="mt-4">
-                    <Tags items={item.tags} />
+            {featured.map((item, i) => (
+              <Spotlight key={item.slug} className="border-b border-line">
+                <Link
+                  href={item.href}
+                  className="group grid gap-4 py-8 sm:grid-cols-[200px_1fr] sm:gap-10"
+                >
+                  <div className="flex flex-col items-start gap-2">
+                    <span className="font-mono text-[12px] tabular-nums text-fg-faint">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <StatusTag>{item.status}</StatusTag>
+                    <p className="font-mono text-[12px] leading-relaxed text-fg-faint">
+                      {item.context}
+                    </p>
                   </div>
-                </div>
-              </Link>
+                  <div>
+                    <h3 className="text-xl font-medium tracking-tight text-fg transition-colors duration-150 group-hover:text-accent">
+                      {item.title}
+                      <ArrowRight
+                        aria-hidden="true"
+                        className="ml-2 inline size-[18px] align-[-3px] text-fg-faint transition-all duration-150 group-hover:translate-x-0.5 group-hover:text-accent"
+                      />
+                    </h3>
+                    <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-fg-muted">
+                      {item.summary}
+                    </p>
+                    <div className="mt-4">
+                      <Tags items={item.tags} />
+                    </div>
+                  </div>
+                </Link>
+              </Spotlight>
             ))}
           </div>
         </Reveal>
-      </section>
+      </SectionFrame>
 
-      <section className="pt-24" aria-labelledby="focus-areas">
-        <SectionHeading id="focus-areas" title="Technical focus areas" />
+      <SectionFrame index="02" title="Technical focus areas" id="focus-areas">
         <Reveal>
           <ul className="grid gap-px overflow-hidden rounded-sm border border-line bg-line sm:grid-cols-2 lg:grid-cols-5">
-            {focusAreas.map((area) => {
-              const glyph = focusGlyphs[area.id];
-              return (
-                <li key={area.title} className="relative overflow-hidden bg-surface p-5">
-                  <WordShape shape={glyph.shape} word={glyph.word} className="size-18" />
-                  <p className="mt-3 font-mono text-[12px] text-accent">{area.title}</p>
-                  <p className="mt-2 text-[13px] leading-relaxed text-fg-muted">
-                    {area.detail}
-                  </p>
-                </li>
-              );
-            })}
+            {focusAreas.map((area, i) => (
+              <li key={area.title} className="bg-surface">
+                <Spotlight className="h-full">
+                  <div className="h-full p-5">
+                    <SchematicGlyph
+                      kind={focusGlyphs[area.id]}
+                      delay={i * 0.06}
+                      className="size-14"
+                    />
+                    <p className="mt-3 font-mono text-[12px] text-accent">{area.title}</p>
+                    <p className="mt-2 text-[13px] leading-relaxed text-fg-muted">
+                      {area.detail}
+                    </p>
+                  </div>
+                </Spotlight>
+              </li>
+            ))}
           </ul>
         </Reveal>
-      </section>
+      </SectionFrame>
 
-      <section className="pt-24" aria-labelledby="recognition">
-        <SectionHeading id="recognition" title="Recognition" />
-        <ul className="border-t border-line">
+      <SectionFrame index="03" title="How I build" id="how-i-build">
+        <p className="mb-8 max-w-2xl text-[15px] leading-relaxed text-fg-muted">
+          Most of my work follows the same path — get a signal off real hardware,
+          make a model small enough to run on it, and close the loop on something
+          that moves.
+        </p>
+        <Reveal variant="mask">
+          <Schematic columns={buildPipeline} />
+        </Reveal>
+      </SectionFrame>
+
+      <SectionFrame index="04" title="Recognition" id="recognition">
+        <ul className="relative">
+          {/* the axis these entries hang off */}
+          <span
+            aria-hidden="true"
+            className="absolute bottom-3 left-[3px] top-3 w-px bg-line"
+          />
           {recognition.map((item) => (
-            <li
-              key={item.line}
-              className="flex flex-col gap-1 border-b border-line py-4 sm:flex-row sm:items-baseline sm:justify-between"
-            >
-              <p className="text-[15px] text-fg">{item.line}</p>
-              <p className="font-mono text-xs text-fg-faint">{item.context}</p>
+            <li key={item.line} className="relative flex gap-5 py-4 pl-6">
+              <span
+                aria-hidden="true"
+                className="absolute left-0 top-[22px] size-1.5 rounded-full bg-accent"
+              />
+              <p className="flex-1 text-[15px] text-fg">{item.line}</p>
+              <p className="whitespace-nowrap font-mono text-xs text-fg-faint">
+                {item.context}
+              </p>
             </li>
           ))}
         </ul>
-      </section>
+      </SectionFrame>
 
-      <section className="pt-24" aria-labelledby="resume">
-        <SectionHeading id="resume" title="Résumé" />
+      <SectionFrame index="05" title="Résumé" id="resume">
         <Reveal>
           <div className="relative overflow-hidden rounded-sm border border-line-strong bg-surface">
             <div
@@ -275,10 +304,9 @@ export default function Home() {
             </div>
           </div>
         </Reveal>
-      </section>
+      </SectionFrame>
 
-      <section className="py-28" aria-labelledby="contact">
-        <SectionHeading id="contact" title="Collaborate" />
+      <SectionFrame index="06" title="Collaborate" id="contact" className="pb-28">
         <p className="max-w-xl text-[15px] leading-relaxed text-fg-muted">
           Open to research collaborations, internships, and technical projects.
         </p>
@@ -295,7 +323,7 @@ export default function Home() {
             </div>
           ))}
         </div>
-      </section>
+      </SectionFrame>
     </div>
   );
 }

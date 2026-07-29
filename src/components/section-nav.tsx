@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 const SECTIONS = [
   { id: "featured-work", label: "Work" },
   { id: "focus-areas", label: "Focus" },
+  { id: "how-i-build", label: "How I build" },
   { id: "recognition", label: "Recognition" },
   { id: "resume", label: "Résumé" },
   { id: "contact", label: "Contact" },
@@ -27,7 +28,11 @@ export function SectionNav() {
       let current: string = SECTIONS[0].id;
       for (const { id } of SECTIONS) {
         const el = document.getElementById(id);
-        if (el && el.offsetTop <= reference) current = id;
+        // Document-absolute, not offsetTop: the headings sit inside a
+        // position:relative section, which would otherwise be the offsetParent.
+        if (el && el.getBoundingClientRect().top + window.scrollY <= reference) {
+          current = id;
+        }
       }
       setActiveId(current);
       isTicking = false;

@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
-import { ExternalLink, SectionHeading } from "@/components/ui";
+import { SectionFrame } from "@/components/section-frame";
+import { Spotlight } from "@/components/spotlight";
+import { ExternalLink } from "@/components/ui";
 import { aboutParagraphs } from "@/content/about";
 import { site, skills, socialLinks } from "@/content/site";
 
@@ -23,26 +25,28 @@ export default function AboutPage() {
         ))}
       </div>
 
-      <section className="mt-20" aria-labelledby="skills">
-        <SectionHeading id="skills" title="Skills" />
+      <SectionFrame index="01" title="Skills" id="skills">
         <div className="grid gap-px overflow-hidden rounded-sm border border-line bg-line sm:grid-cols-2">
           {skills.map((group) => (
-            <div key={group.group} className="bg-surface p-6 sm:p-7">
-              <h3 className="font-mono text-[12px] text-accent">{group.group}</h3>
-              <ul className="mt-3 flex flex-wrap gap-x-3 gap-y-1.5">
-                {group.items.map((item) => (
-                  <li key={item} className="font-mono text-[12px] text-fg-muted">
-                    {item}
-                  </li>
-                ))}
-              </ul>
+            <div key={group.group} className="bg-surface">
+              <Spotlight className="h-full">
+                <div className="h-full p-6 sm:p-7">
+                  <h3 className="font-mono text-[12px] text-accent">{group.group}</h3>
+                  <ul className="mt-3 flex flex-wrap gap-x-3 gap-y-1.5">
+                    {group.items.map((item) => (
+                      <li key={item} className="font-mono text-[12px] text-fg-muted">
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </Spotlight>
             </div>
           ))}
         </div>
-      </section>
+      </SectionFrame>
 
-      <section className="mt-20" aria-labelledby="connect">
-        <SectionHeading id="connect" title="Get in touch" />
+      <SectionFrame index="02" title="Get in touch" id="connect">
         <div className="flex flex-col items-start gap-2">
           {site.emails.map((email) => (
             <a
@@ -66,7 +70,7 @@ export default function AboutPage() {
             </li>
           ))}
         </ul>
-      </section>
+      </SectionFrame>
     </div>
   );
 }

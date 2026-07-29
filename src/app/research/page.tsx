@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Reveal } from "@/components/motion";
-import { ExternalLink, SectionHeading, Tags } from "@/components/ui";
+import { SectionFrame } from "@/components/section-frame";
+import { Spotlight } from "@/components/spotlight";
+import { ExternalLink, StatusTag, Tags } from "@/components/ui";
 import { publication, roar, winLab } from "@/content/research";
 
 export const metadata: Metadata = {
@@ -21,32 +23,40 @@ export default function ResearchPage() {
         low-latency workloads.
       </p>
 
-      <section className="mt-16" aria-labelledby="win-lab">
-        <SectionHeading id="win-lab" title="SCU WIN Lab" />
+      <SectionFrame index="01" title="SCU WIN Lab" id="win-lab">
         <Reveal>
-          <article className="rounded-sm border border-line bg-surface p-7 sm:p-10">
+          <Spotlight className="rounded-sm border border-line bg-surface">
+          <article className="p-7 sm:p-10">
             <h3 className="text-xl font-medium tracking-tight text-fg">
               {winLab.role} — {winLab.org}
             </h3>
             <p className="mt-1 font-mono text-[12px] text-fg-faint">
               {winLab.period} · {winLab.location}
             </p>
-            <ul className="mt-6 flex max-w-3xl list-disc flex-col gap-3 pl-5 text-[15px] leading-relaxed text-fg-muted marker:text-accent">
+            <ul className="mt-6 flex max-w-3xl flex-col gap-3">
               {winLab.bullets.map((b) => (
-                <li key={b}>{b}</li>
+                <li
+                  key={b}
+                  className="border-l border-line-strong pl-4 text-[15px] leading-relaxed text-fg-muted"
+                >
+                  {b}
+                </li>
               ))}
             </ul>
             <div className="mt-6">
               <Tags items={winLab.tags} />
             </div>
           </article>
+          </Spotlight>
         </Reveal>
-      </section>
+      </SectionFrame>
 
-      <section className="mt-20" aria-labelledby="publications">
-        <SectionHeading id="publications" title="Article" />
-        <Reveal>
+      <SectionFrame index="02" title="Article" id="publications">
+        <Reveal variant="mask">
           <article className="border-l-2 border-accent pl-6">
+            <div className="mb-3">
+              <StatusTag>Published · {publication.venue}</StatusTag>
+            </div>
             <h3 className="max-w-3xl text-lg font-medium leading-snug tracking-tight text-fg">
               {publication.title}
             </h3>
@@ -62,12 +72,12 @@ export default function ResearchPage() {
             </div>
           </article>
         </Reveal>
-      </section>
+      </SectionFrame>
 
-      <section className="mt-20" aria-labelledby="training">
-        <SectionHeading id="training" title="Autonomy & machine learning" />
+      <SectionFrame index="03" title="Autonomy & machine learning" id="training">
         <Reveal>
-          <article className="rounded-sm border border-line bg-surface p-7 sm:p-10">
+          <Spotlight className="rounded-sm border border-line bg-surface">
+          <article className="p-7 sm:p-10">
             <h3 className="text-lg font-medium tracking-tight text-fg">
               {roar.title}
             </h3>
@@ -86,8 +96,9 @@ export default function ResearchPage() {
               ))}
             </div>
           </article>
+          </Spotlight>
         </Reveal>
-      </section>
+      </SectionFrame>
     </div>
   );
 }
