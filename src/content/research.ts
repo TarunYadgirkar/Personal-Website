@@ -25,7 +25,7 @@ export const roar = {
   title: "UC Berkeley College of Engineering — ROAR Academy",
   period: "Summer 2025",
   detail:
-    "Trained in and programmed machine-learning systems and applied them to autonomous robotics; led by Prof. Allen Yang. Attended on a 100% scholarship.",
+    "Trained in and programmed machine-learning systems and applied them to autonomous robotics. Attended on a 100% scholarship.",
   related:
     "Related: ROAR SimRace submission — a working solution for the Robot Open Autonomous Racing simulation series (Python).",
   links: [

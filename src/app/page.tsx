@@ -192,9 +192,8 @@ export default function Home() {
 
       <SectionFrame index="03" title="How I build" id="how-i-build">
         <p className="mb-8 max-w-2xl text-[15px] leading-relaxed text-fg-muted">
-          Most of my work follows the same path — get a signal off real hardware,
-          make a model small enough to run on it, and close the loop on something
-          that moves.
+          Less a process than a bias. The domain changes; how I approach a
+          problem doesn&apos;t.
         </p>
         <Reveal variant="mask">
           <Schematic columns={buildPipeline} />

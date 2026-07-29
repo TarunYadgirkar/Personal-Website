@@ -138,4 +138,38 @@ patent page's *schematic* language across every page.
   regression-checked by pixel-diffing the diagram against a `main` worktree —
   identical geometry, 0.17% of pixels differ and all of it is text antialiasing.
 
+**2026-07-29 — redesign feedback round 2 (still PREVIEW ONLY).** User reviewed
+the preview and asked for content fixes plus three visual corrections.
+
+- **Content:** now based in **Berkeley** (`atAGlance` row *and* `site.location`,
+  which feeds the footer — change both or they contradict). Eagle Scout carries
+  the year earned (2025) in both `recognition` and `archive`, no span.
+  `ArchiveItem.years` is now **optional** — two entries have unknown dates and
+  render a blank cell rather than an `—` placeholder; get real years from the
+  user before inventing any. "Prof. Allen Yang" removed from `about.ts` *and*
+  `research.ts` (user only named the About one; removed both for consistency —
+  revert the research one if they object).
+- **`buildPipeline` is deliberately NOT about hardware.** The first version
+  described sensor → model → control → actuator, and the user rejected it for
+  generalising all their work to embedded robotics. It is now a mindset:
+  Frame → Reduce → Contact → Iterate. Do not reintroduce hardware, motion
+  assistance, or voice interfaces into this section.
+- **`system-rule.tsx`:** sine control points are `-16`/`104` on purpose — a
+  quadratic's midpoint is `0.25·y₀ + 0.5·cy + 0.25·y₁`, which against the
+  baseline of 44 lands peaks exactly on the square wave's 14/74 rails. Eyeballed
+  values make the two halves read as unrelated drawings. Station labels are
+  anchored to real events (mid-analog, the conversion riser, settled output).
+- **`schematic-glyph.tsx`:** **no accent colour in the glyphs** — user asked for
+  them monochrome. Circles must be written as two half-arcs
+  (`a r,r 0 1,0 2r,0` twice); the single-arc shorthand degenerates at 360° and
+  renders as a lump, which is what made the old rover look wrong. `rover` and
+  `hand` were redrawn (`hand` is now an assistive leg brace, pointing at
+  BALANCE); `chip`/`graph`/`mic` were fine and untouched.
+- Verified: build + lint green; all 6 routes × both themes, desktop + iPhone-13,
+  no overflow; reduced-motion and coarse-pointer passes clean; archive year cells
+  and Eagle Scout year asserted programmatically; `/patent` re-diffed against a
+  `main` worktree — unchanged (0.17%, antialiasing only).
+- Local-testing gotcha, again: `next start` survives a rebuild and serves stale
+  chunks. `pkill -9 -f next-server` before restarting or Playwright times out.
+
 _Update this block when you finish a chunk of work._

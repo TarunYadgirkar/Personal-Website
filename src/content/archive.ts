@@ -1,6 +1,7 @@
 export type ArchiveItem = {
   id?: string;
-  years: string;
+  /** Omitted when the dates aren't known — the row renders without a year cell. */
+  years?: string;
   title: string;
   type: string;
   detail: string;
@@ -39,7 +40,6 @@ export const archive: readonly ArchiveItem[] = [
       "Built a real-time driver-inattentiveness alert system using CNNs and LSTMs on visual input.",
   },
   {
-    years: "—",
     title: "AI & Robotics teaching — Vidyananda Gurukula Education Trust, Karnataka",
     type: "Teaching",
     detail:
@@ -47,7 +47,6 @@ export const archive: readonly ArchiveItem[] = [
     href: "https://www.facebook.com/vidyanandagurukula/",
   },
   {
-    years: "—",
     title: "Troop 60 website",
     type: "Web",
     detail: "Responsive HTML/CSS/JS site for a Boy Scout troop.",
@@ -61,7 +60,7 @@ export const archive: readonly ArchiveItem[] = [
       "Varsity Impromptu captain; GGSA IE3 Novice Impromptu champion (2024).",
   },
   {
-    years: "2019–present",
+    years: "2025",
     title: "Eagle Scout / Assistant Senior Patrol Leader",
     type: "Scouting",
     detail: "Boy Scouts of America.",

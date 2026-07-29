@@ -10,24 +10,29 @@ const MID = 44;
 // Nothing in the trace goes below this, so the label band underneath stays clear.
 const LABEL_Y = 104;
 
-// An analog wave resolving into a clean digital signal, then running flat —
-// the same idea as SignalTrace, drawn here as a dimensioned engineering rule
-// rather than a decorative squiggle.
+// An analog wave resolving into a clean digital signal.
+//
+// The sine's control points are -16 and 104 rather than something eyeballed:
+// a quadratic's midpoint is 0.25·y₀ + 0.5·cy + 0.25·y₁, so against a baseline
+// of 44 those solve to peaks of exactly 14 and 74 — the same rails the square
+// wave rides. Without that the two halves read as unrelated drawings spliced
+// together. The flat run at the end is kept short so it terminates the trace
+// instead of being dead width.
 const TRACE =
-  "M0,44 Q40,8 80,44 T160,44 T240,44" +
-  " Q280,14 320,44 T400,44" +
-  " L440,44 L440,14 L520,14 L520,74 L600,74 L600,14 L680,14 L680,74 L760,74 L760,14" +
-  " L840,14 L840,44 L1200,44";
+  "M0,44 Q40,-16 80,44 T160,44 T240,44 T320,44 T400,44 T480,44" +
+  " L480,14 L560,14 L560,74 L640,74 L640,14 L720,14 L720,74 L800,74" +
+  " L800,14 L880,14 L880,74 L960,74 L960,14 L1040,14 L1040,44 L1200,44";
 
 // Tick marks along the baseline, as on a drawing's dimension line.
 const TICKS = Array.from({ length: 25 }, (_, i) => i * (VB_W / 24));
 
-// Reference marks on the baseline. Positions are chosen where the trace isn't
-// crossing, so the dot reads as a station rather than a collision.
+// Anchored to actual events in the trace, not spaced for looks: mid-analog,
+// the exact analog→digital conversion (the foot of the first riser), and the
+// settled output.
 const STATIONS = [
-  { x: 200, label: "sense" },
-  { x: 640, label: "infer" },
-  { x: 1040, label: "actuate" },
+  { x: 240, label: "sense" },
+  { x: 480, label: "infer" },
+  { x: 1120, label: "actuate" },
 ] as const;
 
 /**

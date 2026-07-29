@@ -6,11 +6,14 @@ import { EASE_OUT } from "@/components/motion";
 export type GlyphKind = "chip" | "rover" | "graph" | "mic" | "hand";
 
 /**
- * Each glyph is two layers:
- * - `chassis` — the neutral structure, drawn in fg-faint.
- * - `signal`  — the one path that carries the idea, drawn in accent.
- * Both are stroked at 1.5, matching the arrow weight in <Schematic>, so the
- * focus cards and the pipeline diagrams read as the same drawing set.
+ * Each glyph is two layers, `chassis` (the structure) then `signal` (the detail
+ * that carries the idea). They render in the same neutral tone — the split
+ * exists only so the draw-on staggers structure-first — and everything is
+ * stroked at 1.5, matching the arrow weight in <Schematic>, so the focus cards
+ * and the pipeline diagrams read as one drawing set.
+ *
+ * Circles are written as two half-arcs (`a r,r 0 1,0 2r,0` twice). Single-arc
+ * shorthand degenerates at 360° and renders as a lump.
  */
 const GLYPHS: Record<GlyphKind, { chassis: string[]; signal: string }> = {
   chip: {
@@ -22,14 +25,18 @@ const GLYPHS: Record<GlyphKind, { chassis: string[]; signal: string }> = {
     ],
     signal: "M10 40h12v-8h16v16h16v-8h12",
   },
+  // A rover in plan-elevation: chassis bar, two wheels, mast, sensor head.
   rover: {
     chassis: [
-      "M16 44h48v10H16z",
-      "M28 44V32h24v12",
-      "M34 32V22h12v10",
-      "M40 22v-8",
+      "M18 40h44v12H18z",
+      "M40 40V30",
+      "M30 22h20v8H30z",
+      "M28 52v4M52 52v4",
     ],
-    signal: "M40 14 22 34M40 14l18 20M24 62a6 6 0 1 0 0-.1M56 62a6 6 0 1 0 0-.1",
+    signal:
+      "M21,60 a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0" +
+      "M45,60 a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0" +
+      "M36 26h8",
   },
   graph: {
     chassis: [
@@ -48,14 +55,20 @@ const GLYPHS: Record<GlyphKind, { chassis: string[]; signal: string }> = {
     ],
     signal: "M14 40c0 8 4 14 4 14M66 40c0 8-4 14-4 14",
   },
+  // An assistive leg brace seen head-on: cuff, twin rails, knee joint, foot
+  // plate. Points at BALANCE rather than at a generic hand, and holds together
+  // at 1.5 stroke inside 80×80 — a four-finger outline did not, and a single
+  // centre line read as a stick rather than a limb.
   hand: {
     chassis: [
-      "M26 44V26a4 4 0 0 1 8 0v14",
-      "M34 40V22a4 4 0 0 1 8 0v18",
-      "M42 40V26a4 4 0 0 1 8 0v16",
-      "M50 42v-8a4 4 0 0 1 8 0v18a16 16 0 0 1-16 16h-6a12 12 0 0 1-12-12V44",
+      "M26 14h28",
+      "M30 14v16M50 14v16",
+      "M30 42v16M50 42v16",
+      "M26 58h28",
     ],
-    signal: "M40 66a10 10 0 0 0 0-20 10 10 0 0 0 0 20z",
+    // The knee joint plus a foot that extends forward — without the foot the
+    // twin rails just read as a ladder.
+    signal: "M34,36 a6,6 0 1,0 12,0 a6,6 0 1,0 -12,0" + "M40 58v8M40 66h16",
   },
 };
 
@@ -88,7 +101,7 @@ export function SchematicGlyph({
 
   return (
     <svg viewBox="0 0 80 80" aria-hidden="true" className={className}>
-      <g stroke="var(--color-fg-faint)" strokeOpacity={0.75} {...stroke}>
+      <g stroke="var(--color-fg-muted)" {...stroke}>
         {glyph.chassis.map((d, i) => (
           <motion.path
             key={d}
@@ -97,14 +110,12 @@ export function SchematicGlyph({
             transition={{ duration: 0.6, delay: delay + i * 0.08, ease: EASE_OUT }}
           />
         ))}
+        <motion.path
+          d={glyph.signal}
+          {...draw}
+          transition={{ duration: 0.7, delay: delay + 0.24, ease: EASE_OUT }}
+        />
       </g>
-      <motion.path
-        d={glyph.signal}
-        stroke="var(--color-accent)"
-        {...stroke}
-        {...draw}
-        transition={{ duration: 0.7, delay: delay + 0.24, ease: EASE_OUT }}
-      />
     </svg>
   );
 }

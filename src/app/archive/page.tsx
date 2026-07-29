@@ -31,7 +31,9 @@ export default function ArchivePage() {
             id={item.id}
             className="relative grid gap-2 border-b border-line py-6 sm:grid-cols-[64px_120px_1fr] sm:gap-8"
           >
-            <p className="font-mono text-[12px] tabular-nums text-fg-faint">{item.years}</p>
+            <p className="font-mono text-[12px] tabular-nums text-fg-faint">
+              {item.years ?? ""}
+            </p>
             <span
               aria-hidden="true"
               className="absolute left-[61px] top-[30px] hidden size-1.5 rounded-full bg-accent sm:block"

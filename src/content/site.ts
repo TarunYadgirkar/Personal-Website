@@ -3,7 +3,7 @@ export const site = {
   positioning: "AI systems, robotics, and embedded intelligence",
   subline: "Embedded ML · robotics & autonomy · applied AI",
   education: "Applied Mathematics @ UC Berkeley",
-  location: "San Ramon, California",
+  location: "Berkeley, California",
   emails: [{ label: "Berkeley", address: "tarun_yadgirkar@berkeley.edu" }],
   url: "https://tarunyadgirkar.com",
   resumeUrl: "/resume/tarun-yadgirkar-resume.pdf",
@@ -38,7 +38,7 @@ export const atAGlance: readonly AtAGlanceRow[] = [
   { label: "Paper", value: "Youth Innov. Journal '25" },
   { label: "Lab", value: "SCU WIN Lab" },
   { label: "Robotics", value: "VEX Worlds qualifier" },
-  { label: "Based", value: "San Ramon, CA" },
+  { label: "Based", value: "Berkeley, CA" },
 ];
 
 export const focusAreas = [
@@ -69,40 +69,45 @@ export const focusAreas = [
   },
 ] as const;
 
-// Drives the <Schematic> on the homepage — the shape most of this work takes,
-// from raw signal to something that moves in the physical world.
+// Drives the <Schematic> on the homepage. Deliberately about approach rather
+// than domain — this describes how a problem gets worked, not what the finished
+// system is made of.
 export const buildPipeline = [
   {
-    kick: "Signal · capture",
+    kick: "Frame",
     nodes: [
-      { title: "Sensors", sub: ["LiDAR · sonar · NIR"] },
-      { title: "Audio & vision", sub: ["mic arrays · cameras"] },
+      {
+        title: "Find the real limit",
+        sub: ["What actually binds this —", "compute, data, time, trust"],
+      },
     ],
   },
   {
-    kick: "Model · on device",
+    kick: "Reduce",
     nodes: [
       {
-        title: "Quantized inference",
-        sub: ["PyTorch / TensorFlow", "FPGA & edge targets", "Latency budget first"],
+        title: "Smallest thing that proves it",
+        sub: ["One question per prototype", "Cut scope, not rigor"],
         isAccent: true,
       },
     ],
   },
   {
-    kick: "Decide",
+    kick: "Contact",
     nodes: [
       {
-        title: "Control logic",
-        sub: ["State & arbitration", "Agent orchestration"],
+        title: "Test against reality",
+        sub: ["Real inputs, real users", "Benchmarks come second"],
       },
     ],
   },
   {
-    kick: "Act · in the world",
+    kick: "Iterate",
     nodes: [
-      { title: "Actuation", sub: ["motion · assistance"] },
-      { title: "Interface", sub: ["voice · visual"] },
+      {
+        title: "Keep what survives",
+        sub: ["Discard what didn't earn it", "Then go again"],
+      },
     ],
   },
 ] as const;
@@ -113,8 +118,8 @@ export const recognition = [
     context: "2026",
   },
   {
-    line: "Eagle Scout",
-    context: "Boy Scouts of America",
+    line: "Eagle Scout — Boy Scouts of America",
+    context: "2025",
   },
 ] as const;
 
