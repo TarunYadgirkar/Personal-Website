@@ -4,7 +4,7 @@ description: >-
   Use when editing site copy, text, bio, links, work/research/archive entries, or any
   user-facing wording. All copy is typed data in src/content/*.ts — never hardcode text
   into page/component JSX. Also enforces the non-negotiable positioning rules (patent
-  wording, no phone number, framing) that must never be violated in any surface.
+  wording, framing, and what must not be "fixed") that must never be violated in any surface.
 ---
 
 # Editing site content
@@ -32,8 +32,9 @@ Notes:
 
 - **BALANCE patent** is **provisional** (No. 63/743,085). Never write "granted patent",
   "patented", or imply issuance. Say "provisional patent" / "patent pending".
-- **No phone number** anywhere in the UI or tracked source. (It was removed from source
-  and redacted from the résumé PDF — don't reintroduce it.)
+- **The phone number is intentionally public** in the résumé and source documents.
+  Leave it alone. (A 2026-07-27 audit stripped it as a privacy issue; the user
+  reverted that the same day and confirmed it is deliberate. Do not "fix" it again.)
 - **Not "high school student."** Don't use that framing.
 - **VEX / science-fair** material belongs in the **Archive** only — not featured work.
 

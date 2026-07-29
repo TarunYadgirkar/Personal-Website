@@ -41,13 +41,13 @@ After changing the production domain, update `site.url` in `src/content/site.ts`
 ## Structure
 
 - `src/app/` — routes: `/` `/work` `/research` `/patent` `/archive` `/about`, plus `opengraph-image.tsx`, `sitemap.ts`, `robots.ts`
-- `src/components/` — nav, footer, motion primitives, small UI pieces, and the hero animation set:
-  - `particle-field.tsx` — canvas dust waveform (cursor-repel, idle auto-sweep)
-  - `word-shape.tsx` — concrete-poetry SVG glyphs for the focus-area cards
-  - `cursor-arms.tsx` — IK-driven robot arms tracking the cursor (`lg:`+ only)
-  - `living-hero.tsx` — sequential hero subline captions
-  - `signal-trace.tsx` — signal-trace hero visual
-  - `wave-backdrop.tsx` — unused, kept as an alternate hero backdrop option
+- `src/components/` — nav, footer, motion primitives, small UI pieces, and the schematic visual set:
+  - `schematic.tsx` — the data-driven signal-path diagram, shared by `/patent` and the homepage
+  - `system-rule.tsx` — the drawn hero rule (analog→digital trace, scroll-linked read-head)
+  - `schematic-glyph.tsx` — self-drawing line-art glyphs for the focus-area cards
+  - `section-frame.tsx` — numbered section heading + scroll-filled gutter rule
+  - `spotlight.tsx` — cursor-follow tint (inert on touch and under reduced motion)
+  - `signal-trace.tsx` — earlier signal-trace visual, kept for the `.design-sync` export
 - `src/content/` — all site copy (typed)
 
 All animated components read palette CSS vars only, respect `prefers-reduced-motion`, and pause offscreen (see `AGENTS.md` for details).
@@ -61,7 +61,7 @@ and the skills below fire on their own when the matching work comes up:
 - **`ship-checklist`** — the verify-before-push gate (build + lint green, screenshots in
   both themes, conventional commit to `main`).
 - **`site-content`** — editing copy in `src/content/*.ts` and the non-negotiable
-  positioning rules (patent wording, no phone number, framing).
+  positioning rules (patent wording, framing, what not to "fix").
 - **`animation-components`** — the mandatory rules for visual components (palette vars
   only, reduced-motion, offscreen pause, DPR, `aria-hidden`) plus the component inventory.
 

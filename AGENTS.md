@@ -6,7 +6,7 @@ Canonical living doc for any Claude Code or Codex session working in this repo. 
 
 Tarun Yadgirkar's personal site. Live: https://tarunyadgirkar.com (repo `TarunYadgirkar/Personal-Website`, auto-deploys `main` via Vercel).
 
-- Stack: Next.js 16 (App Router), React 19, TypeScript strict, Tailwind v4, framer-motion 12. Package manager: **npm** (no pnpm on this machine).
+- Stack: Next.js 16 (App Router), React 19, TypeScript strict, Tailwind v4, `motion` 12 (motion.dev — the renamed framer-motion; import from `motion/react`), Lenis. Package manager: **npm** (no pnpm on this machine).
 - All copy lives in `src/content/*.ts`. Components in `src/components/`. Pages in `src/app/`.
 - Theme: `next-themes` class strategy (`.dark` on `<html>`, persisted in localStorage `theme`). Light = warm parchment; dark = deep navy. Accent = rust (light) / amber (dark).
 
@@ -24,20 +24,62 @@ Tarun Yadgirkar's personal site. Live: https://tarunyadgirkar.com (repo `TarunYa
 - **Division of labor:** Opus/Claude does the hard thinking, planning, and design-critical code (e.g. IK math, novel visuals). Sonnet subagents and Codex do mechanical execution (build-fix loops, screenshot capture, transcribing a specified change). Keep heavy/iterative work off the main context.
 - **Positioning rules** (from info2.md): never say "granted patent"/"patented" for BALANCE (it's provisional, No. 63/743,085); the phone number is intentionally public in the résumé and source documents; not "high school student"; VEX/science-fair → Archive only.
 
-## Animation system (built 2026-07-08)
+## Visual system (rebuilt 2026-07-29)
 
-Distinct, self-contained client components. **All must:** use palette CSS vars only (`--color-accent`, `--color-fg`, `--color-bg`, `--color-line`, etc. — never hardcoded hex); respect `prefers-reduced-motion` (render one static frame, no rAF/loops); pause canvas work when offscreen (IntersectionObserver + `visibilitychange`); be DPR-aware; `aria-hidden` on decorative visuals.
+The site's visual language is the **engineering schematic**: hairline `rgba` borders,
+2px radii, mono metadata with `·` separators, drawn line-work at 1.5–1.75 stroke, and
+accent rationed to a handful of places per page. It started on `/patent` and now runs
+across every route.
 
-- `src/components/particle-field.tsx` — `ParticleField`: canvas dust that forms a single signal WAVEFORM, springs back, disperses from the cursor (repel physics), and auto-sweeps a "ghost" disturbance across every ~6–9s when idle. Used as the hero divider strip in `page.tsx`.
-- `src/components/word-shape.tsx` — `WordShape`: an SVG silhouette filled with repeated tiled mono text of its own name (concrete-poetry). Kinds: `chip | rover | graph | mic | hand | wave | arm`. Used as the 5 "Technical focus areas" glyphs via `focusGlyphs` in `page.tsx`: embedded-ml=chip, robotics=rover, applied-ai=graph(neural net), voice-agents=mic, assistive-robotics=hand.
-- `src/components/cursor-arms.tsx` — `CursorArms`: SVG robot arms anchored to the screen edges that track the cursor via **2-bone IK** (shoulder+elbow hinge), with a parallel-jaw gripper and cone-clamped rotation. Only mounts at `lg:` viewport widths (`matchMedia`-gated, not just CSS-hidden) and pauses its rAF loop on tab hide; reduced-motion → null.
-- `src/components/living-hero.tsx` — `SequentialCaptions` (hero subline revealed line-by-line, subtitle cadence).
-- `src/components/wave-backdrop.tsx` — `WaveBackdrop` (a drifting sine-wave layer), split into its own file so it's excluded from the bundle since nothing imports it. **Currently unused** — kept as an option; the user tried both blob and wave hero backdrops and chose a plain hero.
-- Design spec: `docs/superpowers/specs/2026-07-08-cool-animations-design.md`.
+**All visual components must:** use palette CSS vars only (`--color-accent`, `--color-fg`,
+`--color-bg`, `--color-line`, etc. — never hardcoded hex); respect `prefers-reduced-motion`
+by rendering one static *complete* frame (no rAF/loops); be `aria-hidden` if decorative;
+and, if they use canvas, be DPR-aware and pause offscreen (IntersectionObserver +
+`visibilitychange`). Nothing currently uses canvas — the whole set is SVG or CSS.
 
-Reference material (not in repo): parent dir `../cool images to copy theme:style:animations from/` — screenshots of Anthropic's "global workspace" video (particle dust, concrete-poetry typography, living-painting ships) that seeded these.
+- `src/components/schematic.tsx` — `Schematic`: the data-driven signal-path diagram
+  (columns → nodes → arrows). Shared by `/patent` (`balance.signalPath`) and the homepage
+  (`site.buildPipeline`). Two load-bearing details: `className="contents"` dissolves the
+  per-column wrapper so arrows are flex siblings, and the frame is `bg-bg` while nodes are
+  `bg-surface` so nodes read as raised *out of* the drawing. Exactly one `isAccent` node
+  per diagram.
+- `src/components/system-rule.tsx` — `SystemRule`: the hero divider. An analog wave
+  resolving to digital, drawn as a dimensioned rule with a scroll-linked read-head. Sine
+  control points are `-16`/`104` **by derivation, not eyeball** — a quadratic's midpoint is
+  `0.25·y₀ + 0.5·cy + 0.25·y₁`, which against the baseline of 44 lands peaks exactly on the
+  square wave's 14/74 rails. Station labels anchor to real events in the trace.
+- `src/components/schematic-glyph.tsx` — `SchematicGlyph`: the 5 focus-area glyphs
+  (`chip | rover | graph | mic | hand`), self-drawing via `pathLength`. **Monochrome —
+  the user explicitly rejected accent colour in these.** Circles must be written as two
+  half-arcs (`a r,r 0 1,0 2r,0` twice); the single-arc shorthand degenerates at 360° and
+  renders as a lump.
+- `src/components/section-frame.tsx` — `SectionFrame`: numbered inline heading plus a
+  scroll-filled left gutter rule. Used by every page. It is `position: relative`, which
+  makes it the `offsetParent` for headings inside it — see the `section-nav.tsx` gotcha
+  below.
+- `src/components/spotlight.tsx` — `Spotlight`: cursor-follow tint adapted from KokonutUI
+  onto our tokens. Returns children unwrapped under reduced motion **and** on coarse
+  pointers, so touch gets nothing.
+- `src/components/motion.tsx` — shared primitives. `Reveal` takes a `variant`
+  (`up | mask | stagger`) so scroll entrances aren't one uniform fade; `WordReveal` does
+  the hero headline word-by-word.
+- `src/components/signal-trace.tsx` — **unused by the app**, but exported from
+  `src/components/index.ts` and consumed by `.design-sync/`. Don't delete it.
+- Design specs: `docs/superpowers/specs/2026-07-08-cool-animations-design.md` describes the
+  *previous* (deleted) animation set — historical only. The 2026-07-29 status block below
+  is the current record.
+
+**Deleted 2026-07-29, do not resurrect without asking:** `particle-field.tsx` (canvas dust
+waveform), `cursor-arms.tsx` (IK robot arms), `word-shape.tsx` (concrete-poetry glyphs),
+`living-hero.tsx` (`SequentialCaptions`), `wave-backdrop.tsx`. The user rejected each of
+these by name.
 
 ## Current status / ongoing
+
+> This is an append-only log, newest at the bottom. **Entries are historical records, not
+> current state** — the 2026-07-08 and 2026-07-09 entries describe components that were
+> deleted on 2026-07-29. Read the "Visual system" section above for what actually exists,
+> and the newest entry here for where things stand.
 
 **2026-07-08 — animation pass.** Iterated live with the user across several rounds. State:
 
@@ -97,16 +139,17 @@ ranges; its forced fix downgrades Next.js to 9.3.3, so it was not applied.
 is intentionally public. Restored all prior source references and the exact
 pre-audit résumé PDF; updated the positioning rule so future audits preserve it.
 
-**2026-07-29 — "engineering document" redesign (PREVIEW ONLY — NOT on `main`).**
+**2026-07-29 — "engineering document" redesign (MERGED TO `main`, live).**
 User wanted the site to stop looking basic, kept the patent-page diagrams, and
 rejected the hero particle banner and the side robot arms. Direction: keep the
 visual identity (palette, type, radii, hairline-grid motif) and instead push the
 patent page's *schematic* language across every page.
 
-> **The commit-directly-to-`main` protocol above was deliberately suspended for
-> this work.** The user asked that the live site not be affected, so everything
-> lives on `claude/website-homepage-redesign-4khest` and is reviewed on a Vercel
-> preview deployment. Do not merge to `main` without the user's explicit say-so.
+> Built on `claude/website-homepage-redesign-4khest` and reviewed across two
+> rounds on a Vercel preview while the live site stayed on `339fc79`. The user
+> approved it on 2026-07-29 and it was merged to `main`, so this is now what
+> tarunyadgirkar.com serves. The normal commit-directly-to-`main` protocol is
+> back in force.
 
 - **Deleted:** `cursor-arms.tsx`, `particle-field.tsx`, `word-shape.tsx`,
   `living-hero.tsx` (`SequentialCaptions`), the already-dead `wave-backdrop.tsx`,
@@ -138,7 +181,7 @@ patent page's *schematic* language across every page.
   regression-checked by pixel-diffing the diagram against a `main` worktree —
   identical geometry, 0.17% of pixels differ and all of it is text antialiasing.
 
-**2026-07-29 — redesign feedback round 2 (still PREVIEW ONLY).** User reviewed
+**2026-07-29 — redesign feedback round 2 (also merged to `main`).** User reviewed
 the preview and asked for content fixes plus three visual corrections.
 
 - **Content:** now based in **Berkeley** (`atAGlance` row *and* `site.location`,
@@ -173,3 +216,10 @@ the preview and asked for content fixes plus three visual corrections.
   chunks. `pkill -9 -f next-server` before restarting or Playwright times out.
 
 _Update this block when you finish a chunk of work._
+
+**Open follow-up (user's words, 2026-07-29):** *"we will add better robot arms and
+maybe animations stuff later."* The old `cursor-arms.tsx` was deleted in this
+redesign and should NOT simply be restored — the user rejected that specific
+execution (four IK arms pinned to the screen edges, a React setState per rAF
+frame). A future pass should design something new that respects the schematic
+line-work language the rest of the site now uses.
