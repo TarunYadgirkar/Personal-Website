@@ -1,0 +1,14 @@
+# Tarun Yadgirkar
+
+Personal website of Tarun Yadgirkar — AI systems, robotics, and embedded intelligence. Applied Mathematics student at UC Berkeley; embedded ML research at Santa Clara University's WIN Lab (FPGA-accelerated machine learning); filed provisional patent No. 63/743,085 for BALANCE, a hybrid legged-and-wheeled assistive mobility device; shipped applied-AI and voice-agent prototypes.
+
+## Links
+
+- Website: https://tarunyadgirkar.com
+- Work: https://tarunyadgirkar.com/work
+- Research: https://tarunyadgirkar.com/research
+- Patent (BALANCE): https://tarunyadgirkar.com/patent
+- Archive: https://tarunyadgirkar.com/archive
+- About: https://tarunyadgirkar.com/about
+- GitHub: https://github.com/TarunYadgirkar
+- Source: https://github.com/TarunYadgirkar/Personal-Website

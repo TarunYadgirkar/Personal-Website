@@ -8,6 +8,9 @@ import { site, skills, socialLinks } from "@/content/site";
 export const metadata: Metadata = {
   title: "About",
   description: site.bioShort,
+  alternates: {
+    canonical: "/about",
+  },
 };
 
 export default function AboutPage() {

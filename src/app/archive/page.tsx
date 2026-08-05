@@ -5,6 +5,9 @@ import { archive } from "@/content/archive";
 export const metadata: Metadata = {
   title: "Archive",
   description: "Earlier and secondary work — trajectory, not trophies.",
+  alternates: {
+    canonical: "/archive",
+  },
 };
 
 export default function ArchivePage() {

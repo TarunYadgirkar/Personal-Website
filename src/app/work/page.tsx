@@ -9,6 +9,9 @@ export const metadata: Metadata = {
   title: "Work",
   description:
     "Industry experience and selected builds across AI systems, voice agents, and robotics.",
+  alternates: {
+    canonical: "/work",
+  },
 };
 
 // A spec-sheet row: mono label in a fixed column, hairline rule between rows.

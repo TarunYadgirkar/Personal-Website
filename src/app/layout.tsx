@@ -28,6 +28,14 @@ const plexMono = IBM_Plex_Mono({
   display: "swap",
 });
 
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: site.name,
+  description: site.bioShort,
+  url: site.url,
+} as const;
+
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
@@ -35,6 +43,9 @@ export const metadata: Metadata = {
     template: `%s — ${site.name}`,
   },
   description: site.bioShort,
+  alternates: {
+    canonical: "/",
+  },
   icons: {
     icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
     shortcut: ["/icon.svg"],
@@ -59,6 +70,10 @@ export default function RootLayout({
   return (
     <html lang="en" data-scroll-behavior="smooth" suppressHydrationWarning>
       <body className={`${schibsted.variable} ${plexMono.variable} antialiased`}>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
         <SmoothScroll>
           <ThemeProvider>
             <MotionProvider>

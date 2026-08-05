@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   title: "Provisional Patent — BALANCE",
   description:
     "BALANCE: a hybrid legged-and-wheeled assistive mobility device. Filed as provisional patent No. 63/743,085; a related article was published in the Youth Innovation Journal (Fall 2025).",
+  alternates: {
+    canonical: "/patent",
+  },
 };
 
 export default function PatentPage() {

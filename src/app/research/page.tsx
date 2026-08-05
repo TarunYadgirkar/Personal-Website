@@ -9,6 +9,9 @@ export const metadata: Metadata = {
   title: "Research",
   description:
     "FPGA-based acceleration for machine learning and wireless-communication algorithms at SCU's WIN Lab; BALANCE article; ROAR Academy.",
+  alternates: {
+    canonical: "/research",
+  },
 };
 
 export default function ResearchPage() {
