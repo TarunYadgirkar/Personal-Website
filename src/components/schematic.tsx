@@ -1,5 +1,6 @@
 import { ArrowDown, ArrowRight } from "lucide-react";
 import type { ReactNode } from "react";
+import { SchematicMotion } from "@/components/schematic-motion";
 
 export type SchematicNode = { title: string; sub: readonly string[]; isAccent?: boolean };
 export type SchematicColumn = { kick: string; nodes: readonly SchematicNode[] };
@@ -7,6 +8,7 @@ export type SchematicColumn = { kick: string; nodes: readonly SchematicNode[] };
 function DiagramNode({ node }: { node: SchematicNode }) {
   return (
     <div
+      data-schematic-node
       className={`rounded-sm border p-4 ${
         node.isAccent ? "border-accent/40 bg-accent-dim" : "border-line-strong bg-surface"
       }`}
@@ -39,17 +41,24 @@ function DiagramNode({ node }: { node: SchematicNode }) {
 export function Schematic({
   columns,
   footer,
+  animate = false,
 }: {
   columns: readonly SchematicColumn[];
   footer?: ReactNode;
+  /**
+   * Assemble the diagram stage by stage on scroll. Off by default so /patent —
+   * which has been pixel-diffed against `main` twice — keeps rendering as a
+   * plain server component with markup identical to before.
+   */
+  animate?: boolean;
 }) {
-  return (
+  const frame = (
     <div className="rounded-sm border border-line bg-bg p-6 sm:p-8">
       <div className="flex flex-col items-stretch gap-3 lg:flex-row">
         {columns.map((col, i) => (
           <div key={col.kick} className="contents">
             {i > 0 && (
-              <span aria-hidden="true" className="self-center text-accent">
+              <span data-schematic-arrow aria-hidden="true" className="self-center text-accent">
                 <ArrowRight className="hidden size-4 lg:block" strokeWidth={1.75} />
                 <ArrowDown className="size-4 lg:hidden" strokeWidth={1.75} />
               </span>
@@ -72,4 +81,6 @@ export function Schematic({
       )}
     </div>
   );
+
+  return animate ? <SchematicMotion>{frame}</SchematicMotion> : frame;
 }

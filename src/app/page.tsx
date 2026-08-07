@@ -1,8 +1,10 @@
 import Link from "next/link";
 import { ArrowRight, Download, FileText } from "lucide-react";
+import { AxisReveal } from "@/components/axis-reveal";
 import { CopyEmailButton } from "@/components/copy-email-button";
 import { HeroPlate } from "@/components/hero-plate";
 import { HeroReveal, Pressable, Reveal, WordReveal } from "@/components/motion";
+import { RowReveal } from "@/components/row-reveal";
 import { Schematic } from "@/components/schematic";
 import { SchematicGlyph } from "@/components/schematic-glyph";
 import type { GlyphKind } from "@/components/schematic-glyph";
@@ -128,15 +130,23 @@ export default function Home() {
       </section>
 
       <SectionFrame index="01" title="Featured work" id="featured-work">
-        <Reveal variant="mask">
+        <RowReveal>
           <div className="border-t border-line">
             {featured.map((item, i) => (
-              <Spotlight key={item.slug} className="border-b border-line">
+              <Spotlight key={item.slug}>
                 <Link
+                  data-row
                   href={item.href}
-                  className="group grid gap-4 py-8 sm:grid-cols-[200px_1fr] sm:gap-10"
+                  className="group relative grid gap-4 py-8 sm:grid-cols-[200px_1fr] sm:gap-10"
                 >
-                  <div className="flex flex-col items-start gap-2">
+                  {/* the row's closing rule, drawn as the row is reached —
+                      an element rather than a border-b so it can animate */}
+                  <span
+                    data-row-rule
+                    aria-hidden="true"
+                    className="absolute bottom-0 left-0 h-px w-full bg-line"
+                  />
+                  <div data-row-part className="flex flex-col items-start gap-2">
                     <span className="font-mono text-[12px] tabular-nums text-fg-faint">
                       {String(i + 1).padStart(2, "0")}
                     </span>
@@ -145,7 +155,7 @@ export default function Home() {
                       {item.context}
                     </p>
                   </div>
-                  <div>
+                  <div data-row-part>
                     <h3 className="text-xl font-medium tracking-tight text-fg transition-colors duration-150 group-hover:text-accent">
                       {item.title}
                       <ArrowRight
@@ -164,7 +174,7 @@ export default function Home() {
               </Spotlight>
             ))}
           </div>
-        </Reveal>
+        </RowReveal>
       </SectionFrame>
 
       <SectionFrame index="02" title="Technical focus areas" id="focus-areas">
@@ -196,31 +206,35 @@ export default function Home() {
           Less a process than a bias. The domain changes; how I approach a
           problem doesn&apos;t.
         </p>
-        <Reveal variant="mask">
-          <Schematic columns={buildPipeline} />
-        </Reveal>
+        {/* No Reveal wrapper: the diagram now assembles itself stage by stage
+            on scroll, which replaces the single clip-path wipe. */}
+        <Schematic columns={buildPipeline} animate />
       </SectionFrame>
 
       <SectionFrame index="04" title="Recognition" id="recognition">
-        <ul className="relative">
-          {/* the axis these entries hang off */}
-          <span
-            aria-hidden="true"
-            className="absolute bottom-3 left-[3px] top-3 w-px bg-line"
-          />
-          {recognition.map((item) => (
-            <li key={item.line} className="relative flex gap-5 py-4 pl-6">
-              <span
-                aria-hidden="true"
-                className="absolute left-0 top-[22px] size-1.5 rounded-full bg-accent"
-              />
-              <p className="flex-1 text-[15px] text-fg">{item.line}</p>
-              <p className="whitespace-nowrap font-mono text-xs text-fg-faint">
-                {item.context}
-              </p>
-            </li>
-          ))}
-        </ul>
+        <AxisReveal>
+          <ul className="relative">
+            {/* the axis these entries hang off — drawn downward as it's read */}
+            <span
+              data-axis
+              aria-hidden="true"
+              className="absolute bottom-3 left-[3px] top-3 w-px bg-line"
+            />
+            {recognition.map((item) => (
+              <li key={item.line} className="relative flex gap-5 py-4 pl-6">
+                <span
+                  data-axis-dot
+                  aria-hidden="true"
+                  className="absolute left-0 top-[22px] size-1.5 rounded-full bg-accent"
+                />
+                <p className="flex-1 text-[15px] text-fg">{item.line}</p>
+                <p className="whitespace-nowrap font-mono text-xs text-fg-faint">
+                  {item.context}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </AxisReveal>
       </SectionFrame>
 
       <SectionFrame index="05" title="Résumé" id="resume">
