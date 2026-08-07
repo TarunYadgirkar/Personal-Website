@@ -37,17 +37,45 @@ by rendering one static *complete* frame (no rAF/loops); be `aria-hidden` if dec
 and, if they use canvas, be DPR-aware and pause offscreen (IntersectionObserver +
 `visibilitychange`). Nothing currently uses canvas — the whole set is SVG or CSS.
 
+**Scroll motion runs on GSAP** (`src/lib/gsap.ts` — the single plugin registration point;
+import `gsap`/`ScrollTrigger`/`SplitText`/`DrawSVGPlugin` from there, never from `gsap`
+directly). `motion` is still the right tool for entrance reveals, `AnimatePresence`, and
+layout; GSAP owns anything scrubbed, drawn, or sequenced. Every new scroll component
+follows the same shape: `useGSAP` for scoping and cleanup, `gsap.matchMedia()` with **both**
+a `FULL_MOTION` and a `REDUCED_MOTION` branch, and the reduced branch painting the
+*finished* frame — the global reduced-motion clamp in `globals.css` only reaches CSS
+transitions, so a GSAP tween parked at `drawSVG: "0%"` would render an invisible diagram.
+
 - `src/components/schematic.tsx` — `Schematic`: the data-driven signal-path diagram
   (columns → nodes → arrows). Shared by `/patent` (`balance.signalPath`) and the homepage
   (`site.buildPipeline`). Two load-bearing details: `className="contents"` dissolves the
   per-column wrapper so arrows are flex siblings, and the frame is `bg-bg` while nodes are
   `bg-surface` so nodes read as raised *out of* the drawing. Exactly one `isAccent` node
-  per diagram.
+  per diagram. An opt-in `animate` prop wraps it in `SchematicMotion` so it assembles
+  stage by stage on scroll — **left off for `/patent`, deliberately**, which keeps that
+  page's markup server-rendered and its pixels identical.
+- `src/components/hero-plate.tsx` — `HeroPlate`: the homepage's drawing sheet. Owns the one
+  scroll range (`[data-hero-frame]`, `top center` → `+=60%`) that `SystemRule` and
+  `KinematicRig` both build against, which is what makes the arm move as the trace reaches
+  `actuate`. Not pinned — see the 2026-08-07 note below.
+- `src/components/kinematic-rig.tsx` — `KinematicRig`: a three-link planar arm as an
+  orthographic plate, posed by forward kinematics from scroll progress, with live mono
+  angle/TCP readouts. Poses in `KEYS` were solved so the tool lands on the pick table and
+  the drop zone; the furniture is positioned *from* the solved poses, so moving one means
+  re-deriving the other. No cursor tracking, no IK, no React state per frame.
+- `src/components/schematic-motion.tsx`, `row-reveal.tsx`, `axis-reveal.tsx` — the reusable
+  scroll behaviours. They find their targets by data attribute (`data-schematic-node` /
+  `data-row` + `data-row-rule` + `data-row-part` / `data-axis` + `data-axis-dot`) so the
+  markup stays in the page and these only supply motion.
 - `src/components/system-rule.tsx` — `SystemRule`: the hero divider. An analog wave
   resolving to digital, drawn as a dimensioned rule with a scroll-linked read-head. Sine
   control points are `-16`/`104` **by derivation, not eyeball** — a quadratic's midpoint is
   `0.25·y₀ + 0.5·cy + 0.25·y₁`, which against the baseline of 44 lands peaks exactly on the
-  square wave's 14/74 rails. Station labels anchor to real events in the trace.
+  square wave's 14/74 rails. Station labels anchor to real events in the trace. The trace is
+  split at the `x=480` conversion point so the square wave snaps on as the read-head crosses
+  `infer`, and the two animated paths deliberately **omit `vector-effect: non-scaling-stroke`**
+  — it makes the browser interpret `stroke-dasharray` in screen units, which is exactly the
+  mechanism DrawSVG uses to meter the reveal. They carry `strokeWidth={2}` to compensate.
 - `src/components/schematic-glyph.tsx` — `SchematicGlyph`: the 5 focus-area glyphs
   (`chip | rover | graph | mic | hand`), self-drawing via `pathLength`. **Monochrome —
   the user explicitly rejected accent colour in these.** Circles must be written as two
@@ -215,11 +243,61 @@ the preview and asked for content fixes plus three visual corrections.
 - Local-testing gotcha, again: `next start` survives a rebuild and serves stale
   chunks. `pkill -9 -f next-server` before restarting or Playwright times out.
 
+**2026-08-07 — GSAP + Lenis scroll pass (branch
+`claude/website-visual-upgrade-cxydu0`, NOT on `main`).** User asked to stop the site
+being boring, naming Lenis and GSAP. The diagnosis was that the style was fine and the
+*motion* was not: every section did one fade and froze, and Lenis was installed but
+nothing responded to it. Scroll is now the instrument.
+
+- **Plumbing.** Added `gsap` + `@gsap/react`. Lenis runs with `autoRaf: false` and is
+  driven from `gsap.ticker`, with `ScrollTrigger.update` on Lenis's scroll event, so both
+  libraries share one clock — otherwise ScrollTrigger reads the raw scroll position while
+  Lenis paints an interpolated one and every scrubbed animation jitters. The bridge reads
+  the instance from **context, not a ref**: `ReactLenis` assigns its imperative handle from
+  a state value and rebuilds the instance whenever its options change, which happens once
+  per load when `useReducedMotion()` resolves. `ScrollRefresh` re-measures cached trigger
+  geometry after font swap, route change, and `<details>` toggle.
+- **Hero.** `HeroPlate` composes a scrubbed `SystemRule` with the new `KinematicRig`, both
+  on one shared range. This is the answer to the robot-arm follow-up below.
+- **Sections.** `Schematic` assembles stage by stage (opt-in); featured work, `/work`
+  case studies, recognition, and `/archive` all got per-row or per-tick scroll response.
+- **Route changes** are a hairline sweeping down the viewport. This replaced
+  `AnimatePresence mode="wait"`, whose held-open exit meant incoming ScrollTriggers
+  measured against a document that still contained the outgoing page.
+
+Three traps worth not re-discovering:
+
+1. **`useGSAP`'s `scope` resolves selector strings inside the scoped element.** Passing a
+   shared *ancestor* trigger as a selector silently misses, and ScrollTrigger falls back to
+   the top of the document — the timeline reads as already finished. Resolve shared
+   triggers off `document` (both hero children do).
+2. **A component that renders two different DOM shapes across hydration destroys anything
+   holding references to its children.** `Spotlight` did this (`useFinePointer()` is false
+   during hydration, true right after), so React unmounted and rebuilt its subtree and the
+   featured-work row rules never drew. Its wrapper shape is now identical either way. Same
+   class of bug fixed in `WordReveal`, which branched its markup on `useReducedMotion()` and
+   was failing hydration outright (React #418) for reduced-motion users — now gated through
+   `useSyncExternalStore` so the first client render matches the server.
+3. **Pinning was built, verified working, and then removed on purpose.** The plate is
+   ~300px tall in a ~900px viewport, so holding it at centre left half a screen of empty
+   page above it while the copy scrolled away — it read as a layout bug. Scrubbing over the
+   plate's own travel plays the identical sequence, and skipping the `pin-spacer` avoids
+   changing document height under `section-nav`, the anchors, and the ⌘K palette. Don't
+   re-add a pin without checking the element is tall enough to earn it.
+
+Verified: build + lint green; all 6 routes × both themes × desktop + iPhone-13 with no
+overflow and no console errors; scrubbed sequences sampled across scroll to prove they
+advance *and* that nothing is left partially revealed once scrolled past; reduced-motion
+pass asserts finished frames; coarse pointer gets zero spotlight overlays; skip link,
+all six in-page anchors (landing at the 80px `scroll-padding-top`), and ⌘K all intact;
+**`/patent` pixel-diffed against a `main` worktree — 0 differing pixels of 3.39M in both
+themes**, the opt-in `animate` prop having kept it byte-identical.
+
 _Update this block when you finish a chunk of work._
 
-**Open follow-up (user's words, 2026-07-29):** *"we will add better robot arms and
-maybe animations stuff later."* The old `cursor-arms.tsx` was deleted in this
-redesign and should NOT simply be restored — the user rejected that specific
-execution (four IK arms pinned to the screen edges, a React setState per rAF
-frame). A future pass should design something new that respects the schematic
-line-work language the rest of the site now uses.
+**Follow-up now addressed (was open 2026-07-29):** *"we will add better robot arms and
+maybe animations stuff later."* `KinematicRig` is the answer, and it is deliberately not
+`cursor-arms.tsx`: one arm in a drafting frame rather than four pinned to the screen
+edges, posed by scroll progress rather than by the cursor, forward kinematics rather than
+an IK solver, and GSAP writing SVG attributes rather than a React `setState` per rAF frame.
+Still do not restore the old component.
