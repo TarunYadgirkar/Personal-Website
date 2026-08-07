@@ -48,9 +48,16 @@ scroll-linked and draw-on effects over ambient loops.
 - `system-rule.tsx` — `SystemRule`: hero divider, analog wave resolving to digital with a
   scroll-linked read-head. Sine control points `-16`/`104` are derived so its peaks land on
   the square wave's rails — don't eyeball them (see AGENTS.md for the arithmetic).
-- `schematic-glyph.tsx` — `SchematicGlyph`: the 5 focus-area glyphs, self-drawing via
-  `pathLength`. **Monochrome — accent colour here was explicitly rejected.** Write circles
-  as two half-arcs; single-arc shorthand degenerates at 360°.
+- `schematic-glyph.tsx` — `SchematicGlyph`: line-art glyphs, self-drawing via `pathLength`.
+  **Currently unused — the user rejected them on the focus cards (2026-08-07) and those now
+  use a mono index instead. Don't reinstate without asking.** If they return: monochrome
+  only (accent here was rejected separately), and write circles as two half-arcs since the
+  single-arc shorthand degenerates at 360°.
+- `hero-plate.tsx` / `kinematic-rig.tsx` / `system-rule.tsx` — the hero's scrubbed
+  commissioning plate. All three share one range via `[data-hero-frame]`. The arm raises
+  its part onto a ledge; furniture is derived from the solved poses.
+- `schematic-motion.tsx` / `row-reveal.tsx` / `axis-reveal.tsx` — reusable scroll
+  behaviours, targeted by data attribute so markup stays in the page.
 - `section-frame.tsx` — `SectionFrame`: numbered heading + scroll-filled gutter rule.
   It is `position: relative`, so it becomes the `offsetParent` of headings inside it —
   measure scroll positions with `getBoundingClientRect().top + scrollY`, never `offsetTop`.

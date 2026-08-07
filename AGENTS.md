@@ -60,9 +60,13 @@ transitions, so a GSAP tween parked at `drawSVG: "0%"` would render an invisible
   `actuate`. Not pinned — see the 2026-08-07 note below.
 - `src/components/kinematic-rig.tsx` — `KinematicRig`: a three-link planar arm as an
   orthographic plate, posed by forward kinematics from scroll progress, with live mono
-  angle/TCP readouts. Poses in `KEYS` were solved so the tool lands on the pick table and
-  the drop zone; the furniture is positioned *from* the solved poses, so moving one means
-  re-deriving the other. No cursor tracking, no IK, no React state per frame.
+  angle/TCP readouts. It picks a part off the bench and sets it down on a ledge **above**
+  where it started — the user asked for it to raise the part, not drop it. `KEYS` holds
+  angles solved by IK for three tool positions and then rounded, and the bench, ledge and
+  dimension are all derived *from* `PART_START`/`PART_END`, so changing a pose means
+  re-solving rather than nudging. `LIFT` sits deliberately left of the ledge's near edge so
+  the part clears the corner on its way up. No cursor tracking, no IK at runtime, no React
+  state per frame.
 - `src/components/schematic-motion.tsx`, `row-reveal.tsx`, `axis-reveal.tsx` — the reusable
   scroll behaviours. They find their targets by data attribute (`data-schematic-node` /
   `data-row` + `data-row-rule` + `data-row-part` / `data-axis` + `data-axis-dot`) so the
@@ -76,11 +80,14 @@ transitions, so a GSAP tween parked at `drawSVG: "0%"` would render an invisible
   `infer`, and the two animated paths deliberately **omit `vector-effect: non-scaling-stroke`**
   — it makes the browser interpret `stroke-dasharray` in screen units, which is exactly the
   mechanism DrawSVG uses to meter the reveal. They carry `strokeWidth={2}` to compensate.
-- `src/components/schematic-glyph.tsx` — `SchematicGlyph`: the 5 focus-area glyphs
-  (`chip | rover | graph | mic | hand`), self-drawing via `pathLength`. **Monochrome —
-  the user explicitly rejected accent colour in these.** Circles must be written as two
-  half-arcs (`a r,r 0 1,0 2r,0` twice); the single-arc shorthand degenerates at 360° and
-  renders as a lump.
+- `src/components/schematic-glyph.tsx` — `SchematicGlyph`: line-art glyphs
+  (`chip | rover | graph | mic | hand`), self-drawing via `pathLength`. **No longer used
+  by any page.** They were the focus-area icons until 2026-08-07, when the user rejected
+  them outright ("some don't make sense and don't look good"); those cards are now a mono
+  index and a rule. The file is kept, not deleted — but do not put these back on the
+  homepage without asking. If glyphs return they must stay **monochrome** (accent colour
+  in them was rejected separately), and circles must be written as two half-arcs
+  (`a r,r 0 1,0 2r,0` twice) since the single-arc shorthand degenerates at 360°.
 - `src/components/section-frame.tsx` — `SectionFrame`: numbered inline heading plus a
   scroll-filled left gutter rule. Used by every page. It is `position: relative`, which
   makes it the `offsetParent` for headings inside it — see the `section-nav.tsx` gotcha
@@ -292,6 +299,32 @@ pass asserts finished frames; coarse pointer gets zero spotlight overlays; skip 
 all six in-page anchors (landing at the 80px `scroll-padding-top`), and ⌘K all intact;
 **`/patent` pixel-diffed against a `main` worktree — 0 differing pixels of 3.39M in both
 themes**, the opt-in `animate` prop having kept it byte-identical.
+
+**2026-08-07 — review feedback, then merged to `main`.** User approved the scroll pass and
+asked for three changes before it went live.
+
+- **Focus-area glyphs removed.** *"i dont like the symbols in technical focus areas some
+  dont make sense and dont look good."* The five cards now carry a mono index, a hairline,
+  and an accent tick instead. `schematic-glyph.tsx` is kept but unused — see the note in
+  the component list above, and don't reinstate it without asking.
+- **Résumé section cut down.** *"the weird marks over resume and the fact the resume is
+  such a big block."* The weird marks were a mock document drawn out of bars and hairlines
+  next to a dotted-grid panel; both are gone, along with the "concise overview" sentence
+  the user called out as saying nothing. It is now a single row: kicker, one line, two
+  buttons. This shortened the homepage by roughly 280px, which is why `#resume` and
+  `#contact` now both bottom out before reaching the 80px `scroll-padding-top` — that is
+  the end of the document, not a broken anchor.
+- **The arm raises the part instead of lowering it.** *"make it not redrop the ball… but
+  rather drop it on a higher ledge and reverse when scrolling back up."* Poses re-solved so
+  the part is picked off the bench and placed on a ledge 47px above it, with a vertical
+  dimension calling out the lift. Reversal already worked — scrub is symmetric — and is now
+  asserted in verification rather than assumed.
+
+Verified before merging: build + lint green; all 6 routes × both themes × desktop and
+iPhone-13 with no overflow or console errors; the part asserted to end higher than it
+started, never to dip below its start position, and to return to the bench on scroll-up, in
+both themes; reduced motion still paints the finished frame; coarse pointer still gets zero
+spotlight overlays; anchors, skip link and ⌘K intact.
 
 _Update this block when you finish a chunk of work._
 

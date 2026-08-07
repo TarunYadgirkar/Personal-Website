@@ -20,20 +20,27 @@ const GRIP_OFFSET = 8;
  * The operation, as joint angles rather than as an animation.
  *
  * θ₁ is measured from the bench; θ₂ and θ₃ are relative to the link before them,
- * which is how a real arm is specified and how the readouts report it. Poses were
- * chosen by solving forward kinematics until the tool landed on the pick table and
- * the drop zone — not by dragging handles until it looked close.
+ * which is how a real arm is specified and how the readouts report it. The angles
+ * were solved by inverse kinematics for three tool positions — the part on the
+ * bench, a raised clearance pose, and the part on the ledge — then rounded to
+ * whole degrees. They are not handles that were dragged until it looked close, so
+ * changing one means re-solving, not nudging.
+ *
+ * The part is picked off the bench and set down on a ledge *above* it. LIFT sits
+ * deliberately to the left of the ledge's near edge: the part rises past ledge
+ * height at x≈154 while the ledge starts at x≈162, so it clears the corner
+ * instead of passing through it.
  */
 const KEYS = [
   { p: 0, t1: 100, t2: -140, t3: 30, jaw: 6, state: "HOME" },
-  { p: 0.38, t1: 58, t2: -72, t3: -16, jaw: 6, state: "REACH" },
-  { p: 0.5, t1: 58, t2: -72, t3: -16, jaw: 2, state: "GRIP" },
-  { p: 0.68, t1: 78, t2: -72, t3: -30, jaw: 2, state: "LIFT" },
-  { p: 0.92, t1: 34, t2: -44, t3: -30, jaw: 2, state: "PLACE" },
-  { p: 1, t1: 34, t2: -44, t3: -30, jaw: 6, state: "CLEAR" },
+  { p: 0.36, t1: 59, t2: -94, t3: 0, jaw: 6, state: "REACH" },
+  { p: 0.48, t1: 59, t2: -94, t3: 0, jaw: 2, state: "GRIP" },
+  { p: 0.68, t1: 80, t2: -72, t3: -28, jaw: 2, state: "LIFT" },
+  { p: 0.92, t1: 62, t2: -55, t3: -32, jaw: 2, state: "PLACE" },
+  { p: 1, t1: 62, t2: -55, t3: -32, jaw: 6, state: "CLEAR" },
 ] as const;
 
-const GRIP_AT = 0.5;
+const GRIP_AT = 0.48;
 const RELEASE_AT = 0.92;
 
 const rad = (deg: number) => (deg * Math.PI) / 180;
@@ -59,9 +66,10 @@ function poseAt(p: number): Pose {
     t2: a.t2 + (b.t2 - a.t2) * t,
     t3: a.t3 + (b.t3 - a.t3) * t,
     jaw: a.jaw + (b.jaw - a.jaw) * t,
-    // The state a machine reports is the one it is in, not the one it is easing
-    // toward — so it holds the entering key's label for the whole segment.
-    state: a.state,
+    // Flips at the midpoint of each segment, so the readout names the pose the
+    // arm is closest to. Holding the entering label for the whole segment meant
+    // the arm sat fully lifted while the panel still read GRIP.
+    state: t < 0.5 ? a.state : b.state,
   };
 }
 
@@ -83,10 +91,20 @@ function solve(pose: Pose) {
 }
 
 // Where the part starts and where it ends up, both derived from the same
-// kinematics as the arm so the table and the drop zone can be drawn around them
-// instead of the pose being nudged to match hand-placed furniture.
+// kinematics as the arm, so the bench and the ledge are drawn around the solved
+// poses rather than the poses being nudged to match hand-placed furniture.
 const PART_START = solve(poseAt(GRIP_AT)).part;
 const PART_END = solve(poseAt(RELEASE_AT)).part;
+const PART_HALF = 6;
+
+// The ledge the part is set down on — above where it was picked up.
+const LEDGE = {
+  top: PART_END.y + PART_HALF,
+  from: PART_END.x - 8,
+  to: PART_END.x + 22,
+  post: PART_END.x + 18,
+};
+const LIFT_HEIGHT = Math.round(PART_START.y - PART_END.y);
 
 // The dashed envelope: the outer limit the tool can reach, drawn between the
 // angles the arm actually works through.
@@ -285,62 +303,64 @@ export function KinematicRig({
           />
         ))}
 
-        {/* pick table, sized around where the part actually starts */}
+        {/* where the part is picked up from — it sits on the bench */}
+        <rect
+          x={PART_START.x - PART_HALF - 1}
+          y={PART_START.y - PART_HALF - 1}
+          width={PART_HALF * 2 + 2}
+          height={PART_HALF * 2 + 2}
+          stroke="var(--color-line)"
+          strokeWidth="1"
+          strokeDasharray="2 3"
+          vectorEffect="non-scaling-stroke"
+        />
+
+        {/* the raised ledge it is set down on, with its support post */}
         <line
-          x1={PART_START.x - 18}
-          y1={PART_START.y + 6}
-          x2={PART_START.x + 16}
-          y2={PART_START.y + 6}
+          x1={LEDGE.from}
+          y1={LEDGE.top}
+          x2={LEDGE.to}
+          y2={LEDGE.top}
           stroke="var(--color-line-strong)"
           strokeWidth="1"
           vectorEffect="non-scaling-stroke"
         />
         <line
-          x1={PART_START.x - 12}
-          y1={PART_START.y + 6}
-          x2={PART_START.x - 12}
+          x1={LEDGE.post}
+          y1={LEDGE.top}
+          x2={LEDGE.post}
           y2={BENCH_Y}
           stroke="var(--color-line)"
           strokeWidth="1"
           vectorEffect="non-scaling-stroke"
         />
-        <line
-          x1={PART_START.x + 10}
-          y1={PART_START.y + 6}
-          x2={PART_START.x + 10}
-          y2={BENCH_Y}
-          stroke="var(--color-line)"
-          strokeWidth="1"
-          vectorEffect="non-scaling-stroke"
-        />
-
-        {/* drop zone */}
+        {/* target outline on the ledge */}
         <rect
-          x={PART_END.x - 8}
-          y={PART_END.y - 7}
-          width="16"
-          height="14"
+          x={PART_END.x - PART_HALF - 1}
+          y={PART_END.y - PART_HALF - 1}
+          width={PART_HALF * 2 + 2}
+          height={PART_HALF * 2 + 2}
           stroke="var(--color-line-strong)"
           strokeWidth="1"
           strokeDasharray="2 3"
           vectorEffect="non-scaling-stroke"
         />
 
-        {/* dimension line, base to drop zone */}
+        {/* vertical dimension: how far the part is raised */}
         <g stroke="var(--color-line-strong)" strokeWidth="1" vectorEffect="non-scaling-stroke">
-          <line x1={BASE.x} y1="190" x2={PART_END.x} y2="190" />
-          <line x1={BASE.x} y1="186" x2={BASE.x} y2="194" />
-          <line x1={PART_END.x} y1="186" x2={PART_END.x} y2="194" />
+          <line x1="204" y1={PART_END.y} x2="204" y2={PART_START.y} />
+          <line x1="200" y1={PART_END.y} x2="208" y2={PART_END.y} />
+          <line x1="200" y1={PART_START.y} x2="208" y2={PART_START.y} />
         </g>
         <text
-          x={(BASE.x + PART_END.x) / 2}
-          y="185"
+          x="204"
+          y={PART_END.y - 6}
           textAnchor="middle"
           fill="var(--color-fg-faint)"
           fontSize="9"
           style={MONO}
         >
-          {Math.round(PART_END.x - BASE.x)}
+          ↑{LIFT_HEIGHT}
         </text>
 
         <line

@@ -6,8 +6,6 @@ import { HeroPlate } from "@/components/hero-plate";
 import { HeroReveal, Pressable, Reveal, WordReveal } from "@/components/motion";
 import { RowReveal } from "@/components/row-reveal";
 import { Schematic } from "@/components/schematic";
-import { SchematicGlyph } from "@/components/schematic-glyph";
-import type { GlyphKind } from "@/components/schematic-glyph";
 import { SectionFrame } from "@/components/section-frame";
 import { Spotlight } from "@/components/spotlight";
 import { StatusTag, Tags, isSafeHref } from "@/components/ui";
@@ -15,14 +13,6 @@ import { ScrollForMore } from "@/components/scroll-for-more";
 import { SectionNav } from "@/components/section-nav";
 import { atAGlance, buildPipeline, focusAreas, recognition, site } from "@/content/site";
 import { featured } from "@/content/work";
-
-const focusGlyphs: Record<string, GlyphKind> = {
-  "embedded-ml": "chip",
-  robotics: "rover",
-  "applied-ai": "graph",
-  "voice-agents": "mic",
-  "assistive-robotics": "hand",
-};
 
 export default function Home() {
   return (
@@ -183,13 +173,17 @@ export default function Home() {
             {focusAreas.map((area, i) => (
               <li key={area.title} className="bg-surface">
                 <Spotlight className="h-full">
-                  <div className="h-full p-5">
-                    <SchematicGlyph
-                      kind={focusGlyphs[area.id]}
-                      delay={i * 0.06}
-                      className="size-14"
-                    />
-                    <p className="mt-3 font-mono text-[12px] text-accent">{area.title}</p>
+                  {/* Indexed and ruled rather than pictogrammed — the glyphs
+                      that used to sit here were rejected as not making sense. */}
+                  <div className="flex h-full flex-col p-5">
+                    <div className="flex items-center gap-2">
+                      <span className="font-mono text-[11px] tabular-nums text-fg-faint">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <span aria-hidden="true" className="h-px flex-1 bg-line-strong" />
+                      <span aria-hidden="true" className="size-1 shrink-0 bg-accent" />
+                    </div>
+                    <p className="mt-5 font-mono text-[12px] text-accent">{area.title}</p>
                     <p className="mt-2 text-[13px] leading-relaxed text-fg-muted">
                       {area.detail}
                     </p>
@@ -238,83 +232,42 @@ export default function Home() {
       </SectionFrame>
 
       <SectionFrame index="05" title="Résumé" id="resume">
+        {/* One compact row. The previous version was a full-height card with a
+            mock document drawn out of bars and rules beside it, which read as
+            stray marks rather than as a résumé. */}
         <Reveal>
-          <div className="relative overflow-hidden rounded-sm border border-line-strong bg-surface">
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute inset-y-0 right-0 hidden w-[42%] border-l border-line bg-[linear-gradient(var(--color-line)_1px,transparent_1px),linear-gradient(90deg,var(--color-line)_1px,transparent_1px)] bg-[size:28px_28px] opacity-60 md:block"
-            />
-            <div className="relative grid items-stretch md:grid-cols-[1.2fr_0.8fr]">
-              <div className="p-6 sm:p-8 lg:p-10">
-                <div className="flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.16em] text-accent">
-                  <span aria-hidden="true" className="size-1.5 bg-accent" />
-                  Current résumé
-                </div>
-                <h3 className="mt-5 max-w-lg text-2xl font-medium tracking-tight text-fg sm:text-3xl">
-                  Experience, research, and selected technical work.
-                </h3>
-                <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-fg-muted">
-                  A concise overview of my work across embedded machine learning,
-                  robotics, applied AI, and assistive systems.
-                </p>
-                <div className="mt-8 flex flex-wrap gap-3">
-                  <Pressable>
-                    <a
-                      href={site.resumeUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex h-10 items-center gap-2 rounded-sm bg-accent px-5 text-sm font-medium text-bg transition-colors duration-150 hover:bg-accent-bright"
-                    >
-                      <FileText aria-hidden="true" className="size-4" strokeWidth={1.7} />
-                      Open résumé
-                    </a>
-                  </Pressable>
-                  <Pressable>
-                    <a
-                      href={site.resumeUrl}
-                      download="Tarun-Yadgirkar-Resume.pdf"
-                      className="inline-flex h-10 items-center gap-2 rounded-sm border border-line-strong px-5 text-sm text-fg transition-colors duration-150 hover:border-accent hover:text-accent"
-                    >
-                      <Download aria-hidden="true" className="size-4" strokeWidth={1.7} />
-                      Download PDF
-                    </a>
-                  </Pressable>
-                </div>
-              </div>
-
-              <div className="relative flex min-h-64 items-center justify-center border-t border-line p-8 md:border-l-0 md:border-t-0">
-                <div
-                  aria-hidden="true"
-                  className="relative w-40 rotate-[2deg] border border-line-strong bg-bg p-5 shadow-[12px_12px_0_var(--color-accent-dim)] transition-transform duration-300 hover:rotate-0 sm:w-44"
+          <div className="flex flex-wrap items-center justify-between gap-x-8 gap-y-5 rounded-sm border border-line-strong bg-surface px-5 py-4 sm:px-6">
+            <div className="min-w-0">
+              <p className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.16em] text-fg-faint">
+                <span aria-hidden="true" className="size-1.5 shrink-0 bg-accent" />
+                Current · PDF
+              </p>
+              <p className="mt-2 text-[15px] font-medium tracking-tight text-fg">
+                Experience, research, and selected technical work.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-3">
+              <Pressable>
+                <a
+                  href={site.resumeUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex h-9 items-center gap-2 rounded-sm bg-accent px-4 text-[13px] font-medium text-bg transition-colors duration-150 hover:bg-accent-bright"
                 >
-                  <div className="flex items-start justify-between border-b border-line pb-4">
-                    <div>
-                      <div className="h-2 w-20 bg-fg" />
-                      <div className="mt-2 h-1 w-12 bg-accent" />
-                    </div>
-                    <span className="font-mono text-[8px] text-fg-faint">PDF</span>
-                  </div>
-                  <div className="mt-5 space-y-4">
-                    {[78, 100, 88].map((width, index) => (
-                      <div key={width}>
-                        <div className="h-1.5 w-10 bg-accent" />
-                        <div className="mt-2 space-y-1.5">
-                          <div className="h-px bg-line-strong" style={{ width: `${width}%` }} />
-                          <div
-                            className="h-px bg-line-strong"
-                            style={{ width: `${Math.max(width - 16, 50)}%` }}
-                          />
-                          {index < 2 ? <div className="h-px w-3/5 bg-line-strong" /> : null}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="mt-5 flex items-center justify-between border-t border-line pt-3">
-                    <div className="h-px w-12 bg-fg-faint" />
-                    <span className="font-mono text-[7px] text-fg-faint">01</span>
-                  </div>
-                </div>
-              </div>
+                  <FileText aria-hidden="true" className="size-4" strokeWidth={1.7} />
+                  Open
+                </a>
+              </Pressable>
+              <Pressable>
+                <a
+                  href={site.resumeUrl}
+                  download="Tarun-Yadgirkar-Resume.pdf"
+                  className="inline-flex h-9 items-center gap-2 rounded-sm border border-line-strong px-4 text-[13px] text-fg transition-colors duration-150 hover:border-accent hover:text-accent"
+                >
+                  <Download aria-hidden="true" className="size-4" strokeWidth={1.7} />
+                  Download
+                </a>
+              </Pressable>
             </div>
           </div>
         </Reveal>
