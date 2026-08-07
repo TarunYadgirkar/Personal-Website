@@ -1,13 +1,13 @@
 import Link from "next/link";
 import { ArrowRight, Download, FileText } from "lucide-react";
 import { CopyEmailButton } from "@/components/copy-email-button";
+import { HeroPlate } from "@/components/hero-plate";
 import { HeroReveal, Pressable, Reveal, WordReveal } from "@/components/motion";
 import { Schematic } from "@/components/schematic";
 import { SchematicGlyph } from "@/components/schematic-glyph";
 import type { GlyphKind } from "@/components/schematic-glyph";
 import { SectionFrame } from "@/components/section-frame";
 import { Spotlight } from "@/components/spotlight";
-import { SystemRule } from "@/components/system-rule";
 import { StatusTag, Tags, isSafeHref } from "@/components/ui";
 import { ScrollForMore } from "@/components/scroll-for-more";
 import { SectionNav } from "@/components/section-nav";
@@ -121,9 +121,10 @@ export default function Home() {
           </HeroReveal>
         </div>
 
-        <HeroReveal delay={0.3}>
-          <SystemRule className="mt-12 h-24 w-full sm:h-28" />
-        </HeroReveal>
+        {/* Not wrapped in HeroReveal: this element gets pinned, and a motion
+            wrapper's lingering transform would fight the pin. It runs its own
+            entrance internally instead. */}
+        <HeroPlate className="mt-12" />
       </section>
 
       <SectionFrame index="01" title="Featured work" id="featured-work">

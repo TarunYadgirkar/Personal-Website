@@ -2,7 +2,33 @@
 
 import { MotionConfig, motion, useReducedMotion } from "motion/react";
 import type { Variants } from "motion/react";
-import type { ReactNode } from "react";
+import { useSyncExternalStore, type ReactNode } from "react";
+
+const REDUCED_QUERY = "(prefers-reduced-motion: reduce)";
+
+function subscribeReducedMotion(onChange: () => void) {
+  const query = window.matchMedia(REDUCED_QUERY);
+  query.addEventListener("change", onChange);
+  return () => query.removeEventListener("change", onChange);
+}
+
+/**
+ * Hydration-safe reduced-motion.
+ *
+ * Use this — not `useReducedMotion()` — whenever the answer decides *which
+ * elements get rendered* rather than merely how they move. React renders the
+ * server snapshot during hydration and only then reconciles against the client
+ * one, so the first client render is guaranteed to match the markup that came
+ * off the server. Branching directly on `useReducedMotion()` is what made the
+ * homepage headline fail hydration (React #418) for reduced-motion users.
+ */
+function useReducedMotionAfterMount() {
+  return useSyncExternalStore(
+    subscribeReducedMotion,
+    () => window.matchMedia(REDUCED_QUERY).matches,
+    () => false,
+  );
+}
 
 export function MotionProvider({ children }: { children: ReactNode }) {
   return <MotionConfig reducedMotion="user">{children}</MotionConfig>;
@@ -106,7 +132,10 @@ export function WordReveal({
   className?: string;
   delay?: number;
 }) {
-  const reduced = useReducedMotion();
+  // Mount-gated: this branch swaps one DOM shape for another, and doing that on
+  // the first client render made the homepage's headline fail hydration
+  // (React #418) for anyone with reduced motion on.
+  const reduced = useReducedMotionAfterMount();
   const words = text.split(" ");
 
   if (reduced) return <span className={className}>{text}</span>;
