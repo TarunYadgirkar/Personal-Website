@@ -9,6 +9,7 @@ import { MotionProvider } from "@/components/motion";
 import { Nav } from "@/components/nav";
 import { PageTransition } from "@/components/page-transition";
 import { ScrollProgress } from "@/components/scroll-progress";
+import { ScrollRefresh } from "@/components/scroll-refresh";
 import { SmoothScroll } from "@/components/smooth-scroll";
 import { SocialBubble } from "@/components/social-bubble";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -77,6 +78,7 @@ export default function RootLayout({
         <SmoothScroll>
           <ThemeProvider>
             <MotionProvider>
+              <ScrollRefresh />
               <ScrollProgress />
               <a
                 href="#main"
