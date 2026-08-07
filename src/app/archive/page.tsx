@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { AxisReveal } from "@/components/axis-reveal";
 import { ExternalLink } from "@/components/ui";
 import { archive } from "@/content/archive";
 
@@ -23,8 +24,9 @@ export default function ArchivePage() {
 
       {/* A time axis rather than a table: the years are the through-line here,
           so they sit on a rule with a tick per entry. */}
-      <div className="relative mt-14">
+      <AxisReveal className="relative mt-14">
         <span
+          data-axis
           aria-hidden="true"
           className="absolute bottom-6 left-[64px] top-6 hidden w-px bg-line sm:block"
         />
@@ -38,6 +40,7 @@ export default function ArchivePage() {
               {item.years ?? ""}
             </p>
             <span
+              data-axis-dot
               aria-hidden="true"
               className="absolute left-[61px] top-[30px] hidden size-1.5 rounded-full bg-accent sm:block"
             />
@@ -61,7 +64,7 @@ export default function ArchivePage() {
             </div>
           </article>
         ))}
-      </div>
+      </AxisReveal>
     </div>
   );
 }

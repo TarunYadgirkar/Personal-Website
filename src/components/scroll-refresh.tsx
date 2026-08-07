@@ -4,9 +4,9 @@ import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 import { ScrollTrigger } from "@/lib/gsap";
 
-// PageTransition's exit is 0.22s; wait past it so the outgoing page is gone
-// before anything is measured.
-const ROUTE_SETTLE_MS = 280;
+// Past the end of PageTransition's entrance, so the incoming page is settled at
+// its final offsets before anything is measured.
+const ROUTE_SETTLE_MS = 620;
 // ::details-content animates block-size over 0.32s (globals.css).
 const DETAILS_SETTLE_MS = 360;
 
@@ -21,8 +21,8 @@ const DETAILS_SETTLE_MS = 360;
  *
  *  - `next/font` swapping the fallback face for the real one, which changes the
  *    height of every block of text on the page
- *  - route changes, because PageTransition is `<AnimatePresence mode="wait">` —
- *    the outgoing page is still in the DOM while the incoming one mounts
+ *  - route changes, where the incoming page is a completely different document
+ *    height and PageTransition is still easing it into place
  *  - the `<details>` disclosure on /work
  *
  * Theme changes deliberately do *not* refresh: next-themes only swaps CSS custom

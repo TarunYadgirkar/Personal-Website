@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Reveal } from "@/components/motion";
+import { RowReveal } from "@/components/row-reveal";
 import { SectionFrame } from "@/components/section-frame";
 import { Spotlight } from "@/components/spotlight";
 import { ExternalLink, StatusTag, Tags } from "@/components/ui";
@@ -42,16 +43,20 @@ function CaseStudyArticle({ study, isCompact = false }: { study: CaseStudy; isCo
   return (
     <Spotlight className="rounded-sm border border-line bg-surface">
       <article id={study.slug} className={isCompact ? "p-6 sm:p-7" : "p-7 sm:p-10"}>
-        <div className="flex flex-wrap items-center gap-3">
-          <h2 className={`${isCompact ? "text-xl" : "text-2xl"} font-medium tracking-tight text-fg`}>
-            {study.title}
-          </h2>
-          <StatusTag>{study.status}</StatusTag>
+        <div data-row-part>
+          <div className="flex flex-wrap items-center gap-3">
+            <h2
+              className={`${isCompact ? "text-xl" : "text-2xl"} font-medium tracking-tight text-fg`}
+            >
+              {study.title}
+            </h2>
+            <StatusTag>{study.status}</StatusTag>
+          </div>
+          <p className="mt-2 text-[15px] text-fg-muted">{study.oneLiner}</p>
+          <EventLine study={study} />
         </div>
-        <p className="mt-2 text-[15px] text-fg-muted">{study.oneLiner}</p>
-        <EventLine study={study} />
 
-        <div className="mt-8 flex flex-col border-t border-line pt-2">
+        <div data-row-part className="mt-8 flex flex-col border-t border-line pt-2">
           <Field label="Problem">{study.problem}</Field>
           <Field label="What I built">{study.built}</Field>
           <Field label="Stack">
@@ -106,13 +111,17 @@ export default function WorkPage() {
       </SectionFrame>
 
       <SectionFrame index="02" title="Selected prototypes" id="selected-builds">
-        <div className="flex flex-col gap-16">
-          {caseStudies.map((cs, i) => (
-            <Reveal key={cs.slug} variant={i % 2 === 0 ? "up" : "mask"}>
-              <CaseStudyArticle study={cs} />
-            </Reveal>
-          ))}
-        </div>
+        {/* Per-card triggers rather than one reveal per card: each study answers
+            the scroll on its own as it is reached. */}
+        <RowReveal>
+          <div className="flex flex-col gap-16">
+            {caseStudies.map((cs) => (
+              <div data-row key={cs.slug}>
+                <CaseStudyArticle study={cs} />
+              </div>
+            ))}
+          </div>
+        </RowReveal>
       </SectionFrame>
 
       <SectionFrame index="03" title="Additional builds" id="additional-builds">
