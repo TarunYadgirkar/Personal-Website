@@ -7,7 +7,7 @@ import { navLinks } from "@/content/site";
 
 const ITEMS = [
   ...navLinks,
-  { href: "/#resume", label: "Résumé" },
+  { href: "/#resume", label: "Resume" },
   { href: "/#contact", label: "Contact" },
 ] as const;
 

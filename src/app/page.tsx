@@ -231,10 +231,12 @@ export default function Home() {
         </AxisReveal>
       </SectionFrame>
 
-      <SectionFrame index="05" title="Résumé" id="resume">
+      {/* "Resume", unaccented, everywhere it appears — matches the hero button
+          and the download filename, which were already plain. */}
+      <SectionFrame index="05" title="Resume" id="resume">
         {/* One compact row. The previous version was a full-height card with a
             mock document drawn out of bars and rules beside it, which read as
-            stray marks rather than as a résumé. */}
+            stray marks rather than as a resume. */}
         <Reveal>
           <div className="flex flex-wrap items-center justify-between gap-x-8 gap-y-5 rounded-sm border border-line-strong bg-surface px-5 py-4 sm:px-6">
             <div className="min-w-0">
