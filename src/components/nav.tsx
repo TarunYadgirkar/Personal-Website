@@ -37,7 +37,7 @@ export function Nav() {
                   <Link
                     href={href}
                     aria-current={active ? "page" : undefined}
-                    className={`inline-flex h-10 items-center text-[13px] tracking-wide transition-colors duration-150 ${
+                    className={`inline-flex h-10 items-center text-[13px] transition-colors duration-150 ${
                       active ? "text-accent" : "text-fg-muted hover:text-fg"
                     }`}
                   >

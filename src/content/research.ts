@@ -1,6 +1,6 @@
 export const winLab = {
   role: "Research Assistant",
-  org: "Santa Clara University — Wireless Intelligent Networks (WIN) Lab",
+  org: "Santa Clara University, Wireless Intelligent Networks (WIN) Lab",
   period: "Jul 2025 – present",
   location: "Santa Clara, CA",
   bullets: [
@@ -22,12 +22,12 @@ export const publication = {
 } as const;
 
 export const roar = {
-  title: "UC Berkeley College of Engineering — ROAR Academy",
+  title: "UC Berkeley College of Engineering, ROAR Academy",
   period: "Summer 2025",
   detail:
     "Trained in and programmed machine-learning systems and applied them to autonomous robotics. Attended on a 100% scholarship.",
   related:
-    "Related: ROAR SimRace submission — a working solution for the Robot Open Autonomous Racing simulation series (Python).",
+    "A related ROAR SimRace submission provides a working solution for the Robot Open Autonomous Racing simulation series (Python).",
   links: [
     {
       label: "ROAR SimRace on GitHub",

@@ -64,7 +64,7 @@ export default function PatentPage() {
       </section>
 
       <section className="mt-20" aria-labelledby="signal-path">
-        <SectionHeading id="signal-path" title="Signal path — sense, map, arbitrate, assist" />
+        <SectionHeading id="signal-path" title="Signal path: sense, map, arbitrate, assist" />
         <p className="-mt-4 mb-8 max-w-2xl text-[15px] leading-relaxed text-fg-muted">
           On-board perception continuously reclassifies terrain and hands control to
           the right locomotion mode in real time.

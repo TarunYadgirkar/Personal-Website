@@ -32,12 +32,12 @@ const GRIP_OFFSET = 8;
  * instead of passing through it.
  */
 const KEYS = [
-  { p: 0, t1: 100, t2: -140, t3: 30, jaw: 6, state: "HOME" },
-  { p: 0.36, t1: 59, t2: -94, t3: 0, jaw: 6, state: "REACH" },
-  { p: 0.48, t1: 59, t2: -94, t3: 0, jaw: 2, state: "GRIP" },
-  { p: 0.68, t1: 80, t2: -72, t3: -28, jaw: 2, state: "LIFT" },
-  { p: 0.92, t1: 62, t2: -55, t3: -32, jaw: 2, state: "PLACE" },
-  { p: 1, t1: 62, t2: -55, t3: -32, jaw: 6, state: "CLEAR" },
+  { p: 0, t1: 100, t2: -140, t3: 30, jaw: 6, state: "home" },
+  { p: 0.36, t1: 59, t2: -94, t3: 0, jaw: 6, state: "reach" },
+  { p: 0.48, t1: 59, t2: -94, t3: 0, jaw: 2, state: "grip" },
+  { p: 0.68, t1: 80, t2: -72, t3: -28, jaw: 2, state: "lift" },
+  { p: 0.92, t1: 62, t2: -55, t3: -32, jaw: 2, state: "place" },
+  { p: 1, t1: 62, t2: -55, t3: -32, jaw: 6, state: "clear" },
 ] as const;
 
 const GRIP_AT = 0.48;

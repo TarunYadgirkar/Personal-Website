@@ -61,9 +61,7 @@ export function HeroPlate({ className = "" }: { className?: string }) {
         <div ref={body}>
           <div className="flex items-center justify-between gap-4 border-b border-line px-4 py-2">
             <p className="flex items-center gap-2 font-mono text-[11px] text-fg-faint">
-              <span aria-hidden="true" className="size-1.5 shrink-0 bg-accent" />
-              FIG. 01
-              <span aria-hidden="true" className="h-px w-4 bg-line-strong" />
+              Fig. 01
               <span className="text-fg-muted">sense · infer · actuate</span>
             </p>
             <p className="hidden shrink-0 font-mono text-[11px] text-fg-faint motion-reduce:hidden sm:block">
@@ -82,9 +80,8 @@ export function HeroPlate({ className = "" }: { className?: string }) {
               {/* A drawing legend, and the reason the left cell isn't mostly
                   empty: the rule's viewBox is 10:1, so extra container height
                   only letterboxes it. */}
-              <div className="mt-5 flex items-center justify-between border-t border-line pt-3 font-mono text-[10px] uppercase tracking-[0.14em] text-fg-faint">
+              <div className="mt-5 flex items-center justify-between border-t border-line pt-3 font-mono text-[10px] text-fg-faint">
                 <span>analog in</span>
-                <span className="hidden sm:inline">quantise</span>
                 <span>digital out</span>
               </div>
             </div>

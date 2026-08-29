@@ -4,9 +4,9 @@ import { motion, useReducedMotion, useScroll, useTransform } from "motion/react"
 import { useRef, type ReactNode } from "react";
 
 /**
- * A page section rendered as a sheet on an engineering drawing: a mono index,
- * a hairline lead-in, then the standard accent-square heading, with a rule down
- * the left gutter that fills as the section is read.
+ * A page section rendered as a sheet on an engineering drawing: a mono index
+ * inline with the heading, and a rule down the left gutter that fills as the
+ * section is read.
  *
  * The index sits *inline with* the heading rather than above it, because
  * .design-sync/conventions.md forbids eyebrow labels stacked over headings.
@@ -53,8 +53,6 @@ export function SectionFrame({
 
       <div className="mb-10 flex items-center gap-3">
         <span className="font-mono text-[12px] tabular-nums text-fg-faint">{index}</span>
-        <span aria-hidden="true" className="h-px w-6 bg-line-strong" />
-        <span aria-hidden="true" className="size-1.5 shrink-0 bg-accent" />
         <h2 id={id} className="text-2xl font-medium tracking-tight text-fg sm:text-3xl">
           {title}
         </h2>

@@ -23,12 +23,7 @@ export default function Home() {
       <section className="pt-24 sm:pt-32">
         <div className="grid items-start gap-12 lg:grid-cols-[1fr_320px] lg:gap-14">
           <div>
-            <HeroReveal>
-              <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-accent">
-                {site.education}
-              </p>
-            </HeroReveal>
-            <h1 className="mt-3 max-w-[20rem] break-words text-[1.9rem] font-medium leading-[1.08] tracking-tight sm:max-w-3xl sm:text-5xl sm:leading-[1.06]">
+            <h1 className="max-w-[20rem] break-words text-[1.9rem] font-medium leading-[1.08] tracking-tight sm:max-w-3xl sm:text-5xl sm:leading-[1.06]">
               <WordReveal text={`${site.name} builds ${site.positioning}.`} delay={0.06} />
             </h1>
             <HeroReveal delay={0.12}>
@@ -93,15 +88,13 @@ export default function Home() {
               </div>
               <dl className="mt-4 space-y-3">
                 {atAGlance.map((row) => (
-                  <div key={row.label} className="flex items-baseline gap-3">
+                  <div
+                    key={row.label}
+                    className="flex items-baseline justify-between gap-4"
+                  >
                     <dt className="whitespace-nowrap font-mono text-[12px] text-fg-faint">
                       {row.label}
                     </dt>
-                    {/* leader rule, as on a spec sheet — carries the eye across */}
-                    <span
-                      aria-hidden="true"
-                      className="h-px min-w-4 flex-1 translate-y-[-2px] bg-line"
-                    />
                     <dd className="text-right font-mono text-[12.5px] leading-snug text-fg">
                       {row.accent && <span className="text-accent">{row.accent}</span>}
                       {row.value}
@@ -176,13 +169,9 @@ export default function Home() {
                   {/* Indexed and ruled rather than pictogrammed — the glyphs
                       that used to sit here were rejected as not making sense. */}
                   <div className="flex h-full flex-col p-5">
-                    <div className="flex items-center gap-2">
-                      <span className="font-mono text-[11px] tabular-nums text-fg-faint">
-                        {String(i + 1).padStart(2, "0")}
-                      </span>
-                      <span aria-hidden="true" className="h-px flex-1 bg-line-strong" />
-                      <span aria-hidden="true" className="size-1 shrink-0 bg-accent" />
-                    </div>
+                    <span className="font-mono text-[11px] tabular-nums text-fg-faint">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
                     <p className="mt-5 font-mono text-[12px] text-accent">{area.title}</p>
                     <p className="mt-2 text-[13px] leading-relaxed text-fg-muted">
                       {area.detail}
@@ -197,8 +186,8 @@ export default function Home() {
 
       <SectionFrame index="03" title="How I build" id="how-i-build">
         <p className="mb-8 max-w-2xl text-[15px] leading-relaxed text-fg-muted">
-          Less a process than a bias. The domain changes; how I approach a
-          problem doesn&apos;t.
+          The domain changes, but the way I approach a problem stays roughly
+          the same.
         </p>
         {/* No Reveal wrapper: the diagram now assembles itself stage by stage
             on scroll, which replaces the single clip-path wipe. */}
@@ -240,12 +229,9 @@ export default function Home() {
         <Reveal>
           <div className="flex flex-wrap items-center justify-between gap-x-8 gap-y-5 rounded-sm border border-line-strong bg-surface px-5 py-4 sm:px-6">
             <div className="min-w-0">
-              <p className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.16em] text-fg-faint">
-                <span aria-hidden="true" className="size-1.5 shrink-0 bg-accent" />
-                Current · PDF
-              </p>
+              <p className="font-mono text-[11px] text-fg-faint">Current · PDF</p>
               <p className="mt-2 text-[15px] font-medium tracking-tight text-fg">
-                Experience, research, and selected technical work.
+                Experience and selected technical work.
               </p>
             </div>
             <div className="flex flex-wrap gap-3">
@@ -277,7 +263,7 @@ export default function Home() {
 
       <SectionFrame index="06" title="Collaborate" id="contact" className="pb-28">
         <p className="max-w-xl text-[15px] leading-relaxed text-fg-muted">
-          Open to research collaborations, internships, and technical projects.
+          Open to research collaborations and internships.
         </p>
         <div className="mt-6 flex flex-col items-start gap-2">
           {site.emails.map((email) => (

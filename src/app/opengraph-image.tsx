@@ -21,13 +21,10 @@ export default function OgImage() {
           fontFamily: "sans-serif",
         }}
       >
-        <div style={{ fontSize: 24, color: "#e2a264" }}>{site.subline}</div>
         <div
           style={{
-            marginTop: 28,
             fontSize: 72,
             fontWeight: 600,
-            letterSpacing: "-0.02em",
           }}
         >
           {site.name}
@@ -35,15 +32,9 @@ export default function OgImage() {
         <div style={{ marginTop: 18, fontSize: 34, color: "#98a1b3" }}>
           {site.positioning}
         </div>
-        <div
-          style={{
-            marginTop: 64,
-            height: 2,
-            width: 480,
-            background: "#e2a264",
-            opacity: 0.55,
-          }}
-        />
+        <div style={{ marginTop: 36, fontSize: 24, color: "#e2a264" }}>
+          {site.subline}
+        </div>
       </div>
     ),
     size,

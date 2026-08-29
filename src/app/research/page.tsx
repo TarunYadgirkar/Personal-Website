@@ -18,11 +18,11 @@ export default function ResearchPage() {
   return (
     <div className="mx-auto max-w-5xl px-6 pb-28 pt-20">
       <h1 className="mt-4 max-w-3xl text-3xl font-medium tracking-tight sm:text-5xl">
-        Embedded ML, close to the metal
+        Embedded machine learning on real hardware
       </h1>
       <p className="mt-5 max-w-2xl text-[15px] leading-relaxed text-fg-muted">
-        Current research focuses on running machine learning under real
-        hardware constraints — FPGA acceleration for high-throughput,
+        Current research focuses on FPGA acceleration for machine learning
+        under real hardware constraints, targeting high-throughput,
         low-latency workloads.
       </p>
 
@@ -31,7 +31,7 @@ export default function ResearchPage() {
           <Spotlight className="rounded-sm border border-line bg-surface">
           <article className="p-7 sm:p-10">
             <h3 className="text-xl font-medium tracking-tight text-fg">
-              {winLab.role} — {winLab.org}
+              {winLab.role} · {winLab.org}
             </h3>
             <p className="mt-1 font-mono text-[12px] text-fg-faint">
               {winLab.period} · {winLab.location}

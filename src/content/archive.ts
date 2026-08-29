@@ -22,7 +22,7 @@ export const archive: readonly ArchiveItem[] = [
     title: "AI Waste-Sorting Robot",
     type: "CV + Robotics",
     detail:
-      "Computer-vision and robotics build — Raspberry Pi, camera + near-infrared sensor, 3D-printed parts, servo actuation; 94.7% sorting accuracy across compost, recycling, and trash. Recognized at the Contra Costa County Science & Engineering Fair (3rd of 67; Martinez Refinery sustainability certificate; $500 development grant).",
+      "Computer-vision and robotics build using a Raspberry Pi, a camera and near-infrared sensor, 3D-printed parts, and servo actuation; 94.7% sorting accuracy across compost, recycling, and trash. Recognized at the Contra Costa County Science & Engineering Fair (3rd of 67; Martinez Refinery sustainability certificate; $500 development grant).",
   },
   {
     years: "2024–2025",
@@ -43,7 +43,7 @@ export const archive: readonly ArchiveItem[] = [
     title: "AI & Robotics teaching — Vidyananda Gurukula Education Trust, Karnataka",
     type: "Teaching",
     detail:
-      "Designed and delivered an AI & robotics program — kits plus virtual and in-person classes.",
+      "Designed and delivered an AI & robotics program with kits plus virtual and in-person classes.",
     href: "https://www.facebook.com/vidyanandagurukula/",
   },
   {

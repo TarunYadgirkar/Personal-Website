@@ -1,14 +1,14 @@
 export const site = {
   name: "Tarun Yadgirkar",
-  positioning: "AI systems, robotics, and embedded intelligence",
-  subline: "Embedded ML · robotics & autonomy · applied AI",
+  positioning: "AI systems for robotics and embedded hardware",
+  subline: "Embedded ML · robotics and autonomy",
   education: "Applied Mathematics @ UC Berkeley",
   location: "Berkeley, California",
   emails: [{ label: "Berkeley", address: "tarun_yadgirkar@berkeley.edu" }],
   url: "https://tarunyadgirkar.com",
   resumeUrl: "/resume/tarun-yadgirkar-resume.pdf",
   bioShort:
-    "I build AI systems, robotics platforms, and embedded intelligence — from FPGA-accelerated machine learning to assistive mobility robots. I'm studying Applied Mathematics at UC Berkeley, research embedded ML at Santa Clara University's WIN Lab, and filed a provisional patent for BALANCE, a hybrid legged-and-wheeled mobility device.",
+    "I build AI systems for robotics and embedded hardware, from FPGA-accelerated machine learning to assistive mobility robots. I'm studying Applied Mathematics at UC Berkeley and research embedded ML at Santa Clara University's WIN Lab. I filed a provisional patent for BALANCE, a hybrid legged-and-wheeled mobility device.",
   links: {
     github: "https://github.com/TarunYadgirkar",
     linkedin: "https://www.linkedin.com/in/tarun-yadgirkar/",
@@ -55,7 +55,7 @@ export const focusAreas = [
   {
     id: "applied-ai",
     title: "Applied AI systems",
-    detail: "CarePath, Klarity VoiceNote, GuestFlow — shipped AI product prototypes",
+    detail: "Shipped AI product prototypes, including CarePath and Klarity VoiceNote",
   },
   {
     id: "voice-agents",
@@ -78,7 +78,7 @@ export const buildPipeline = [
     nodes: [
       {
         title: "Find the real limit",
-        sub: ["What actually binds this —", "compute, data, time, trust"],
+        sub: ["What actually binds this:", "compute, data, time, trust"],
       },
     ],
   },
@@ -87,7 +87,7 @@ export const buildPipeline = [
     nodes: [
       {
         title: "Smallest thing that proves it",
-        sub: ["One question per prototype", "Cut scope, not rigor"],
+        sub: ["One question per prototype", "Cut scope, keep rigor"],
         isAccent: true,
       },
     ],

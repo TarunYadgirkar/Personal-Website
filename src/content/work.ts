@@ -32,17 +32,17 @@ export const featured: readonly Featured[] = [
     status: "Research · ongoing",
     context: "SCU Wireless Intelligent Networks (WIN) Lab · Jul 2025 – present",
     summary:
-      "FPGA-based acceleration for machine learning and wireless-communication algorithms — high-throughput, low-latency signal processing and channel estimation.",
+      "FPGA-based acceleration for machine learning and wireless-communication algorithms, covering high-throughput, low-latency signal processing and channel estimation.",
     tags: ["FPGA", "Embedded ML", "Signal Processing", "Channel Estimation", "Low-Latency Systems"],
     href: "/research",
   },
   {
     slug: "balance",
-    title: "BALANCE — Assistive Mobility Robotics",
+    title: "BALANCE, assistive mobility robotics",
     status: "Provisional patent · Published",
     context: "Co-developed with a student team · Youth Innovation Journal, Fall 2025",
     summary:
-      "A hybrid mobility device — wheeled on flat ground, robotic-leg assistance on stairs and uneven terrain. Provisional patent No. 63/743,085.",
+      "A hybrid mobility device that runs on wheels over flat ground and uses robotic-leg assistance on stairs and uneven terrain. Provisional patent No. 63/743,085.",
     tags: ["Assistive Robotics", "Mechatronics", "LiDAR", "Navigation", "CAD"],
     href: "/patent",
   },
@@ -52,7 +52,7 @@ export const featured: readonly Featured[] = [
     status: "Internship",
     context: "Rainier Labs · Sunnyvale, CA · Jun – Aug 2025",
     summary:
-      "Expressive robotic head system — display integration, CAD redesign for hardware fit, and audio component evaluation.",
+      "Expressive robotic head system, covering display integration and CAD redesign for hardware fit.",
     tags: ["Embedded Systems", "Robotics Hardware", "CAD", "Human-Robot Interaction"],
     href: "/work#rainier",
   },
@@ -72,7 +72,7 @@ export const caseStudies: readonly CaseStudy[] = [
     problem:
       "Patients don't know where to go, what it may cost, or what to bring when symptoms are confusing.",
     built:
-      "A browser-based voice app that turns symptom descriptions into a recommended care destination with visible reasoning, cost context, and a shareable Care Card. The prototype includes five modes: Triage, Debrief, MedCard, Check-in, and Timeline, with simulated records import and privacy-by-design local data handling.",
+      "A browser-based voice app that turns symptom descriptions into a recommended care destination with visible reasoning and cost context, plus a shareable Care Card. The prototype includes five modes: Triage, Debrief, MedCard, Check-in, and Timeline, with simulated records import and privacy-by-design local data handling.",
     stack: [
       "Next.js 16",
       "React 19",
@@ -216,9 +216,9 @@ export const additionalCaseStudies: readonly CaseStudy[] = [
 
 export const rainier = {
   id: "rainier",
-  title: "Robotics Hardware & Embedded Systems — Rainier Labs",
+  title: "Robotics hardware and embedded systems at Rainier Labs",
   status: "Robotics Hardware and Embedded Systems Intern",
   context: "Sunnyvale, CA · Jun – Aug 2025",
-  body: "Worked on an expressive robotic head system: researched, selected, and integrated display screens for a robotic facial-expression system and redesigned CAD models to ensure proper hardware fit; collaborated on the robotic head design, balancing aesthetics with hardware function; evaluated and sourced microphone and speaker components across hardware/software trade-offs.",
+  body: "Worked on an expressive robotic head system: selected and integrated display screens for a robotic facial-expression system and redesigned CAD models to ensure proper hardware fit; collaborated on the robotic head design, balancing aesthetics with hardware function; evaluated and sourced microphone and speaker components across hardware/software trade-offs.",
   tags: ["Embedded Systems", "Robotics", "CAD", "Human-Robot Interaction"],
 } as const;

@@ -26,8 +26,7 @@ export function SystemMark({ className = "" }: { className?: string }) {
 
 export function SectionHeading({ title, id }: { title: string; id?: string }) {
   return (
-    <div className="mb-10 flex items-center gap-3">
-      <span aria-hidden="true" className="size-1.5 shrink-0 bg-accent" />
+    <div className="mb-10">
       <h2 id={id} className="text-2xl font-medium tracking-tight text-fg sm:text-3xl">
         {title}
       </h2>
@@ -37,7 +36,7 @@ export function SectionHeading({ title, id }: { title: string; id?: string }) {
 
 export function StatusTag({ children }: { children: ReactNode }) {
   return (
-    <span className="inline-flex items-center rounded-sm border border-line-strong bg-accent-dim px-2 py-0.5 font-mono text-[12px] tracking-wide text-accent-bright">
+    <span className="inline-flex items-center rounded-sm border border-line-strong bg-accent-dim px-2 py-0.5 font-mono text-[12px] text-accent-bright">
       {children}
     </span>
   );
@@ -49,7 +48,7 @@ export function Tags({ items }: { items: readonly string[] }) {
       {items.map((tag) => (
         <li
           key={tag}
-          className="font-mono text-[12px] tracking-wide text-fg-faint"
+          className="font-mono text-[12px] text-fg-faint"
         >
           {tag}
         </li>
