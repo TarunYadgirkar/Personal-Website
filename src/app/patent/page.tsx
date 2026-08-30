@@ -4,7 +4,7 @@ import { ExternalLink, SectionHeading, StatusTag } from "@/components/ui";
 import { balance } from "@/content/balance";
 
 export const metadata: Metadata = {
-  title: "Provisional Patent — BALANCE",
+  title: "BALANCE provisional patent",
   description:
     "BALANCE: a hybrid legged-and-wheeled assistive mobility device. Filed as provisional patent No. 63/743,085; a related article was published in the Youth Innovation Journal (Fall 2025).",
   alternates: {

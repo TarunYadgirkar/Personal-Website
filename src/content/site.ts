@@ -118,7 +118,7 @@ export const recognition = [
     context: "2026",
   },
   {
-    line: "Eagle Scout — Boy Scouts of America",
+    line: "Eagle Scout, Boy Scouts of America",
     context: "2025",
   },
 ] as const;

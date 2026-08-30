@@ -11,7 +11,7 @@ export type ArchiveItem = {
 export const archive: readonly ArchiveItem[] = [
   {
     years: "2022–2026",
-    title: "VEX Robotics — Dublin Robotics",
+    title: "VEX Robotics, Dublin Robotics",
     type: "Robotics",
     detail:
       "Co-captain / captain. Led a multidisciplinary team across CAD, build, and programming; developed autonomous and driver code. Results: VEX Worlds 2024 qualifier (top-10 Robot Skills worldwide), US Open top-5 qualification rankings (2×), division finalist (2×).",
@@ -34,13 +34,13 @@ export const archive: readonly ArchiveItem[] = [
   },
   {
     years: "2023",
-    title: "Inspirit AI Scholars — Distracted Drivers",
+    title: "Inspirit AI Scholars, distracted drivers",
     type: "Applied AI",
     detail:
       "Built a real-time driver-inattentiveness alert system using CNNs and LSTMs on visual input.",
   },
   {
-    title: "AI & Robotics teaching — Vidyananda Gurukula Education Trust, Karnataka",
+    title: "AI & robotics teaching at Vidyananda Gurukula Education Trust, Karnataka",
     type: "Teaching",
     detail:
       "Designed and delivered an AI & robotics program with kits plus virtual and in-person classes.",
