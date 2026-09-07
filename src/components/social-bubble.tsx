@@ -1,18 +1,9 @@
 "use client";
 
 import { GithubLogo, LinkedinLogo, MoonIcon, SunIcon, XLogo } from "@phosphor-icons/react";
-import { motion, useReducedMotion } from "motion/react";
 import { useTheme } from "next-themes";
 import { useSyncExternalStore } from "react";
 import { socialLinks } from "@/content/site";
-
-const magnetic = {
-  whileHover: { scale: 1.18, y: -2 },
-  whileTap: { scale: 0.94 },
-  transition: { type: "spring", stiffness: 400, damping: 20 },
-} as const;
-
-const still = {} as const;
 
 const iconClass = "size-[18px] text-fg-muted transition-colors duration-150";
 
@@ -42,42 +33,37 @@ export function useMountedTheme() {
 
 export function SocialBubble() {
   const { resolvedTheme, setTheme, isMounted } = useMountedTheme();
-  const reduced = useReducedMotion();
-  const hover = reduced ? still : magnetic;
-
   if (!isMounted) return null;
 
   return (
-    <div className="fixed bottom-5 right-5 z-40 hidden items-center gap-4 rounded-full border border-line-strong bg-surface/90 px-5 py-3 shadow-lg backdrop-blur-sm md:flex">
+    <div className="fixed bottom-5 right-5 z-40 hidden items-center gap-4 rounded-sm border border-line-strong bg-surface px-5 py-3 md:flex">
       {socialLinks.map(({ label, href }) => {
         const Icon = SOCIAL_ICONS[label];
         return (
-          <motion.a
+          <a
             key={label}
             href={href}
             target="_blank"
             rel="noopener noreferrer"
             aria-label={label}
             title={label}
-            {...hover}
           >
             <Icon weight="regular" className={`${iconClass} hover:text-accent`} />
-          </motion.a>
+          </a>
         );
       })}
       <span aria-hidden="true" className="h-5 w-px bg-line-strong" />
-      <motion.button
+      <button
         type="button"
         onClick={() => setTheme(resolvedTheme === "light" ? "dark" : "light")}
         aria-label="Toggle color theme"
-        {...hover}
       >
         {resolvedTheme === "light" ? (
           <MoonIcon weight="regular" className={`${iconClass} hover:text-accent`} />
         ) : (
           <SunIcon weight="regular" className={`${iconClass} hover:text-accent`} />
         )}
-      </motion.button>
+      </button>
     </div>
   );
 }

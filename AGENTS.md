@@ -92,9 +92,9 @@ transitions, so a GSAP tween parked at `drawSVG: "0%"` would render an invisible
   scroll-filled left gutter rule. Used by every page. It is `position: relative`, which
   makes it the `offsetParent` for headings inside it — see the `section-nav.tsx` gotcha
   below.
-- `src/components/spotlight.tsx` — `Spotlight`: cursor-follow tint adapted from KokonutUI
-  onto our tokens. Returns children unwrapped under reduced motion **and** on coarse
-  pointers, so touch gets nothing.
+- `spotlight.tsx` (cursor-follow radial tint) was **deleted 2026-09-07** in the
+  vibe-coded-tells pass below. Cards and rows are plain bordered surfaces now; do not
+  reintroduce a mouse-tracking glow.
 - `src/components/motion.tsx` — shared primitives. `Reveal` takes a `variant`
   (`up | mask | stagger`) so scroll entrances aren't one uniform fade; `WordReveal` does
   the hero headline word-by-word.
@@ -103,6 +103,15 @@ transitions, so a GSAP tween parked at `drawSVG: "0%"` would render an invisible
 - Design specs: `docs/superpowers/specs/2026-07-08-cool-animations-design.md` describes the
   *previous* (deleted) animation set — historical only. The 2026-07-29 status block below
   is the current record.
+
+**Icons:** `@phosphor-icons/react` only, `weight="regular"`. Server components import
+from `@phosphor-icons/react/dist/ssr`, client components from the package root.
+`lucide-react` was removed on 2026-09-07 and must not come back. Prefer no icon at all
+where a word does the job (the resume buttons are plain "Open" / "Download").
+
+**Surfaces:** no `shadow-*`, no `backdrop-blur`, no translucent `bg-*/90` glass, no
+`rounded-full` on containers (dots only), no accent `border-l` stripes, no gradients.
+`--radius-sm` is overridden to 2px in `globals.css` so `rounded-sm` is a drafting corner.
 
 **Deleted 2026-07-29, do not resurrect without asking:** `particle-field.tsx` (canvas dust
 waveform), `cursor-arms.tsx` (IK robot arms), `word-shape.tsx` (concrete-poetry glyphs),
@@ -325,6 +334,32 @@ iPhone-13 with no overflow or console errors; the part asserted to end higher th
 started, never to dip below its start position, and to return to the bench on scroll-up, in
 both themes; reduced motion still paints the finished frame; coarse pointer still gets zero
 spotlight overlays; anchors, skip link and ⌘K intact.
+
+**2026-09-07 — vibe-coded-tells audit (branch `claude/website-security-audit-t59rrr`).**
+User supplied a 30-item "reasons your site looks vibecoded" list and asked that the site
+have none of them. Most were already clean (palette, fonts, no emojis, no em dashes in
+copy, no bento/pricing/testimonials, no dot grids, no sparkles). Fixed the rest:
+
+- **Lucide icons → Phosphor**, and `lucide-react` uninstalled. Resume buttons lost their
+  icons entirely; the featured-work title arrow (which also slid on hover) is gone; the
+  "scroll for more" arrow no longer bounces.
+- **Drop shadows** removed from back-to-top, social bubble, section-nav tooltip (now a
+  hairline border), and the ⌘K palette.
+- **Glass** removed: nav is solid `bg-bg`, floating controls are solid `bg-surface` with
+  `rounded-sm` instead of pills, palette backdrop is a plain dim with no blur.
+- **Radial gradient / hover glow**: `Spotlight` deleted and unwrapped everywhere; social
+  icons no longer scale on hover.
+- **Colored left stripe** on the Research article block → `border-y border-line`.
+- **Corner radius**: `--radius-sm` set to 2px (Tailwind v4's default is 4px).
+- **Privacy policy** added at `/privacy` (copy in `src/content/privacy.ts`, linked from the
+  footer, in the sitemap). Facts checked against Vercel's Analytics and Speed Insights
+  privacy docs: cookieless, daily-reset request hash, sessions discarded after 24h.
+  A terms-of-service page was deliberately not added; nothing here is a service.
+- Verified: build + lint green; all 7 routes × both themes at 1440px plus iPhone-13 home,
+  with computed-style assertions of zero `box-shadow`, zero `backdrop-filter`, zero
+  gradients, no radius other than 2px (and the round axis dots), no `.lucide` elements,
+  no running CSS animations, no horizontal overflow. Only console errors are Vercel's
+  analytics scripts 404ing on localhost.
 
 _Update this block when you finish a chunk of work._
 

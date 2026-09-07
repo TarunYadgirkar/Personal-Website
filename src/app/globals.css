@@ -13,6 +13,9 @@
   --color-accent-bright: var(--accent-bright);
   --color-accent-dim: var(--accent-dim);
 
+  /* Drafting corners, not soft ones: Tailwind's default rounded-sm is 4px. */
+  --radius-sm: 0.125rem;
+
   --font-sans: var(--font-schibsted), system-ui, sans-serif;
   --font-mono: var(--font-plex-mono), ui-monospace, monospace;
 }

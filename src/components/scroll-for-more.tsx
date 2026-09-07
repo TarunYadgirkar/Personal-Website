@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowDown } from "lucide-react";
+import { ArrowDownIcon } from "@phosphor-icons/react";
 import { useLenis } from "lenis/react";
 import { useScrollPast } from "@/components/use-scroll-past";
 
@@ -24,7 +24,7 @@ export function ScrollForMore() {
         className="pointer-events-auto mx-auto flex items-center gap-3 px-6"
       >
         <p className="font-mono text-[13px] text-fg-muted">Scroll for more</p>
-        <ArrowDown aria-hidden="true" className="size-4 animate-bounce text-fg-muted" strokeWidth={1.5} />
+        <ArrowDownIcon aria-hidden="true" weight="regular" className="size-4 text-fg-muted" />
       </button>
     </div>
   );

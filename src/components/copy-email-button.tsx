@@ -1,6 +1,6 @@
 "use client";
 
-import { Check, Copy } from "lucide-react";
+import { CheckIcon, CopyIcon } from "@phosphor-icons/react";
 import { useState } from "react";
 
 export function CopyEmailButton({ email }: { email: string }) {
@@ -24,9 +24,9 @@ export function CopyEmailButton({ email }: { email: string }) {
       className="inline-flex size-8 items-center justify-center rounded-sm text-fg-faint transition-colors duration-150 hover:text-accent"
     >
       {isCopied ? (
-        <Check aria-hidden="true" className="size-4" strokeWidth={1.75} />
+        <CheckIcon aria-hidden="true" weight="regular" className="size-4" />
       ) : (
-        <Copy aria-hidden="true" className="size-4" strokeWidth={1.75} />
+        <CopyIcon aria-hidden="true" weight="regular" className="size-4" />
       )}
     </button>
   );

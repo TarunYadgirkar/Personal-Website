@@ -19,7 +19,7 @@ export function Nav() {
   }));
 
   return (
-    <header className="sticky top-0 z-50 border-b border-line bg-bg/90 backdrop-blur-sm">
+    <header className="sticky top-0 z-50 border-b border-line bg-bg">
       <nav aria-label="Main" className="mx-auto max-w-5xl px-6">
         <div className="flex h-16 items-center justify-between">
           <Link

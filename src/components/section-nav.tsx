@@ -54,7 +54,7 @@ export function SectionNav() {
     >
       {SECTIONS.map(({ id, label }) => (
         <a key={id} href={`#${id}`} aria-label={label} className="group flex items-center justify-end gap-2">
-          <span className="pointer-events-none whitespace-nowrap rounded-sm bg-surface px-2 py-1 font-mono text-[12px] text-fg-muted opacity-0 shadow-md transition-opacity duration-150 group-hover:opacity-100">
+          <span className="pointer-events-none whitespace-nowrap rounded-sm border border-line-strong bg-surface px-2 py-1 font-mono text-[12px] text-fg-muted opacity-0 transition-opacity duration-150 group-hover:opacity-100">
             {label}
           </span>
           <span

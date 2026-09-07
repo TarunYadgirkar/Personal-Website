@@ -1,6 +1,6 @@
 "use client";
 
-import { CornerDownLeft, Search } from "lucide-react";
+import { ArrowElbowDownLeftIcon, MagnifyingGlassIcon } from "@phosphor-icons/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { navLinks } from "@/content/site";
@@ -80,7 +80,7 @@ export function CommandPalette() {
         setIsOpen(false);
         returnFocusRef.current?.focus();
       }}
-      className="fixed inset-0 z-[70] m-0 h-full max-h-none w-full max-w-none bg-transparent p-0 text-fg backdrop:bg-bg/70 backdrop:backdrop-blur-sm"
+      className="fixed inset-0 z-[70] m-0 h-full max-h-none w-full max-w-none bg-transparent p-0 text-fg backdrop:bg-bg/80"
     >
       <div
         className="flex h-full items-start justify-center pt-[15vh]"
@@ -88,9 +88,9 @@ export function CommandPalette() {
           if (event.target === event.currentTarget) setIsOpen(false);
         }}
       >
-        <div className="w-full max-w-md rounded-sm border border-line-strong bg-surface shadow-xl">
+        <div className="w-full max-w-md rounded-sm border border-line-strong bg-surface">
           <div className="flex items-center gap-3 border-b border-line px-4 py-3">
-            <Search aria-hidden="true" className="size-4 text-fg-faint" strokeWidth={1.5} />
+            <MagnifyingGlassIcon aria-hidden="true" weight="regular" className="size-4 text-fg-faint" />
             <input
               aria-label="Search pages"
               value={query}
@@ -129,7 +129,7 @@ export function CommandPalette() {
                 >
                   {item.label}
                   {i === activeIndex && (
-                    <CornerDownLeft aria-hidden="true" className="size-3.5 text-fg-faint" strokeWidth={1.5} />
+                    <ArrowElbowDownLeftIcon aria-hidden="true" weight="regular" className="size-3.5 text-fg-faint" />
                   )}
                 </button>
               </li>

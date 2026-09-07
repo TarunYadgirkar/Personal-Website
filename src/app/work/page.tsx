@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Reveal } from "@/components/motion";
 import { RowReveal } from "@/components/row-reveal";
 import { SectionFrame } from "@/components/section-frame";
-import { Spotlight } from "@/components/spotlight";
 import { ExternalLink, StatusTag, Tags } from "@/components/ui";
 import { additionalCaseStudies, caseStudies, rainier, type CaseStudy } from "@/content/work";
 
@@ -41,7 +40,7 @@ function EventLine({ study }: { study: CaseStudy }) {
 
 function CaseStudyArticle({ study, isCompact = false }: { study: CaseStudy; isCompact?: boolean }) {
   return (
-    <Spotlight className="rounded-sm border border-line bg-surface">
+    <div className="rounded-sm border border-line bg-surface">
       <article id={study.slug} className={isCompact ? "p-6 sm:p-7" : "p-7 sm:p-10"}>
         <div data-row-part>
           <div className="flex flex-wrap items-center gap-3">
@@ -76,7 +75,7 @@ function CaseStudyArticle({ study, isCompact = false }: { study: CaseStudy; isCo
           )}
         </div>
       </article>
-    </Spotlight>
+    </div>
   );
 }
 
@@ -93,7 +92,7 @@ export default function WorkPage() {
       </p>
 
       <SectionFrame index="01" title="Industry experience" id="rainier">
-        <Spotlight className="rounded-sm border border-line bg-surface">
+        <div className="rounded-sm border border-line bg-surface">
           <article className="p-7 sm:p-10">
             <div className="flex flex-wrap items-center gap-3">
               <h2 className="text-xl font-medium tracking-tight text-fg">Rainier Labs</h2>
@@ -107,7 +106,7 @@ export default function WorkPage() {
               <Tags items={rainier.tags} />
             </div>
           </article>
-        </Spotlight>
+        </div>
       </SectionFrame>
 
       <SectionFrame index="02" title="Selected prototypes" id="selected-builds">

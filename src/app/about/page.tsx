@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { SectionFrame } from "@/components/section-frame";
-import { Spotlight } from "@/components/spotlight";
 import { ExternalLink } from "@/components/ui";
 import { aboutParagraphs } from "@/content/about";
 import { site, skills, socialLinks } from "@/content/site";
@@ -32,7 +31,6 @@ export default function AboutPage() {
         <div className="grid gap-px overflow-hidden rounded-sm border border-line bg-line sm:grid-cols-2">
           {skills.map((group) => (
             <div key={group.group} className="bg-surface">
-              <Spotlight className="h-full">
                 <div className="h-full p-6 sm:p-7">
                   <h3 className="font-mono text-[12px] text-accent">{group.group}</h3>
                   <ul className="mt-3 flex flex-wrap gap-x-3 gap-y-1.5">
@@ -43,7 +41,6 @@ export default function AboutPage() {
                     ))}
                   </ul>
                 </div>
-              </Spotlight>
             </div>
           ))}
         </div>

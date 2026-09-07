@@ -1,4 +1,4 @@
-import { ArrowDown, ArrowRight } from "lucide-react";
+import { ArrowDownIcon, ArrowRightIcon } from "@phosphor-icons/react/dist/ssr";
 import type { ReactNode } from "react";
 import { SchematicMotion } from "@/components/schematic-motion";
 
@@ -59,8 +59,8 @@ export function Schematic({
           <div key={col.kick} className="contents">
             {i > 0 && (
               <span data-schematic-arrow aria-hidden="true" className="self-center text-accent">
-                <ArrowRight className="hidden size-4 lg:block" strokeWidth={1.75} />
-                <ArrowDown className="size-4 lg:hidden" strokeWidth={1.75} />
+                <ArrowRightIcon weight="regular" className="hidden size-4 lg:block" />
+                <ArrowDownIcon weight="regular" className="size-4 lg:hidden" />
               </span>
             )}
             <div className="flex flex-1 flex-col">

@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { ArrowRight, Download, FileText } from "lucide-react";
 import { AxisReveal } from "@/components/axis-reveal";
 import { CopyEmailButton } from "@/components/copy-email-button";
 import { HeroPlate } from "@/components/hero-plate";
@@ -7,7 +6,6 @@ import { HeroReveal, Pressable, Reveal, WordReveal } from "@/components/motion";
 import { RowReveal } from "@/components/row-reveal";
 import { Schematic } from "@/components/schematic";
 import { SectionFrame } from "@/components/section-frame";
-import { Spotlight } from "@/components/spotlight";
 import { StatusTag, Tags, isSafeHref } from "@/components/ui";
 import { ScrollForMore } from "@/components/scroll-for-more";
 import { SectionNav } from "@/components/section-nav";
@@ -116,8 +114,8 @@ export default function Home() {
         <RowReveal>
           <div className="border-t border-line">
             {featured.map((item, i) => (
-              <Spotlight key={item.slug}>
-                <Link
+              <Link
+                  key={item.slug}
                   data-row
                   href={item.href}
                   className="group relative grid gap-4 py-8 sm:grid-cols-[200px_1fr] sm:gap-10"
@@ -141,10 +139,6 @@ export default function Home() {
                   <div data-row-part>
                     <h3 className="text-xl font-medium tracking-tight text-fg transition-colors duration-150 group-hover:text-accent">
                       {item.title}
-                      <ArrowRight
-                        aria-hidden="true"
-                        className="ml-2 inline size-[18px] align-[-3px] text-fg-faint transition-all duration-150 group-hover:translate-x-0.5 group-hover:text-accent"
-                      />
                     </h3>
                     <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-fg-muted">
                       {item.summary}
@@ -154,7 +148,6 @@ export default function Home() {
                     </div>
                   </div>
                 </Link>
-              </Spotlight>
             ))}
           </div>
         </RowReveal>
@@ -165,8 +158,7 @@ export default function Home() {
           <ul className="grid gap-px overflow-hidden rounded-sm border border-line bg-line sm:grid-cols-2 lg:grid-cols-5">
             {focusAreas.map((area, i) => (
               <li key={area.title} className="bg-surface">
-                <Spotlight className="h-full">
-                  {/* Indexed and ruled rather than pictogrammed — the glyphs
+                  {/* Indexed and ruled rather than pictogrammed: the glyphs
                       that used to sit here were rejected as not making sense. */}
                   <div className="flex h-full flex-col p-5">
                     <span className="font-mono text-[11px] tabular-nums text-fg-faint">
@@ -177,7 +169,6 @@ export default function Home() {
                       {area.detail}
                     </p>
                   </div>
-                </Spotlight>
               </li>
             ))}
           </ul>
@@ -240,9 +231,8 @@ export default function Home() {
                   href={site.resumeUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex h-9 items-center gap-2 rounded-sm bg-accent px-4 text-[13px] font-medium text-bg transition-colors duration-150 hover:bg-accent-bright"
+                  className="inline-flex h-9 items-center rounded-sm bg-accent px-4 text-[13px] font-medium text-bg transition-colors duration-150 hover:bg-accent-bright"
                 >
-                  <FileText aria-hidden="true" className="size-4" strokeWidth={1.7} />
                   Open
                 </a>
               </Pressable>
@@ -250,9 +240,8 @@ export default function Home() {
                 <a
                   href={site.resumeUrl}
                   download="Tarun-Yadgirkar-Resume.pdf"
-                  className="inline-flex h-9 items-center gap-2 rounded-sm border border-line-strong px-4 text-[13px] text-fg transition-colors duration-150 hover:border-accent hover:text-accent"
+                  className="inline-flex h-9 items-center rounded-sm border border-line-strong px-4 text-[13px] text-fg transition-colors duration-150 hover:border-accent hover:text-accent"
                 >
-                  <Download aria-hidden="true" className="size-4" strokeWidth={1.7} />
                   Download
                 </a>
               </Pressable>

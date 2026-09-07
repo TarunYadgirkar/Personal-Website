@@ -1,4 +1,4 @@
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRightIcon } from "@phosphor-icons/react/dist/ssr";
 import type { ReactNode } from "react";
 
 export function SystemMark({ className = "" }: { className?: string }) {
@@ -84,7 +84,7 @@ export function ExternalLink({
       }
     >
       {children}{" "}
-      <ArrowUpRight aria-hidden="true" className="inline size-3.5 align-[-2px]" />
+      <ArrowUpRightIcon aria-hidden="true" weight="regular" className="inline size-3.5 align-[-2px]" />
     </a>
   );
 }

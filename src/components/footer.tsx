@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { site, socialLinks } from "@/content/site";
 import { SystemMark } from "@/components/ui";
 
@@ -39,7 +40,13 @@ export function Footer() {
             ))}
           </ul>
           <p className="font-mono text-[12px] text-fg-faint">
-            Next.js · TypeScript · Tailwind · Vercel
+            Next.js · TypeScript · Tailwind · Vercel ·{" "}
+            <Link
+              href="/privacy"
+              className="transition-colors duration-150 hover:text-accent"
+            >
+              Privacy
+            </Link>
           </p>
         </div>
       </div>

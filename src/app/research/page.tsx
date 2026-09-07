@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Reveal } from "@/components/motion";
 import { SectionFrame } from "@/components/section-frame";
-import { Spotlight } from "@/components/spotlight";
 import { ExternalLink, StatusTag, Tags } from "@/components/ui";
 import { publication, roar, winLab } from "@/content/research";
 
@@ -28,7 +27,7 @@ export default function ResearchPage() {
 
       <SectionFrame index="01" title="SCU WIN Lab" id="win-lab">
         <Reveal>
-          <Spotlight className="rounded-sm border border-line bg-surface">
+          <div className="rounded-sm border border-line bg-surface">
           <article className="p-7 sm:p-10">
             <h3 className="text-xl font-medium tracking-tight text-fg">
               {winLab.role} · {winLab.org}
@@ -50,13 +49,13 @@ export default function ResearchPage() {
               <Tags items={winLab.tags} />
             </div>
           </article>
-          </Spotlight>
+          </div>
         </Reveal>
       </SectionFrame>
 
       <SectionFrame index="02" title="Article" id="publications">
         <Reveal variant="mask">
-          <article className="border-l-2 border-accent pl-6">
+          <article className="border-y border-line py-7">
             <div className="mb-3">
               <StatusTag>Published · {publication.venue}</StatusTag>
             </div>
@@ -79,7 +78,7 @@ export default function ResearchPage() {
 
       <SectionFrame index="03" title="Autonomy & machine learning" id="training">
         <Reveal>
-          <Spotlight className="rounded-sm border border-line bg-surface">
+          <div className="rounded-sm border border-line bg-surface">
           <article className="p-7 sm:p-10">
             <h3 className="text-lg font-medium tracking-tight text-fg">
               {roar.title}
@@ -99,7 +98,7 @@ export default function ResearchPage() {
               ))}
             </div>
           </article>
-          </Spotlight>
+          </div>
         </Reveal>
       </SectionFrame>
     </div>
