@@ -1,104 +1,34 @@
-import type { Metadata } from "next";
-import { IBM_Plex_Mono, Schibsted_Grotesk } from "next/font/google";
+import type { Metadata, Viewport } from "next";
 import { Analytics } from "@vercel/analytics/next";
-import { SpeedInsights } from "@vercel/speed-insights/next";
-import { BackToTop } from "@/components/back-to-top";
-import { CommandPalette } from "@/components/command-palette";
-import { Footer } from "@/components/footer";
-import { MotionProvider } from "@/components/motion";
-import { Nav } from "@/components/nav";
-import { PageTransition } from "@/components/page-transition";
-import { ScrollProgress } from "@/components/scroll-progress";
-import { ScrollRefresh } from "@/components/scroll-refresh";
-import { SmoothScroll } from "@/components/smooth-scroll";
-import { SocialBubble } from "@/components/social-bubble";
-import { ThemeProvider } from "@/components/theme-provider";
+import { fontClassName } from "@/fonts";
+import { Nav } from "@/components/site/Nav";
+import { Footer } from "@/components/site/Footer";
 import { site } from "@/content/site";
 import "./globals.css";
 
-const schibsted = Schibsted_Grotesk({
-  variable: "--font-schibsted",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const plexMono = IBM_Plex_Mono({
-  variable: "--font-plex-mono",
-  subsets: ["latin"],
-  weight: ["400", "500"],
-  display: "swap",
-});
-
-const structuredData = {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  name: site.name,
-  description: site.bioShort,
-  url: site.url,
-} as const;
-
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
-  title: {
-    default: `${site.name} · ${site.positioning}`,
-    template: `%s · ${site.name}`,
-  },
-  description: site.bioShort,
-  alternates: {
-    canonical: "/",
-  },
-  icons: {
-    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
-    shortcut: ["/icon.svg"],
-  },
-  openGraph: {
-    title: `${site.name} · ${site.positioning}`,
-    description: site.bioShort,
-    url: site.url,
-    siteName: site.name,
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: `${site.name} · ${site.positioning}`,
-    description: site.bioShort,
-  },
+  title: { default: site.name, template: `%s | ${site.name}` },
+  description: site.description,
+  openGraph: { title: site.name, description: site.description, type: "website", url: site.url },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{ children: React.ReactNode }>) {
+export const viewport: Viewport = { themeColor: "#f4f1ea", viewportFit: "cover" };
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" data-scroll-behavior="smooth" suppressHydrationWarning>
-      <body className={`${schibsted.variable} ${plexMono.variable} antialiased`}>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-        />
-        <SmoothScroll>
-          <ThemeProvider>
-            <MotionProvider>
-              <ScrollRefresh />
-              <ScrollProgress />
-              <a
-                href="#main"
-                className="sr-only focus:not-sr-only focus:absolute focus:left-6 focus:top-4 focus:z-[60] focus:bg-bg focus:px-3 focus:py-2 focus:font-mono focus:text-xs focus:text-accent"
-              >
-                Skip to content
-              </a>
-              <Nav />
-              <main id="main">
-                <PageTransition>{children}</PageTransition>
-              </main>
-              <Footer />
-              <SocialBubble />
-              <BackToTop />
-              <CommandPalette />
-            </MotionProvider>
-          </ThemeProvider>
-        </SmoothScroll>
+    <html lang="en" className={fontClassName}>
+      <body>
+        <a
+          href="#content"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-ink focus:px-4 focus:py-2 focus:text-paper-pale"
+        >
+          Skip to content
+        </a>
+        <Nav />
+        <main id="content">{children}</main>
+        <Footer />
         <Analytics />
-        <SpeedInsights />
       </body>
     </html>
   );

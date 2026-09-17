@@ -1,181 +1,47 @@
+/** Single source of truth for names, one-liners and links. */
 export const site = {
   name: "Tarun Yadgirkar",
-  positioning: "AI systems for robotics and embedded hardware",
-  subline: "Embedded ML · robotics and autonomy",
-  education: "Applied Mathematics @ UC Berkeley",
+  headline: "Tarun Yadgirkar builds intelligent systems where hardware meets AI.",
+  description:
+    "Embedded ML on FPGAs, assistive robotics, and AR glasses with their own operating system. Applied Mathematics at UC Berkeley.",
   location: "Berkeley, California",
-  emails: [{ label: "Berkeley", address: "tarun_yadgirkar@berkeley.edu" }],
+  email: "tarun_yadgirkar@berkeley.edu",
   url: "https://tarunyadgirkar.com",
   resumeUrl: "/resume/tarun-yadgirkar-resume.pdf",
-  bioShort:
-    "I build AI systems for robotics and embedded hardware, from FPGA-accelerated machine learning to assistive mobility robots. I'm studying Applied Mathematics at UC Berkeley and research embedded ML at Santa Clara University's WIN Lab. I filed a provisional patent for BALANCE, a hybrid legged-and-wheeled mobility device.",
   links: {
     github: "https://github.com/TarunYadgirkar",
     linkedin: "https://www.linkedin.com/in/tarun-yadgirkar/",
-    x: "https://x.com/tarun__y?s=11",
+    x: "https://x.com/tarun__y",
+    vantage: "https://vantage-site-bice.vercel.app",
   },
 } as const;
 
 export const navLinks = [
-  { href: "/", label: "Home" },
   { href: "/work", label: "Work" },
   { href: "/research", label: "Research" },
-  { href: "/patent", label: "Patent" },
+  { href: "/patent", label: "BALANCE" },
   { href: "/archive", label: "Archive" },
   { href: "/about", label: "About" },
 ] as const;
 
-export const socialLinks = [
-  { label: "GitHub", href: site.links.github },
-  { label: "X", href: site.links.x },
-  { label: "LinkedIn", href: site.links.linkedin },
-] as const;
+/** What is true right now. Shown as a key/value block, never as stat tiles. */
+interface NowRow {
+  key: string;
+  value: string;
+  href?: string;
+}
 
-type AtAGlanceRow = { label: string; value: string; accent?: string };
-
-export const atAGlance: readonly AtAGlanceRow[] = [
-  { label: "Patent", value: "63/743,085", accent: "BALANCE · " },
-  { label: "Paper", value: "Youth Innov. Journal '25" },
-  { label: "Lab", value: "SCU WIN Lab" },
-  { label: "Robotics", value: "VEX Worlds qualifier" },
-  { label: "Based", value: "Berkeley, CA" },
+export const now: readonly NowRow[] = [
+  {
+    key: "Building",
+    value: "Vantage, AR glasses and the spatial operating system inside them, as co-founder",
+    href: "https://vantage-site-bice.vercel.app",
+  },
+  {
+    key: "Researching",
+    value: "FPGA acceleration for machine learning and wireless signal processing at Santa Clara University's WIN Lab",
+    href: "/research",
+  },
+  { key: "Studying", value: "Applied Mathematics at UC Berkeley" },
+  { key: "Based in", value: "Berkeley, California" },
 ];
-
-export const focusAreas = [
-  {
-    id: "embedded-ml",
-    title: "Embedded ML",
-    detail: "PyTorch/TensorFlow models, quantized and ported to FPGAs and constrained hardware",
-  },
-  {
-    id: "robotics",
-    title: "Robotics & autonomy",
-    detail: "Embedded and hardware robotics, autonomous systems",
-  },
-  {
-    id: "applied-ai",
-    title: "Applied AI systems",
-    detail: "Shipped AI product prototypes, including CarePath and Klarity VoiceNote",
-  },
-  {
-    id: "voice-agents",
-    title: "Voice agents",
-    detail: "Grok Voice, Retell AI, ElevenLabs across four shipped prototypes",
-  },
-  {
-    id: "assistive-robotics",
-    title: "Human-assistive robotics",
-    detail: "Mobility and accessibility systems",
-  },
-] as const;
-
-// Drives the <Schematic> on the homepage. Deliberately about approach rather
-// than domain — this describes how a problem gets worked, not what the finished
-// system is made of.
-export const buildPipeline = [
-  {
-    kick: "Frame",
-    nodes: [
-      {
-        title: "Find the real limit",
-        sub: ["What actually binds this:", "compute, data, time, trust"],
-      },
-    ],
-  },
-  {
-    kick: "Reduce",
-    nodes: [
-      {
-        title: "Smallest thing that proves it",
-        sub: ["One question per prototype", "Cut scope, keep rigor"],
-        isAccent: true,
-      },
-    ],
-  },
-  {
-    kick: "Contact",
-    nodes: [
-      {
-        title: "Test against reality",
-        sub: ["Real inputs, real users", "Benchmarks come second"],
-      },
-    ],
-  },
-  {
-    kick: "Iterate",
-    nodes: [
-      {
-        title: "Keep what survives",
-        sub: ["Discard what didn't earn it", "Then go again"],
-      },
-    ],
-  },
-] as const;
-
-export const recognition = [
-  {
-    line: "AIME qualifier (American Invitational Mathematics Examination)",
-    context: "2026",
-  },
-  {
-    line: "Eagle Scout, Boy Scouts of America",
-    context: "2025",
-  },
-] as const;
-
-export const skills = [
-  {
-    group: "Robotics & Controls",
-    items: [
-      "Robotics",
-      "Autonomous systems",
-      "Human-robot interaction",
-      "Sensor integration",
-      "CAD/CAM",
-      "Mechanism design",
-    ],
-  },
-  {
-    group: "Embedded & Hardware",
-    items: [
-      "FPGA",
-      "Embedded systems",
-      "Raspberry Pi",
-      "Sensors (LiDAR / sonar / NIR)",
-      "Edge deployment",
-      "3D printing",
-    ],
-  },
-  {
-    group: "AI / ML",
-    items: [
-      "Embedded ML",
-      "PyTorch",
-      "TensorFlow",
-      "Computer vision",
-      "CNNs / LSTMs",
-      "Reinforcement learning",
-      "LLM orchestration",
-      "Voice agents",
-      "Model optimization",
-      "Quantization",
-    ],
-  },
-  {
-    group: "Software & Tools",
-    items: [
-      "Python",
-      "C/C++",
-      "Java",
-      "TypeScript / JavaScript",
-      "Swift / SwiftUI",
-      "React / Next.js",
-      "Tailwind CSS",
-      "Vite",
-      "Vercel",
-      "Postgres / Neon",
-      "Serverless functions",
-      "Git",
-    ],
-  },
-] as const;

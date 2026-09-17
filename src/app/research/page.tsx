@@ -1,107 +1,62 @@
 import type { Metadata } from "next";
-import { Reveal } from "@/components/motion";
-import { SectionFrame } from "@/components/section-frame";
-import { Spotlight } from "@/components/spotlight";
-import { ExternalLink, StatusTag, Tags } from "@/components/ui";
+import { FpgaPipeline } from "@/components/drawings/FpgaPipeline";
+import { Page, Section } from "@/components/site/Page";
+import { TextLink } from "@/components/ui/TextLink";
 import { publication, roar, winLab } from "@/content/research";
 
 export const metadata: Metadata = {
   title: "Research",
-  description:
-    "FPGA-based acceleration for machine learning and wireless-communication algorithms at SCU's WIN Lab; BALANCE article; ROAR Academy.",
-  alternates: {
-    canonical: "/research",
-  },
+  description: "FPGA acceleration for machine learning and wireless signal processing at Santa Clara University's WIN Lab, the ROAR Academy, and the BALANCE article.",
 };
 
 export default function ResearchPage() {
   return (
-    <div className="mx-auto max-w-5xl px-6 pb-28 pt-20">
-      <h1 className="mt-4 max-w-3xl text-3xl font-medium tracking-tight sm:text-5xl">
-        Embedded machine learning on real hardware
-      </h1>
-      <p className="mt-5 max-w-2xl text-[15px] leading-relaxed text-fg-muted">
-        Current research focuses on FPGA acceleration for machine learning
-        under real hardware constraints, targeting high-throughput,
-        low-latency workloads.
-      </p>
+    <Page
+      title="Research"
+      lead="Most of my research is about what an algorithm can do once the hardware sets the budget: how much of a model survives quantization, and how fast a channel estimate can come out of an FPGA."
+    >
+      <figure className="mb-4 rounded-2xl bg-paper-pale p-4 shadow-card sm:p-6">
+        <FpgaPipeline className="h-auto w-full" />
+        <figcaption className="mt-3 text-sm text-ink-mute">
+          The path a model takes from training to the fabric. Live samples from the radio front end enter the same fabric
+          for channel estimation and signal processing.
+        </figcaption>
+      </figure>
 
-      <SectionFrame index="01" title="SCU WIN Lab" id="win-lab">
-        <Reveal>
-          <Spotlight className="rounded-sm border border-line bg-surface">
-          <article className="p-7 sm:p-10">
-            <h3 className="text-xl font-medium tracking-tight text-fg">
-              {winLab.role} · {winLab.org}
-            </h3>
-            <p className="mt-1 font-mono text-[12px] text-fg-faint">
-              {winLab.period} · {winLab.location}
-            </p>
-            <ul className="mt-6 flex max-w-3xl flex-col gap-3">
-              {winLab.bullets.map((b) => (
-                <li
-                  key={b}
-                  className="border-l border-line-strong pl-4 text-[15px] leading-relaxed text-fg-muted"
-                >
-                  {b}
-                </li>
-              ))}
-            </ul>
-            <div className="mt-6">
-              <Tags items={winLab.tags} />
-            </div>
-          </article>
-          </Spotlight>
-        </Reveal>
-      </SectionFrame>
+      <Section id="win-lab" title={winLab.org}>
+        <p className="text-lg text-ink">{winLab.role}</p>
+        <p className="mt-1 text-base text-ink-mute">
+          {winLab.period}, {winLab.location}
+        </p>
+        <ul className="mt-5 flex flex-col gap-3 text-base leading-relaxed text-ink-soft">
+          {winLab.bullets.map((b) => (
+            <li key={b} className="flex gap-3">
+              <span className="mt-[0.65em] h-1.5 w-1.5 shrink-0 rounded-full bg-rust" aria-hidden="true" />
+              {b}
+            </li>
+          ))}
+        </ul>
+      </Section>
 
-      <SectionFrame index="02" title="Article" id="publications">
-        <Reveal variant="mask">
-          <article className="border-l-2 border-accent pl-6">
-            <div className="mb-3">
-              <StatusTag>Published · {publication.venue}</StatusTag>
-            </div>
-            <h3 className="max-w-3xl text-lg font-medium leading-snug tracking-tight text-fg">
-              {publication.title}
-            </h3>
-            <p className="mt-2 text-[14px] text-fg-muted">{publication.authorsNote}</p>
-            <p className="mt-1 font-mono text-[12px] text-fg-faint">
-              {publication.venue} · {publication.year}
-            </p>
-            <p className="mt-3 max-w-3xl text-[14px] leading-relaxed text-fg-muted">
-              {publication.note}
-            </p>
-            <div className="mt-4">
-              <ExternalLink href={publication.href}>Read the article</ExternalLink>
-            </div>
-          </article>
-        </Reveal>
-      </SectionFrame>
+      <Section id="balance-article" title="BALANCE article">
+        <p className="text-lg text-ink">{publication.title}</p>
+        <p className="mt-2 text-base text-ink-soft">
+          {publication.venue}, {publication.year}. {publication.authorsNote}.
+        </p>
+        <p className="mt-2 text-base text-ink-soft">{publication.note}</p>
+        <p className="mt-4">
+          <TextLink href={publication.href}>Read the article</TextLink>
+        </p>
+      </Section>
 
-      <SectionFrame index="03" title="Autonomy & machine learning" id="training">
-        <Reveal>
-          <Spotlight className="rounded-sm border border-line bg-surface">
-          <article className="p-7 sm:p-10">
-            <h3 className="text-lg font-medium tracking-tight text-fg">
-              {roar.title}
-            </h3>
-            <p className="mt-1 font-mono text-[12px] text-fg-faint">{roar.period}</p>
-            <p className="mt-5 max-w-3xl text-[15px] leading-relaxed text-fg-muted">
-              {roar.detail}
-            </p>
-            <p className="mt-3 max-w-3xl text-[14px] leading-relaxed text-fg-muted">
-              {roar.related}
-            </p>
-            <div className="mt-4 flex gap-5">
-              {roar.links.map((link) => (
-                <ExternalLink key={link.href} href={link.href}>
-                  {link.label}
-                </ExternalLink>
-              ))}
-            </div>
-          </article>
-          </Spotlight>
-        </Reveal>
-      </SectionFrame>
-    </div>
+      <Section id="roar" title={roar.title}>
+        <p className="text-base text-ink-mute">{roar.period}</p>
+        <p className="mt-3 text-base leading-relaxed text-ink-soft">{roar.detail}</p>
+        <p className="mt-3 text-base leading-relaxed text-ink-soft">{roar.related}</p>
+        <p className="mt-4">
+          <TextLink href={roar.links[0].href}>{roar.links[0].label}</TextLink>
+        </p>
+      </Section>
+    </Page>
   );
 }

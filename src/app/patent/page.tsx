@@ -1,90 +1,63 @@
 import type { Metadata } from "next";
-import { BalanceDiagram } from "@/components/balance-diagram";
-import { ExternalLink, SectionHeading, StatusTag } from "@/components/ui";
+import { Page, Section } from "@/components/site/Page";
+import { TextLink } from "@/components/ui/TextLink";
 import { balance } from "@/content/balance";
+import { ThreeView } from "@/components/home/ThreeView";
+import { SignalPath } from "@/components/drawings/SignalPath";
 
 export const metadata: Metadata = {
-  title: "BALANCE provisional patent",
-  description:
-    "BALANCE: a hybrid legged-and-wheeled assistive mobility device. Filed as provisional patent No. 63/743,085; a related article was published in the Youth Innovation Journal (Fall 2025).",
-  alternates: {
-    canonical: "/patent",
-  },
+  title: "BALANCE",
+  description: "A hybrid wheeled and legged mobility device, co-developed with a student team. Provisional patent 63/743,085 and a design article in the Youth Innovation Journal.",
 };
 
 export default function PatentPage() {
   return (
-    <div className="mx-auto max-w-5xl px-6 pb-28 pt-20">
-      <h1 className="mt-4 text-3xl font-medium tracking-tight sm:text-5xl">
-        {balance.name}
-      </h1>
-      <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-fg-muted">
-        {balance.expansion}
-      </p>
-      <div className="mt-5">
-        <StatusTag>{balance.status}</StatusTag>
-      </div>
+    <Page title="BALANCE" lead={balance.concept}>
+      <p className="-mt-6 mb-10 text-base text-ink-mute">{balance.expansion}</p>
 
-      <section className="mt-20" aria-labelledby="problem">
-        <SectionHeading id="problem" title="The problem" />
-        <p className="max-w-3xl text-[16px] leading-relaxed text-fg-muted">
-          {balance.problem}
-        </p>
-      </section>
+      <ThreeView />
 
-      <section className="mt-20" aria-labelledby="concept">
-        <SectionHeading id="concept" title="Between aids and exoskeletons" />
-        <p className="max-w-3xl text-[16px] leading-relaxed text-fg-muted">
-          {balance.concept}
-        </p>
-      </section>
+      <Section id="problem" title="The gap it fills">
+        <p className="text-base leading-relaxed text-ink-soft">{balance.problem}</p>
+      </Section>
 
-      <section className="mt-20" aria-labelledby="system">
-        <SectionHeading id="system" title="Two subsystems" />
-        <div className="grid gap-px overflow-hidden rounded-sm border border-line bg-line sm:grid-cols-2">
+      <Section id="systems" title="Two subsystems">
+        <dl className="grid gap-x-8 gap-y-5">
           {balance.systems.map((s) => (
-            <div key={s.name} className="bg-surface p-7 sm:p-8">
-              <h3 className="font-mono text-[13px] text-accent">{s.name}</h3>
-              <p className="mt-3 text-[15px] leading-relaxed text-fg-muted">
-                {s.detail}
-              </p>
+            <div key={s.name}>
+              <dt className="text-lg font-semibold">{s.name}</dt>
+              <dd className="mt-1 text-base leading-relaxed text-ink-soft">{s.detail}</dd>
             </div>
           ))}
-        </div>
-        <ul className="mt-8 grid gap-3 sm:grid-cols-2">
+        </dl>
+        <ul className="mt-6 flex flex-col gap-2 text-base text-ink-soft">
           {balance.features.map((f) => (
-            <li
-              key={f}
-              className="border-l border-line-strong pl-4 text-[14px] leading-relaxed text-fg-muted"
-            >
+            <li key={f} className="flex gap-3">
+              <span className="mt-[0.65em] h-1.5 w-1.5 shrink-0 rounded-full bg-rust" aria-hidden="true" />
               {f}
             </li>
           ))}
         </ul>
-      </section>
+      </Section>
 
-      <section className="mt-20" aria-labelledby="signal-path">
-        <SectionHeading id="signal-path" title="Signal path: sense, map, arbitrate, assist" />
-        <p className="-mt-4 mb-8 max-w-2xl text-[15px] leading-relaxed text-fg-muted">
-          On-board perception continuously reclassifies terrain and hands control to
-          the right locomotion mode in real time.
+      <Section id="signal-path" title="From sensors to a step">
+        <SignalPath />
+        <p className="mt-4 text-sm text-ink-mute">
+          LiDAR, sonar and cameras feed the on-board computer, which maps the ground and picks a mode; the wheeled base
+          handles flat ground and the powered legs take stairs and uneven terrain.
         </p>
-        <BalanceDiagram />
-      </section>
+      </Section>
 
-      <section className="mt-20" aria-labelledby="status">
-        <SectionHeading id="status" title="Where it stands" />
-        <p className="max-w-3xl text-[16px] leading-relaxed text-fg-muted">
-          {balance.statusDetail}
-        </p>
-        <div className="mt-6 flex flex-wrap gap-6">
-          {balance.links.map((link) => (
-            <ExternalLink key={link.href} href={link.href}>
-              {link.label}
-            </ExternalLink>
+      <Section id="status" title="Where it stands">
+        <p className="text-base leading-relaxed text-ink-soft">{balance.statusDetail}</p>
+        <p className="mt-4 flex flex-wrap gap-x-5 gap-y-1">
+          {balance.links.map((l) => (
+            <TextLink key={l.href} href={l.href}>
+              {l.label}
+            </TextLink>
           ))}
-        </div>
-      </section>
-    </div>
+        </p>
+      </Section>
+    </Page>
   );
 }

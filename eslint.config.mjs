@@ -5,18 +5,14 @@ import nextTs from "eslint-config-next/typescript";
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
-  // Override default ignores of eslint-config-next.
-  globalIgnores([
-    // Default ignores of eslint-config-next:
-    ".next/**",
-    "out/**",
-    "build/**",
-    "next-env.d.ts",
-    ".ds-sync/**",
-    "ds-bundle/**",
-    ".design-sync/.cache/**",
-    ".design-sync/node_modules/**",
-  ]),
+  {
+    rules: {
+      // A complexity failure is treated like a type error: split the function.
+      complexity: ["error", 10],
+      "max-depth": ["error", 3],
+    },
+  },
+  globalIgnores([".next/**", "out/**", "build/**", "next-env.d.ts"]),
 ]);
 
 export default eslintConfig;

@@ -1,70 +1,37 @@
 import type { Metadata } from "next";
-import { AxisReveal } from "@/components/axis-reveal";
-import { ExternalLink } from "@/components/ui";
+import { Page } from "@/components/site/Page";
+import { TextLink } from "@/components/ui/TextLink";
 import { archive } from "@/content/archive";
 
 export const metadata: Metadata = {
   title: "Archive",
-  description: "Earlier and secondary projects, kept for the record.",
-  alternates: {
-    canonical: "/archive",
-  },
+  description: "Earlier work, kept for the record: competitive robotics, science fair builds, teaching, and the rest.",
 };
 
 export default function ArchivePage() {
   return (
-    <div className="mx-auto max-w-5xl px-6 pb-28 pt-20">
-      <h1 className="mt-4 text-3xl font-medium tracking-tight sm:text-5xl">
-        Earlier work
-      </h1>
-      <p className="mt-5 max-w-2xl text-[15px] leading-relaxed text-fg-muted">
-        Secondary and earlier projects, kept for the record. The current work
-        lives on the homepage.
-      </p>
-
-      {/* A time axis rather than a table: the years are the through-line here,
-          so they sit on a rule with a tick per entry. */}
-      <AxisReveal className="relative mt-14">
-        <span
-          data-axis
-          aria-hidden="true"
-          className="absolute bottom-6 left-[64px] top-6 hidden w-px bg-line sm:block"
-        />
-        {archive.map((item) => (
-          <article
-            key={item.title}
-            id={item.id}
-            className="relative grid gap-2 border-b border-line py-6 sm:grid-cols-[64px_120px_1fr] sm:gap-8"
-          >
-            <p className="font-mono text-[12px] tabular-nums text-fg-faint">
-              {item.years ?? ""}
-            </p>
-            <span
-              data-axis-dot
-              aria-hidden="true"
-              className="absolute left-[61px] top-[30px] hidden size-1.5 rounded-full bg-accent sm:block"
-            />
-            <p className="font-mono text-[12px] text-fg-faint sm:pl-4">{item.type}</p>
-            <div>
-              <h2 className="text-[15px] font-medium text-fg-muted">{item.title}</h2>
-              <p className="mt-1.5 text-[14px] leading-relaxed text-fg-faint">
-                {item.detail}
-              </p>
-              {item.href && (
-                <div className="mt-2">
-                  <ExternalLink
-                    href={item.href}
-                    ariaLabel={`${item.title}, external link`}
-                    className="font-mono text-[12px] text-fg-muted transition-colors duration-150 hover:text-accent"
-                  >
-                    Link
-                  </ExternalLink>
-                </div>
-              )}
-            </div>
-          </article>
-        ))}
-      </AxisReveal>
-    </div>
+    <Page title="Archive" lead="Earlier work, kept for the record. Most of it is from high school; none of it is the point, but some of it explains the rest.">
+      <table className="w-full border-collapse text-left text-base">
+        <thead>
+          <tr className="border-b border-line-strong text-sm text-ink-mute">
+            <th scope="col" className="w-28 py-2 pr-4 font-semibold">When</th>
+            <th scope="col" className="py-2 pr-4 font-semibold">What</th>
+            <th scope="col" className="hidden w-36 py-2 font-semibold sm:table-cell">Kind</th>
+          </tr>
+        </thead>
+        <tbody>
+          {archive.map((a) => (
+            <tr key={a.title} className="border-b border-line align-top">
+              <td className="figures py-4 pr-4 text-sm text-ink-mute">{a.years ?? ""}</td>
+              <td className="py-4 pr-4">
+                <p className="font-semibold">{a.href ? <TextLink href={a.href}>{a.title}</TextLink> : a.title}</p>
+                <p className="mt-1 max-w-2xl text-ink-soft">{a.detail}</p>
+              </td>
+              <td className="hidden py-4 text-ink-mute sm:table-cell">{a.type}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </Page>
   );
 }
