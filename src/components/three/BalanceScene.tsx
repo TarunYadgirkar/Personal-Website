@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef } from "react";
+import { useMemo, useRef, useState } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { ContactShadows, OrthographicCamera } from "@react-three/drei";
 import { NoToneMapping } from "three";
@@ -82,6 +82,14 @@ function Camera({ view, zoom: zoomProp, fit, model }: { view: View; zoom?: numbe
   return <OrthographicCamera makeDefault position={[v.position[0], y, v.position[2]]} up={v.up} zoom={zoom} near={1} far={2000} onUpdate={aim} />;
 }
 
+/** True from the first time the wrapper comes near the viewport, so a
+ * below-the-fold thumbnail costs nothing until it is about to be seen. */
+function useSeen(inView: boolean): boolean {
+  const [seen, setSeen] = useState(false);
+  if (inView && !seen) setSeen(true);
+  return seen;
+}
+
 /** The flat board is a line edge-on, so it holds the angle that shows its top. */
 function turns(model: ThumbModel, view: View): boolean {
   return view === "turn" && model !== "board";
@@ -114,25 +122,34 @@ export interface BalanceSceneProps {
 }
 
 /** The BALANCE device drawn as an inked technical illustration. */
-export function BalanceScene({ model = "balance", view = "turn", stride = 0.15, zoom, fit = 0.9, className }: BalanceSceneProps) {
-  const wrapper = useRef<HTMLDivElement>(null);
+/** Whether the scene should draw and whether the turntable should move. */
+function useSceneState(wrapper: React.RefObject<HTMLDivElement | null>, model: ThumbModel, view: View) {
   const inView = useInView(wrapper, { margin: "80px" });
   const reduced = useReducedMotion() ?? false;
+  const seen = useSeen(inView);
   const animate = turns(model, view) && inView && !reduced;
+  return { inView, seen, animate };
+}
+
+export function BalanceScene({ model = "balance", view = "turn", stride = 0.15, zoom, fit = 0.9, className }: BalanceSceneProps) {
+  const wrapper = useRef<HTMLDivElement>(null);
+  const { inView, seen, animate } = useSceneState(wrapper, model, view);
   return (
     <div ref={wrapper} className={className} aria-hidden="true">
-      <Canvas
-        shadows
-        dpr={[1, 2]}
-        gl={{ antialias: true, alpha: true, toneMapping: NoToneMapping }}
-        frameloop={inView ? "always" : "never"}
-      >
-        <Camera view={view} zoom={zoom} fit={fit} model={model} />
-        <Lights />
-        <Turntable animate={animate} spin={view === "turn" ? 0.6 : 0}>
-          <ThumbModelView model={model} stride={stride} phase={STILL[model]} />
-        </Turntable>
-      </Canvas>
+      {seen && (
+        <Canvas
+          shadows
+          dpr={[1, 2]}
+          gl={{ antialias: true, alpha: true, toneMapping: NoToneMapping }}
+          frameloop={inView ? "always" : "never"}
+        >
+          <Camera view={view} zoom={zoom} fit={fit} model={model} />
+          <Lights />
+          <Turntable animate={animate} spin={view === "turn" ? 0.6 : 0}>
+            <ThumbModelView model={model} stride={stride} phase={STILL[model]} />
+          </Turntable>
+        </Canvas>
+      )}
     </div>
   );
 }
