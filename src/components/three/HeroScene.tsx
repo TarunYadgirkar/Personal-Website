@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { ContactShadows, OrthographicCamera } from "@react-three/drei";
 import * as THREE from "three";
@@ -36,6 +36,7 @@ const STILL_PHASE: Record<ModelKey, number> = { balance: 0.15, glasses: 0.6, arm
  * instead of taking the full turn. */
 const FACES_CAMERA: Record<ModelKey, boolean> = { balance: false, glasses: false, arm: false, board: true };
 const SWAY = 0.35;
+const SETTLE_MS = 1800;
 
 function Model({ model, t }: { model: ModelKey; t: number }) {
   switch (model) {
@@ -56,6 +57,7 @@ function Model({ model, t }: { model: ModelKey; t: number }) {
 function Slot({ model, active, period, animate }: { model: ModelKey; active: boolean; period: number; animate: boolean }) {
   const group = useRef<THREE.Group>(null);
   const [t, setT] = useState(STILL_PHASE[model]);
+  const lastUpdate = useRef(0);
   useFrame((state, delta) => {
     const g = group.current;
     if (!g) return;
@@ -65,10 +67,11 @@ function Slot({ model, active, period, animate }: { model: ModelKey; active: boo
     if (FACES_CAMERA[model] && g.parent) {
       g.rotation.y = -g.parent.rotation.y + 0.6 + Math.sin(state.clock.elapsedTime * 0.5) * SWAY;
     }
-    if (!animate || !g.visible) return;
-    const next = (state.clock.elapsedTime / period) % 1;
+    if (!animate || !g.visible || period === 0) return;
     // 30 updates a second is enough for these motions and halves the React work per frame.
-    if (Math.abs(next - t) > 1 / 30) setT(next);
+    if (state.clock.elapsedTime - lastUpdate.current < 1 / 30) return;
+    lastUpdate.current = state.clock.elapsedTime;
+    setT((state.clock.elapsedTime / period) % 1);
   });
   return (
     <group ref={group} scale={0}>
@@ -127,14 +130,27 @@ export interface HeroSceneProps {
 }
 
 /** One canvas, one turntable, all four models mounted; only the active one is grown in. */
+/** True for a while after each model change, long enough for zoom and scale to settle. */
+function useSettling(active: ModelKey): boolean {
+  const [settledFor, setSettledFor] = useState<ModelKey | null>(null);
+  useEffect(() => {
+    const id = window.setTimeout(() => setSettledFor(active), SETTLE_MS);
+    return () => window.clearTimeout(id);
+  }, [active]);
+  return settledFor !== active;
+}
+
 export function HeroScene({ active, periods, reduced, fit = 1, className }: HeroSceneProps) {
   const wrapper = useRef<HTMLDivElement>(null);
   const inView = useInView(wrapper, { margin: "80px" });
   const animate = inView && !reduced;
   const shown = useShown(active);
+  const settling = useSettling(active);
+  // With reduced motion nothing moves once a switch has settled, so the loop stops too.
+  const frameloop = inView && (!reduced || settling) ? "always" : "never";
   return (
     <div ref={wrapper} className={className} aria-hidden="true">
-      <Canvas shadows dpr={[1, 2]} gl={{ antialias: true, alpha: true, toneMapping: NoToneMapping }} frameloop={inView ? "always" : "never"}>
+      <Canvas shadows dpr={[1, 2]} gl={{ antialias: true, alpha: true, toneMapping: NoToneMapping }} frameloop={frameloop}>
         <Rig framing={FRAMING[active]} fit={fit} />
         <Lights />
         <Turntable animate={animate}>

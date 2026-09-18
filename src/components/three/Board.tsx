@@ -1,6 +1,6 @@
 "use client";
 
-import { useLayoutEffect, useMemo, useRef } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef } from "react";
 import { Edges, RoundedBox } from "@react-three/drei";
 import * as THREE from "three";
 import { INK, boneMaterial, inkMaterial, rubberMaterial, rustMaterial, shadeMaterial } from "./drafting";
@@ -95,15 +95,18 @@ function tilePosition(i: number): [number, number, number] {
 }
 
 function DspTiles({ t }: { t: number }) {
-  const materials = useMemo(() => Array.from({ length: TILE_COLS * TILE_ROWS }, () => tileMaterial.clone()), []);
-  // three.js materials are mutated in place; the clones are made once, not per frame.
-  materials.forEach((m, i) => {
-    m.emissiveIntensity = tileIntensity(t, i % TILE_COLS);
-  });
+  // Every row in a column lights together, so one material per column is enough.
+  const columns = useMemo(() => Array.from({ length: TILE_COLS }, () => tileMaterial.clone()), []);
+  useLayoutEffect(() => {
+    columns.forEach((m, col) => {
+      m.emissiveIntensity = tileIntensity(t, col);
+    });
+  }, [columns, t]);
+  useEffect(() => () => columns.forEach((m) => m.dispose()), [columns]);
   return (
     <group>
-      {materials.map((m, i) => (
-        <mesh key={i} geometry={tileGeometry} material={m} position={tilePosition(i)} />
+      {Array.from({ length: TILE_COLS * TILE_ROWS }, (_, i) => (
+        <mesh key={i} geometry={tileGeometry} material={columns[i % TILE_COLS]} position={tilePosition(i)} />
       ))}
     </group>
   );

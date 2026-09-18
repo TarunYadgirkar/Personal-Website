@@ -1,37 +1,41 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import { useReducedMotion } from "motion/react";
 import { cn } from "@/lib/cn";
-import { HERO_ADVANCE_MS, heroModels, type ModelKey } from "@/content/models";
+import { HERO_ADVANCE_MS, heroModels, heroPeriods } from "@/content/models";
 
 const HeroScene = dynamic(() => import("@/components/three/HeroScene").then((m) => m.HeroScene), { ssr: false });
 
-/** Advances `index` on a timer unless something holds it. */
-function useAutoAdvance(count: number, held: boolean): [number, (i: number) => void] {
+/** Advances `index` on a timer until something holds it. A manual choice
+ * pins the carousel for good, which is also the pause control. */
+function useAutoAdvance(count: number, held: boolean): [number, boolean, (i: number) => void] {
   const [index, setIndex] = useState(0);
-  const [epoch, setEpoch] = useState(0);
+  const [pinned, setPinned] = useState(false);
   useEffect(() => {
-    if (held) return;
+    if (held || pinned) return;
     const id = window.setInterval(() => setIndex((i) => (i + 1) % count), HERO_ADVANCE_MS);
     return () => window.clearInterval(id);
-  }, [count, held, epoch]);
+  }, [count, held, pinned]);
   const jump = (i: number) => {
     setIndex(i);
-    setEpoch((e) => e + 1);
+    setPinned(true);
   };
-  return [index, jump];
+  return [index, pinned, jump];
+}
+
+function subscribeVisibility(cb: () => void) {
+  document.addEventListener("visibilitychange", cb);
+  return () => document.removeEventListener("visibilitychange", cb);
 }
 
 function useDocumentVisible(): boolean {
-  const [visible, setVisible] = useState(true);
-  useEffect(() => {
-    const update = () => setVisible(document.visibilityState === "visible");
-    document.addEventListener("visibilitychange", update);
-    return () => document.removeEventListener("visibilitychange", update);
-  }, []);
-  return visible;
+  return useSyncExternalStore(
+    subscribeVisibility,
+    () => document.visibilityState === "visible",
+    () => true,
+  );
 }
 
 /** The scene mounts after the browser is idle so the heading paints first. */
@@ -53,12 +57,8 @@ export function HeroCarousel() {
   const [hovering, setHovering] = useState(false);
   const [focused, setFocused] = useState(false);
   const held = reduced || !visible || hovering || focused;
-  const [index, jump] = useAutoAdvance(heroModels.length, held);
+  const [index, pinned, jump] = useAutoAdvance(heroModels.length, held);
   const current = heroModels[index];
-  const periods = useMemo(
-    () => Object.fromEntries(heroModels.map((m) => [m.key, m.period])) as Record<ModelKey, number>,
-    [],
-  );
 
   return (
     <figure
@@ -69,10 +69,10 @@ export function HeroCarousel() {
       onBlur={(e) => setFocused(e.currentTarget.contains(e.relatedTarget as Node | null))}
     >
       <div className="relative aspect-[4/5] sm:aspect-square md:aspect-[4/5]">
-        {ready && <HeroScene className="absolute inset-0" active={current.key} periods={periods} reduced={reduced} />}
+        {ready && <HeroScene className="absolute inset-0" active={current.key} periods={heroPeriods} reduced={reduced} />}
       </div>
       <div className="mt-3 flex flex-wrap items-start justify-between gap-x-6 gap-y-3">
-        <figcaption className="min-h-16 max-w-sm text-sm text-ink-mute" aria-live="polite">
+        <figcaption id="hero-model-caption" className="min-h-20 max-w-sm text-sm text-ink-mute" aria-live={held || pinned ? "polite" : "off"}>
           {current.caption}
         </figcaption>
         <div className="inline-flex flex-wrap rounded-full bg-ink/8 p-1" role="group" aria-label="Model on the turntable">
@@ -81,6 +81,7 @@ export function HeroCarousel() {
               key={m.key}
               type="button"
               aria-pressed={i === index}
+              aria-controls="hero-model-caption"
               onClick={() => jump(i)}
               className={cn(
                 "rounded-full px-3 py-1.5 text-sm font-semibold text-ink transition-colors duration-150",

@@ -23,8 +23,8 @@ const GAP_OPEN = 6;
 const GAP_SHUT = 2;
 const SIDES: Array<1 | -1> = [1, -1];
 
-const HOLD_FROM = 0.34;
-const HOLD_TO = 0.74;
+const HOLD_FROM = 0.38;
+const HOLD_TO = 0.7;
 
 /* Keyframe arithmetic. The wrist is 14 cm from the joint-5 pivot to the
  * fingertip and points straight down at every keyframe, so the two-link

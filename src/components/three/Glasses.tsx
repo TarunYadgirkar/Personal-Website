@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { Edges, RoundedBox } from "@react-three/drei";
 import * as THREE from "three";
 import { INK, boneMaterial, glassMaterial, inkMaterial, rubberMaterial, rustMaterial, shadeMaterial } from "./drafting";
@@ -78,6 +78,7 @@ function Rims() {
       }),
     [],
   );
+  useEffect(() => () => geoms.forEach((g) => g.dispose()), [geoms]);
   return (
     <group>
       {SIDES.map((s, i) => (
@@ -92,6 +93,7 @@ function Lenses() {
     const flat = rimPoints(0).map((p) => new THREE.Vector2(p.x, p.y - LENS_Y));
     return new THREE.ExtrudeGeometry(new THREE.Shape(flat), { depth: 0.12, bevelEnabled: false });
   }, []);
+  useEffect(() => () => geometry.dispose(), [geometry]);
   return (
     <group>
       {SIDES.map((s) => (
