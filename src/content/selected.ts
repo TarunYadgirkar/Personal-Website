@@ -65,21 +65,6 @@ export const selected: readonly Selected[] = [
     href: "/work#rainier",
   },
   {
-    slug: "popper",
-    title: "Popper",
-    what: "Popper is an adversarial pull-request gate. Instead of asking whether a diff looks right, it extracts the claim the PR makes and writes tests designed to break it.",
-    detail:
-      "Each test runs against the code before and after the change in an isolated Daytona sandbox, so a pass only counts when the same test failed before. The gate then compares that evidence with CodeRabbit's static review and surfaces where the two disagree.",
-    standing: "I built it at Daytona HackSprint in July 2026, and the live demo runs the full six-stage gate in about thirteen seconds.",
-    period: "July 2026",
-    drawing: "gate",
-    href: "https://daytona-hacksprint.vercel.app",
-    links: [
-      { label: "live demo", href: "https://daytona-hacksprint.vercel.app" },
-      { label: "github", href: "https://github.com/TarunYadgirkar/Daytona-Hacksprint" },
-    ],
-  },
-  {
     slug: "bonsai",
     title: "Bonsai",
     what: "Bonsai turns an AI chat from a growing scroll into a tree: branch a side question with a compiled brief instead of the whole history, route it to the right model, and merge one distilled sentence back.",
@@ -92,6 +77,21 @@ export const selected: readonly Selected[] = [
     links: [
       { label: "github", href: "https://github.com/TarunYadgirkar/Bonsai" },
       { label: "live demo", href: "https://bonsai-connector.vercel.app" },
+    ],
+  },
+  {
+    slug: "popper",
+    title: "Popper",
+    what: "Popper is an adversarial pull-request gate. Instead of asking whether a diff looks right, it extracts the claim the PR makes and writes tests designed to break it.",
+    detail:
+      "Each test runs against the code before and after the change in an isolated Daytona sandbox, so a pass only counts when the same test failed before. The gate then compares that evidence with CodeRabbit's static review and surfaces where the two disagree.",
+    standing: "I built it at Daytona HackSprint in July 2026, and the live demo runs the full six-stage gate in about thirteen seconds.",
+    period: "July 2026",
+    drawing: "gate",
+    href: "https://daytona-hacksprint.vercel.app",
+    links: [
+      { label: "live demo", href: "https://daytona-hacksprint.vercel.app" },
+      { label: "github", href: "https://github.com/TarunYadgirkar/Daytona-Hacksprint" },
     ],
   },
 ];

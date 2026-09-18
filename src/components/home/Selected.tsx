@@ -72,7 +72,7 @@ export function SelectedWork() {
     <section id="work" className="mx-auto max-w-6xl px-5 py-16 sm:px-8 md:py-24">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <h2 className="text-4xl sm:text-5xl">Selected work</h2>
-        <TextLink href="/work">Every build, with the case notes</TextLink>
+        <TextLink href="/work">All work</TextLink>
       </div>
       <ol className="mt-10 divide-y divide-line">
         {selected.map((item) => (
