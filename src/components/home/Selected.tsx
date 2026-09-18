@@ -3,8 +3,7 @@
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { ArrowRight } from "@phosphor-icons/react";
-import { FpgaPipeline } from "@/components/drawings/FpgaPipeline";
-import { GateDrawing, GlassesDrawing, HeadDrawing, TreeDrawing } from "@/components/drawings/Icons";
+import { GateDrawing, TreeDrawing } from "@/components/drawings/Icons";
 import { TextLink } from "@/components/ui/TextLink";
 import { selected, type DrawingKind, type Selected as Item } from "@/content/selected";
 
@@ -16,13 +15,13 @@ function Drawing({ kind }: { kind: DrawingKind }) {
   const cls = "h-full w-full";
   switch (kind) {
     case "fpga":
-      return <FpgaPipeline className={cls} compact />;
+      return <BalanceScene model="board" fit={0.95} className="absolute inset-0" />;
     case "balance":
       return <BalanceScene view="side" stride={0.15} fit={0.95} className="absolute inset-0" />;
     case "glasses":
-      return <GlassesDrawing className={cls} />;
-    case "head":
-      return <HeadDrawing className={cls} />;
+      return <BalanceScene model="glasses" fit={0.95} className="absolute inset-0" />;
+    case "dog":
+      return <BalanceScene model="dog" fit={0.95} className="absolute inset-0" />;
     case "gate":
       return <GateDrawing className={cls} />;
     case "tree":

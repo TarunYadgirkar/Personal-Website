@@ -175,6 +175,6 @@ export const rainier = {
   title: "Robotics hardware and embedded systems at Rainier Labs",
   status: "Robotics hardware and embedded systems intern",
   context: "Sunnyvale, California, June to August 2025",
-  body: "I worked on an expressive robotic head. I selected and integrated the display screens for its facial-expression system, redesigned the CAD so the electronics fit, helped shape the head so it looked right while still housing the hardware, and evaluated microphone and speaker components against both hardware and software constraints.",
+  body: "I worked on hardware and embedded systems across two robots: the robot dogs and an expressive head. On the head I selected and integrated the display screens for its facial-expression system, redesigned the CAD so the electronics fit, helped shape the head so it looked right while still housing the hardware, and evaluated microphone and speaker components against both hardware and software constraints.",
   tags: ["Embedded Systems", "Robotics", "CAD", "Human-Robot Interaction"],
 } as const;

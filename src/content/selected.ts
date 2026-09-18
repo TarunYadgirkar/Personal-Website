@@ -1,6 +1,6 @@
 import type { Link } from "./work";
 
-export type DrawingKind = "balance" | "fpga" | "glasses" | "head" | "gate" | "tree";
+export type DrawingKind = "balance" | "fpga" | "glasses" | "dog" | "gate" | "tree";
 
 export interface Selected {
   slug: string;
@@ -55,13 +55,13 @@ export const selected: readonly Selected[] = [
   },
   {
     slug: "rainier",
-    title: "Robotic head at Rainier Labs",
-    what: "I spent a summer at Rainier Labs, a robotics startup in Sunnyvale, working on a robot head that shows facial expressions on screens.",
+    title: "Robots at Rainier Labs",
+    what: "I spent a summer at Rainier Labs, a robotics startup in Sunnyvale, helping build their robot dogs and an expressive robot head.",
     detail:
-      "I selected and integrated the displays, redesigned the CAD so the electronics fit the head, and sourced the microphone and speaker path against both hardware and software constraints.",
+      "The work was hardware and embedded systems across both machines. On the head I selected and integrated the displays, redesigned the CAD so the electronics fit, and sourced the microphone and speaker path against both hardware and software constraints.",
     standing: "I interned there in summer 2025.",
     period: "Summer 2025",
-    drawing: "head",
+    drawing: "dog",
     href: "/work#rainier",
   },
   {
