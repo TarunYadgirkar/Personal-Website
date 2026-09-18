@@ -29,6 +29,7 @@ export default function AboutPage() {
             <TextLink href={site.links.github}>GitHub</TextLink>
             <TextLink href={site.links.linkedin}>LinkedIn</TextLink>
             <TextLink href={site.links.x}>X</TextLink>
+            <TextLink href={site.resumeUrl}>Resume (PDF)</TextLink>
           </p>
         </div>
         <figure className="md:-mt-24">

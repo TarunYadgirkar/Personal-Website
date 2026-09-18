@@ -26,6 +26,9 @@ export function Footer() {
           <a href={site.links.x} className="rounded underline-offset-4 hover:underline">
             X
           </a>
+          <a href={site.resumeUrl} className="rounded underline-offset-4 hover:underline">
+            Resume (PDF)
+          </a>
         </nav>
       </div>
       <p className="mx-auto max-w-6xl px-5 pb-8 text-sm text-ink-mute sm:px-8">

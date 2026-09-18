@@ -7,6 +7,7 @@ export const site = {
   location: "Berkeley, California",
   email: "tarun_yadgirkar@berkeley.edu",
   url: "https://tarunyadgirkar.com",
+  resumeUrl: "/resume/tarun-yadgirkar-resume.pdf",
   links: {
     github: "https://github.com/TarunYadgirkar",
     linkedin: "https://www.linkedin.com/in/tarun-yadgirkar/",
