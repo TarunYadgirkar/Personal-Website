@@ -19,8 +19,15 @@ const COLUMN_TOP = 14.5;
 const SHOULDER_Y = 20;
 const UPPER = 34;
 const FORE = 30;
-const GAP_OPEN = 6;
-const GAP_SHUT = 2;
+/* The part is a chip package: 4 cm square, lidded, with a pin-1 mark. It is
+ * picked off a pad and set into a tray. */
+const PART_W = 4;
+const PART_H = 0.9;
+const PAD_H = 0.4;
+const TRAY_H = 0.6;
+
+const GAP_OPEN = 8;
+const GAP_SHUT = PART_W;
 const SIDES: Array<1 | -1> = [1, -1];
 
 const HOLD_FROM = 0.38;
@@ -50,8 +57,8 @@ const REACH = [0, 0.882, 1.857, 0, 0.402, 0];
 const LIFT = [PLACE_YAW, 0.099, 1.951, 0, 1.092, 0.5];
 const PLACE = [PLACE_YAW, 0.882, 1.857, 0, 0.402, 0];
 
-const PICK_POS: [number, number, number] = [0, 1, 38];
-const PLACE_POS: [number, number, number] = [32.94, 1, 18.96];
+const PICK_POS: [number, number, number] = [0, PAD_H + PART_H / 2, 38];
+const PLACE_POS: [number, number, number] = [32.94, TRAY_H + PART_H / 2, 18.96];
 
 interface Segment {
   t0: number;
@@ -169,16 +176,56 @@ function Forearm() {
   );
 }
 
-function Cube({ position, rotation = 0 }: { position: [number, number, number]; rotation?: number }) {
+function Part({ position, rotation = 0 }: { position: [number, number, number]; rotation?: number }) {
+  const lid = PART_W * 0.72;
   return (
-    <mesh position={position} rotation={[0, rotation, 0]} material={boneMaterial} castShadow>
-      <boxGeometry args={[2, 2, 2]} />
-      <Outline />
-    </mesh>
+    <group position={position} rotation={[0, rotation, 0]}>
+      <mesh material={shadeMaterial} castShadow>
+        <boxGeometry args={[PART_W, PART_H * 0.45, PART_W]} />
+        <Outline />
+      </mesh>
+      <mesh position={[0, PART_H * 0.36, 0]} material={boneMaterial} castShadow>
+        <boxGeometry args={[lid, PART_H * 0.5, lid]} />
+        <Outline />
+      </mesh>
+      <mesh position={[-lid / 2 + 0.45, PART_H * 0.62, lid / 2 - 0.45]} rotation={[-Math.PI / 2, 0, 0]} material={rustMaterial}>
+        <circleGeometry args={[0.22, 12]} />
+      </mesh>
+      {/* Two rows of leads on the sides the jaws do not touch. */}
+      {SIDES.map((s) => (
+        <mesh key={s} position={[0, -PART_H * 0.2, s * (PART_W / 2 + 0.25)]} material={inkMaterial}>
+          <boxGeometry args={[PART_W * 0.8, 0.12, 0.5]} />
+        </mesh>
+      ))}
+    </group>
   );
 }
 
-/** The jaws clear `gap` between their inner faces, so the 2 cm cube is held
+/** The pad the part starts on and the tray it is set into. */
+function Stations() {
+  return (
+    <group>
+      <mesh position={[PICK_POS[0], PAD_H / 2, PICK_POS[2]]} material={shadeMaterial} receiveShadow>
+        <boxGeometry args={[6, PAD_H, 6]} />
+        <Outline />
+      </mesh>
+      <group position={[PLACE_POS[0], 0, PLACE_POS[2]]} rotation={[0, PLACE_YAW, 0]}>
+        <mesh position={[0, TRAY_H / 2, 0]} material={boneMaterial} receiveShadow>
+          <boxGeometry args={[7, TRAY_H, 7]} />
+          <Outline />
+        </mesh>
+        {SIDES.map((s) => (
+          <mesh key={s} position={[s * 3.2, TRAY_H + 0.3, 0]} material={boneMaterial}>
+            <boxGeometry args={[0.6, 0.6, 7]} />
+            <Outline />
+          </mesh>
+        ))}
+      </group>
+    </group>
+  );
+}
+
+/** The jaws clear `gap` between their inner faces, so the 4 cm part is held
  * at the closed gap and cleared at the open one. */
 function Gripper({ gap }: { gap: number }) {
   return (
@@ -225,7 +272,7 @@ function Wrist({ roll, pitch, flange, gap, holding }: WristProps) {
             <Outline round />
           </mesh>
           <Gripper gap={gap} />
-          {holding && <Cube position={[0, 13, 0]} />}
+          {holding && <Part position={[0, 12 + PART_H / 2, 0]} />}
         </group>
       </group>
     </group>
@@ -234,10 +281,10 @@ function Wrist({ roll, pitch, flange, gap, holding }: WristProps) {
 
 /** The cube while it is on the floor: at the pick point until it is grasped,
  * at the place point once it has been let go. */
-function LooseCube({ t }: { t: number }) {
+function LoosePart({ t }: { t: number }) {
   if (t >= HOLD_FROM && t < HOLD_TO) return null;
   const placed = t >= HOLD_TO;
-  return <Cube position={placed ? PLACE_POS : PICK_POS} rotation={placed ? PLACE_YAW : 0} />;
+  return <Part position={placed ? PLACE_POS : PICK_POS} rotation={placed ? PLACE_YAW : 0} />;
 }
 
 export function Arm({ t }: { t: number }) {
@@ -246,7 +293,8 @@ export function Arm({ t }: { t: number }) {
   return (
     <group>
       <Base />
-      <LooseCube t={t} />
+      <Stations />
+      <LoosePart t={t} />
       <group position={[0, COLUMN_TOP, 0]} rotation={[0, yaw, 0]}>
         <Turret />
         <group position={[0, SHOULDER_Y - COLUMN_TOP, 0]} rotation={[shoulder, 0, 0]}>
