@@ -12,7 +12,7 @@ export const site = {
     github: "https://github.com/TarunYadgirkar",
     linkedin: "https://www.linkedin.com/in/tarun-yadgirkar/",
     x: "https://x.com/tarun__y",
-    vantage: "https://vantage-site-bice.vercel.app",
+    vantage: "https://tryvantage.vercel.app",
   },
 } as const;
 
@@ -35,7 +35,7 @@ export const now: readonly NowRow[] = [
   {
     key: "Building",
     value: "Vantage, AR glasses and the spatial operating system inside them, as co-founder",
-    href: "https://vantage-site-bice.vercel.app",
+    href: "https://tryvantage.vercel.app",
   },
   {
     key: "Researching",

@@ -36,7 +36,7 @@ function Turntable({ animate, spin, children }: { animate: boolean; spin: number
   );
 }
 
-function Lights() {
+export function Lights() {
   return (
     <>
       <hemisphereLight args={["#ffffff", "#d9d2c3", 1.4]} />

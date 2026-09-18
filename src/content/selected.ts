@@ -50,8 +50,8 @@ export const selected: readonly Selected[] = [
     standing: "Vantage is pre-seed in Berkeley, with a working software prototype and the glasses and case in development.",
     period: "2026 to now",
     drawing: "glasses",
-    href: "https://vantage-site-bice.vercel.app",
-    links: [{ label: "vantage site", href: "https://vantage-site-bice.vercel.app" }],
+    href: "https://tryvantage.vercel.app",
+    links: [{ label: "vantage site", href: "https://tryvantage.vercel.app" }],
   },
   {
     slug: "rainier",

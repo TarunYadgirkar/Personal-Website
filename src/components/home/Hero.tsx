@@ -1,13 +1,9 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import { ArrowDown, EnvelopeSimple } from "@phosphor-icons/react";
 import { ButtonLink } from "@/components/ui/Button";
 import { site } from "@/content/site";
-
-const BalanceScene = dynamic(() => import("@/components/three/BalanceScene").then((m) => m.BalanceScene), {
-  ssr: false,
-});
+import { HeroCarousel } from "./HeroCarousel";
 
 export function Hero() {
   return (
@@ -30,14 +26,7 @@ export function Hero() {
           </div>
         </div>
 
-        <figure className="relative">
-          <div className="relative aspect-[4/5] sm:aspect-square md:aspect-[4/5]">
-            <BalanceScene className="absolute inset-0" fit={1} stride={0.15} />
-          </div>
-          <figcaption className="mt-2 text-sm text-ink-mute">
-            The drawing follows provisional patent 63/743,085 for BALANCE, a hybrid wheeled and legged mobility device.
-          </figcaption>
-        </figure>
+        <HeroCarousel />
       </div>
     </section>
   );
