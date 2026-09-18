@@ -73,7 +73,7 @@ export function HeroCarousel() {
             {current.caption}
           </motion.span>
         </figcaption>
-        <div className="inline-flex flex-wrap rounded-full bg-ink/8 p-1" role="group" aria-label="Model on the turntable">
+        <div className="inline-flex w-full flex-wrap rounded-full bg-ink/8 p-1 sm:w-auto" role="group" aria-label="Model on the turntable">
           {heroModels.map((m, i) => (
             <button
               key={m.key}
@@ -82,7 +82,7 @@ export function HeroCarousel() {
               aria-controls="hero-model-caption"
               onClick={() => jump(i)}
               className={cn(
-                "rounded-full px-3 py-1.5 text-sm font-semibold text-ink transition-colors duration-150",
+                "grow basis-[calc(50%-0.125rem)] rounded-full px-3 py-1.5 text-sm font-semibold text-ink transition-colors duration-150 sm:grow-0 sm:basis-auto",
                 i === index && "bg-paper-pale shadow-card",
               )}
             >
