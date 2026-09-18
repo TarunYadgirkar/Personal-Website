@@ -38,20 +38,7 @@ function useDocumentVisible(): boolean {
   );
 }
 
-/** The scene mounts after the browser is idle so the heading paints first. */
-function useAfterIdle(): boolean {
-  const [ready, setReady] = useState(false);
-  useEffect(() => {
-    const idle = window.requestIdleCallback ?? ((cb: () => void) => window.setTimeout(cb, 200));
-    const cancel = window.cancelIdleCallback ?? window.clearTimeout;
-    const id = idle(() => setReady(true));
-    return () => cancel(id);
-  }, []);
-  return ready;
-}
-
 export function HeroCarousel() {
-  const ready = useAfterIdle();
   const reduced = useReducedMotion() ?? false;
   const visible = useDocumentVisible();
   const [hovering, setHovering] = useState(false);
@@ -69,7 +56,7 @@ export function HeroCarousel() {
       onBlur={(e) => setFocused(e.currentTarget.contains(e.relatedTarget as Node | null))}
     >
       <div className="relative aspect-[4/5] sm:aspect-square md:aspect-[4/5]">
-        {ready && <HeroScene className="absolute inset-0" active={current.key} periods={heroPeriods} reduced={reduced} />}
+        <HeroScene className="absolute inset-0" active={current.key} periods={heroPeriods} reduced={reduced} />
       </div>
       <div className="mt-3 flex flex-wrap items-start justify-between gap-x-6 gap-y-3">
         <figcaption id="hero-model-caption" className="min-h-20 max-w-sm text-sm text-ink-mute" aria-live={held || pinned ? "polite" : "off"}>
