@@ -32,6 +32,11 @@ const FRAMING: Record<ModelKey, Framing> = {
  * the wave on the chip, glasses fully revealed. */
 const STILL_PHASE: Record<ModelKey, number> = { balance: 0.15, glasses: 0.6, arm: 0.5, board: 0.5 };
 
+/* A flat board seen edge-on is a line, so it faces the camera and sways
+ * instead of taking the full turn. */
+const FACES_CAMERA: Record<ModelKey, boolean> = { balance: false, glasses: false, arm: false, board: true };
+const SWAY = 0.35;
+
 function Model({ model, t }: { model: ModelKey; t: number }) {
   switch (model) {
     case "balance":
@@ -57,9 +62,13 @@ function Slot({ model, active, period, animate }: { model: ModelKey; active: boo
     const s = THREE.MathUtils.damp(g.scale.x, active ? 1 : 0, 7, delta);
     g.scale.setScalar(s);
     g.visible = s > 0.005;
+    if (FACES_CAMERA[model] && g.parent) {
+      g.rotation.y = -g.parent.rotation.y + 0.6 + Math.sin(state.clock.elapsedTime * 0.5) * SWAY;
+    }
     if (!animate || !g.visible) return;
     const next = (state.clock.elapsedTime / period) % 1;
-    if (Math.abs(next - t) > 1 / 120) setT(next);
+    // 30 updates a second is enough for these motions and halves the React work per frame.
+    if (Math.abs(next - t) > 1 / 30) setT(next);
   });
   return (
     <group ref={group} scale={0}>
@@ -101,7 +110,13 @@ function Rig({ framing, fit }: { framing: Framing; fit: number }) {
   return <OrthographicCamera ref={cam} makeDefault position={[240, 150, 300]} zoom={2} near={1} far={2000} />;
 }
 
-const MODELS: readonly ModelKey[] = ["balance", "glasses", "arm", "board"];
+/** Models mount the first time they are shown and stay mounted after, so
+ * the first paint builds one model, not four. */
+function useShown(active: ModelKey): readonly ModelKey[] {
+  const [shown, setShown] = useState<readonly ModelKey[]>([active]);
+  if (!shown.includes(active)) setShown([...shown, active]);
+  return shown;
+}
 
 export interface HeroSceneProps {
   active: ModelKey;
@@ -116,13 +131,14 @@ export function HeroScene({ active, periods, reduced, fit = 1, className }: Hero
   const wrapper = useRef<HTMLDivElement>(null);
   const inView = useInView(wrapper, { margin: "80px" });
   const animate = inView && !reduced;
+  const shown = useShown(active);
   return (
     <div ref={wrapper} className={className} aria-hidden="true">
       <Canvas shadows dpr={[1, 2]} gl={{ antialias: true, alpha: true, toneMapping: NoToneMapping }} frameloop={inView ? "always" : "never"}>
         <Rig framing={FRAMING[active]} fit={fit} />
         <Lights />
         <Turntable animate={animate}>
-          {MODELS.map((m) => (
+          {shown.map((m) => (
             <Slot key={m} model={m} active={m === active} period={periods[m]} animate={animate} />
           ))}
         </Turntable>
