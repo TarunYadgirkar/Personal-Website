@@ -36,7 +36,9 @@ const STILL_PHASE: Record<ModelKey, number> = { balance: 0.15, glasses: 0.6, arm
  * instead of taking the full turn. */
 const FACES_CAMERA: Record<ModelKey, boolean> = { balance: false, glasses: false, arm: false, board: true };
 const SWAY = 0.35;
-const SETTLE_MS = 1800;
+const SETTLE_MS = 2200;
+/* Extra turn, in radians per second, added at the moment of a switch; it decays over about a second. */
+const KICK = 2.4;
 
 function Model({ model, t }: { model: ModelKey; t: number }) {
   switch (model) {
@@ -51,21 +53,31 @@ function Model({ model, t }: { model: ModelKey; t: number }) {
   }
 }
 
-/** One model on the turntable, growing in from the ground when it becomes
- * active and shrinking away when it stops being active. Hidden models skip
- * their own motion and are culled once they are small enough. */
-function Slot({ model, active, period, animate }: { model: ModelKey; active: boolean; period: number; animate: boolean }) {
+/** Ease with a small overshoot, so the incoming model settles like something set down. */
+function easeOutBack(x: number): number {
+  const c = 1.4;
+  return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2);
+}
+
+/** One model on the turntable. The active one rises out of the floor with a
+ * spin and settles; a model that stops being active spins back down into it. */
+function Slot({ model, active, period, animate, framing }: { model: ModelKey; active: boolean; period: number; animate: boolean; framing: Framing }) {
   const group = useRef<THREE.Group>(null);
   const [t, setT] = useState(STILL_PHASE[model]);
+  const progress = useRef(0);
   const lastUpdate = useRef(0);
   useFrame((state, delta) => {
     const g = group.current;
     if (!g) return;
-    const s = THREE.MathUtils.damp(g.scale.x, active ? 1 : 0, 7, delta);
-    g.scale.setScalar(s);
-    g.visible = s > 0.005;
+    progress.current = THREE.MathUtils.damp(progress.current, active ? 1 : 0, 4.5, delta);
+    const p = progress.current;
+    const eased = active ? easeOutBack(p) : p;
+    g.scale.setScalar(Math.max(eased, 0.0001));
+    g.position.y = -framing.height * 0.35 * (1 - p);
+    g.rotation.y = (1 - p) * 1.6;
+    g.visible = p > 0.004;
     if (FACES_CAMERA[model] && g.parent) {
-      g.rotation.y = -g.parent.rotation.y + 0.6 + Math.sin(state.clock.elapsedTime * 0.5) * SWAY;
+      g.rotation.y += -g.parent.rotation.y + 0.6 + Math.sin(state.clock.elapsedTime * 0.5) * SWAY;
     }
     if (!animate || !g.visible || period === 0) return;
     // 30 updates a second is enough for these motions and halves the React work per frame.
@@ -74,17 +86,27 @@ function Slot({ model, active, period, animate }: { model: ModelKey; active: boo
     setT((state.clock.elapsedTime / period) % 1);
   });
   return (
-    <group ref={group} scale={0}>
+    <group ref={group} scale={0.0001}>
       <Model model={model} t={t} />
     </group>
   );
 }
 
-function Turntable({ animate, children }: { animate: boolean; children: React.ReactNode }) {
+/** Slow turn with a pointer lean, plus a kick of extra spin whenever the model changes. */
+function Turntable({ animate, active, children }: { animate: boolean; active: ModelKey; children: React.ReactNode }) {
   const group = useRef<THREE.Group>(null);
+  const kick = useRef(0);
+  const lastActive = useRef(active);
   useFrame((state, delta) => {
     const g = group.current;
-    if (!g || !animate) return;
+    if (!g) return;
+    if (lastActive.current !== active) {
+      lastActive.current = active;
+      kick.current = KICK;
+    }
+    kick.current = THREE.MathUtils.damp(kick.current, 0, 3, delta);
+    g.rotation.y += delta * kick.current;
+    if (!animate) return;
     g.rotation.y += delta * 0.18;
     g.rotation.z = THREE.MathUtils.damp(g.rotation.z, state.pointer.x * 0.08, 4, delta);
   });
@@ -153,9 +175,9 @@ export function HeroScene({ active, periods, reduced, fit = 1, className }: Hero
       <Canvas shadows dpr={[1, 2]} gl={{ antialias: true, alpha: true, toneMapping: NoToneMapping }} frameloop={frameloop}>
         <Rig framing={FRAMING[active]} fit={fit} />
         <Lights />
-        <Turntable animate={animate}>
+        <Turntable animate={animate} active={active}>
           {shown.map((m) => (
-            <Slot key={m} model={m} active={m === active} period={periods[m]} animate={animate} />
+            <Slot key={m} model={m} active={m === active} period={periods[m]} animate={animate} framing={FRAMING[m]} />
           ))}
         </Turntable>
       </Canvas>
