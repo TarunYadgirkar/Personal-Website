@@ -16,8 +16,9 @@ export function Hero() {
         <div>
           <h1 className="text-[2.6rem] leading-[1.02] sm:text-6xl md:text-[4.25rem]">I build intelligent systems where hardware meets AI.</h1>
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink-soft md:text-xl">
-            Machine learning that runs on FPGAs, a patented hybrid mobility device, and AR glasses with their own operating
-            system. I study applied mathematics at UC Berkeley and spend the rest of the week building.
+            I work on machine learning that runs on FPGAs, a hybrid mobility device with a provisional patent, and AR
+            glasses with their own operating system. I study applied mathematics at UC Berkeley and spend the rest of the
+            week building.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <ButtonLink href="#work">
@@ -34,7 +35,7 @@ export function Hero() {
             <BalanceScene className="absolute inset-0" fit={1} stride={0.15} />
           </div>
           <figcaption className="mt-2 text-sm text-ink-mute">
-            BALANCE, a hybrid wheeled and legged mobility frame. Concept drawing after provisional patent 63/743,085.
+            The drawing follows provisional patent 63/743,085 for BALANCE, a hybrid wheeled and legged mobility device.
           </figcaption>
         </figure>
       </div>

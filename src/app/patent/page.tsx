@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export default function PatentPage() {
   return (
     <Page title="BALANCE" lead={balance.concept}>
-      <p className="-mt-6 mb-10 text-base text-ink-mute">{balance.expansion}</p>
+      <p className="-mt-6 mb-10 text-base text-ink-mute">The name stands for {balance.expansion}.</p>
 
       <ThreeView />
 

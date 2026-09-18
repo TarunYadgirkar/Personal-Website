@@ -3,11 +3,10 @@ export const site = {
   name: "Tarun Yadgirkar",
   headline: "Tarun Yadgirkar builds intelligent systems where hardware meets AI.",
   description:
-    "Embedded ML on FPGAs, assistive robotics, and AR glasses with their own operating system. Applied Mathematics at UC Berkeley.",
+    "Tarun Yadgirkar builds machine learning on FPGAs, assistive robotics, and AR glasses with their own operating system, and studies applied mathematics at UC Berkeley.",
   location: "Berkeley, California",
   email: "tarun_yadgirkar@berkeley.edu",
   url: "https://tarunyadgirkar.com",
-  resumeUrl: "/resume/tarun-yadgirkar-resume.pdf",
   links: {
     github: "https://github.com/TarunYadgirkar",
     linkedin: "https://www.linkedin.com/in/tarun-yadgirkar/",

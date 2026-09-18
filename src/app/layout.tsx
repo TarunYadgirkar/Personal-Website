@@ -11,6 +11,7 @@ export const metadata: Metadata = {
   title: { default: site.name, template: `%s | ${site.name}` },
   description: site.description,
   openGraph: { title: site.name, description: site.description, type: "website", url: site.url },
+  twitter: { card: "summary_large_image" },
 };
 
 export const viewport: Viewport = { themeColor: "#f4f1ea", viewportFit: "cover" };

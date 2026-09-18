@@ -10,7 +10,7 @@ export function Footer() {
         <div>
           <p className="font-heading text-2xl font-semibold">Say hello</p>
           <p className="mt-2 max-w-md text-base text-ink-soft">
-            Research, internships and things worth building together. Email is the fastest way to reach me.
+            Write to me about research, internships and anything worth building together. Email is the fastest way to reach me.
           </p>
           <div className="mt-4">
             <CopyEmail email={site.email} />
@@ -25,9 +25,6 @@ export function Footer() {
           </a>
           <a href={site.links.x} className="rounded underline-offset-4 hover:underline">
             X
-          </a>
-          <a href={site.resumeUrl} className="rounded underline-offset-4 hover:underline">
-            Resume (PDF)
           </a>
         </nav>
       </div>

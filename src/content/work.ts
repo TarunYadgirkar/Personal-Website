@@ -1,17 +1,6 @@
 export type Link = { label: string; href: string };
 export type EventLink = Link & { detail: string };
 
-export type Featured = {
-  slug: string;
-  title: string;
-  status: string;
-  context: string;
-  summary: string;
-  tags: readonly string[];
-  href: string;
-  isExternal?: boolean;
-};
-
 export type CaseStudy = {
   slug: string;
   title: string;
@@ -25,39 +14,6 @@ export type CaseStudy = {
   links: readonly Link[];
 };
 
-export const featured: readonly Featured[] = [
-  {
-    slug: "fpga-ml",
-    title: "FPGA-Accelerated Machine Learning",
-    status: "Research · ongoing",
-    context: "SCU Wireless Intelligent Networks (WIN) Lab · Jul 2025 – present",
-    summary:
-      "FPGA-based acceleration for machine learning and wireless-communication algorithms, covering high-throughput, low-latency signal processing and channel estimation.",
-    tags: ["FPGA", "Embedded ML", "Signal Processing", "Channel Estimation", "Low-Latency Systems"],
-    href: "/research",
-  },
-  {
-    slug: "balance",
-    title: "BALANCE, assistive mobility robotics",
-    status: "Provisional patent · Published",
-    context: "Co-developed with a student team · Youth Innovation Journal, Fall 2025",
-    summary:
-      "A hybrid mobility device that runs on wheels over flat ground and uses robotic-leg assistance on stairs and uneven terrain. Provisional patent No. 63/743,085.",
-    tags: ["Assistive Robotics", "Mechatronics", "LiDAR", "Navigation", "CAD"],
-    href: "/patent",
-  },
-  {
-    slug: "rainier-labs",
-    title: "Robotics Hardware & Embedded Systems",
-    status: "Internship",
-    context: "Rainier Labs · Sunnyvale, CA · Jun – Aug 2025",
-    summary:
-      "Expressive robotic head system, covering display integration and CAD redesign for hardware fit.",
-    tags: ["Embedded Systems", "Robotics Hardware", "CAD", "Human-Robot Interaction"],
-    href: "/work#rainier",
-  },
-] as const;
-
 export const caseStudies: readonly CaseStudy[] = [
   {
     slug: "carepath",
@@ -67,7 +23,7 @@ export const caseStudies: readonly CaseStudy[] = [
     event: {
       label: "Autonomous Healthcare Hackathon",
       href: "https://luma.com/zru7alb6",
-      detail: "Legion Health × Atlas AI · Jun 2026",
+      detail: "Legion Health and Atlas AI, June 2026",
     },
     problem:
       "Patients don't know where to go, what it may cost, or what to bring when symptoms are confusing.",
@@ -95,7 +51,7 @@ export const caseStudies: readonly CaseStudy[] = [
     event: {
       label: "Build Smth AI-Native Hackathon @Cal",
       href: "https://luma.com/7i8crpqz",
-      detail: "Klarity Health track · UC Berkeley · May 2026",
+      detail: "Klarity Health track at UC Berkeley, May 2026",
     },
     problem:
       "Clinicians spend time triaging and documenting intake before an appointment even starts.",
@@ -123,7 +79,7 @@ export const caseStudies: readonly CaseStudy[] = [
     event: {
       label: "Bitrig Hacks",
       href: "https://events.ycombinator.com/bitrighacks-june2026",
-      detail: "Y Combinator Mountain View HQ · Jun 2026",
+      detail: "Y Combinator in Mountain View, June 2026",
     },
     problem: "Making an iOS app visible to AI-powered Siri requires hand-writing App Intents.",
     built:
@@ -143,7 +99,7 @@ export const additionalCaseStudies: readonly CaseStudy[] = [
     event: {
       label: "AI Hackathon with The AI Collective Tri-Valley",
       href: "https://luma.com/aic-tr-june",
-      detail: "Humans in AI Week · Jun 2026",
+      detail: "Humans in AI Week, June 2026",
     },
     problem:
       "People with visual impairments can't easily reconfigure a screen for their needs in real time.",
@@ -171,7 +127,7 @@ export const additionalCaseStudies: readonly CaseStudy[] = [
     event: {
       label: "Hospitality 2030",
       href: "https://cerebralvalley.ai/events/~/e/rosewood-hospitality-2030",
-      detail: "Rosewood Sand Hill × Cerebral Valley · May 2026",
+      detail: "Rosewood Sand Hill and Cerebral Valley, May 2026",
     },
     problem:
       "Personalizing a returning hotel guest's arrival normally requires manual staff work per reservation.",
@@ -192,10 +148,10 @@ export const additionalCaseStudies: readonly CaseStudy[] = [
     event: {
       label: "AgeTech SF Hackathon",
       href: "https://luma.com/jfen5fhk",
-      detail: "Closing the Emergency Detection Gap · May 2026",
+      detail: "May 2026",
     },
     problem:
-      "Detection alone doesn't make anyone safe; there is a gap between a sensor firing and a human confirming what happens next.",
+      "Detection alone doesn't make anyone safe, because there is a gap between a sensor firing and a human confirming what happens next.",
     built:
       "A system that takes a free-text event, classifies severity with visible AI reasoning, then runs a user-configured escalation procedure step by step with live timers until a human takes ownership. The core escalation state machine is pure, unit-testable TypeScript.",
     stack: [
@@ -217,8 +173,8 @@ export const additionalCaseStudies: readonly CaseStudy[] = [
 export const rainier = {
   id: "rainier",
   title: "Robotics hardware and embedded systems at Rainier Labs",
-  status: "Robotics Hardware and Embedded Systems Intern",
-  context: "Sunnyvale, CA · Jun – Aug 2025",
-  body: "Worked on an expressive robotic head system: selected and integrated display screens for a robotic facial-expression system and redesigned CAD models to ensure proper hardware fit; collaborated on the robotic head design, balancing aesthetics with hardware function; evaluated and sourced microphone and speaker components across hardware/software trade-offs.",
+  status: "Robotics hardware and embedded systems intern",
+  context: "Sunnyvale, California, June to August 2025",
+  body: "I worked on an expressive robotic head. I selected and integrated the display screens for its facial-expression system, redesigned the CAD so the electronics fit, helped shape the head so it looked right while still housing the hardware, and evaluated microphone and speaker components against both hardware and software constraints.",
   tags: ["Embedded Systems", "Robotics", "CAD", "Human-Robot Interaction"],
 } as const;

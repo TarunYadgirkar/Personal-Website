@@ -10,6 +10,8 @@ Next.js 16 app router, React 19, TypeScript strict, Tailwind v4, three.js + @rea
 - Do not add SLICE Lab yet.
 - Tokens live once in `src/app/globals.css`; components reference tokens, never hex.
 - `pnpm lint` enforces `complexity: 10` and `max-depth: 3`; a failure is a bug.
+- The R3F canvases size themselves through ResizeObserver, which never fires in a hidden browser tab or a hidden desktop-app browser pane. A 300x150 canvas in that state is the tab, not the site; verify in Playwright or a visible window.
+- `src/app/opengraph-image.tsx` needs a TrueType face (Satori cannot read woff2), so `src/fonts/schibsted-600.ttf` is a static 600 instance of the heading font kept only for that image.
 
 ## Lanes
 - `src/content/*` is the only place copy and facts live.

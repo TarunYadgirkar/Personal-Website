@@ -1,21 +1,20 @@
 export const balance = {
   name: "BALANCE",
   expansion: "Biomechanical Assistive Legs with Advanced Navigation and Control Engineering",
-  status: "Provisional patent filed (No. 63/743,085) · Related article, Youth Innovation Journal",
   problem:
     "Mobility isn't binary, but most assistive devices such as wheelchairs, walkers, and canes solve one narrow stage of mobility loss and don't adapt across terrain, and some accelerate muscle atrophy. Meanwhile the aging population and the gap between lifespan and health-span are both growing.",
   concept:
     "BALANCE is a hybrid robotic mobility device positioned between simple aids and complex exoskeletons, supporting users across the full continuum of mobility with partial-to-full assistance.",
   systems: [
     {
-      name: "Assistive Leg Framework",
+      name: "Assistive leg framework",
       detail:
-        "A dual wheeled-and-leg mobility frame that provides structural support and isolates shocks, using wheeled movement on flat ground and robotic-leg assistance on stairs and uneven or narrow terrain.",
+        "The frame carries both wheels and legs, provides structural support and isolates shocks. It rolls on flat ground and switches to robotic-leg assistance on stairs and on uneven or narrow terrain.",
     },
     {
-      name: "Adaptive Control & Navigation Suite",
+      name: "Adaptive control and navigation suite",
       detail:
-        "LiDAR, sonar, 360° cameras, and on-board computing for real-time mapping and navigation.",
+        "LiDAR, sonar, 360° cameras and an on-board computer map the surroundings and navigate in real time.",
     },
   ],
   features: [
@@ -27,19 +26,19 @@ export const balance = {
   // Drives the <Schematic> on /patent.
   signalPath: [
     {
-      kick: "Input · sensing",
+      kick: "Sensing",
       nodes: [
-        { title: "LiDAR", sub: ["depth · ranging"] },
+        { title: "LiDAR", sub: ["depth and ranging"] },
         { title: "Sonar", sub: ["near-field"] },
         { title: "360° cameras", sub: ["visual field"] },
       ],
     },
     {
-      kick: "Perception · compute",
+      kick: "Compute",
       nodes: [
         {
           title: "On-board compute",
-          sub: ["Real-time mapping", "Terrain classification", "Gait & path planning"],
+          sub: ["Real-time mapping", "Terrain classification", "Gait and path planning"],
           isAccent: true,
         },
       ],
@@ -54,15 +53,15 @@ export const balance = {
       ],
     },
     {
-      kick: "Output · locomotion",
+      kick: "Locomotion",
       nodes: [
         { title: "Wheeled base", sub: ["flat ground"] },
-        { title: "Robotic-leg assist", sub: ["stairs · uneven terrain"] },
+        { title: "Robotic-leg assist", sub: ["stairs and uneven terrain"] },
       ],
     },
   ],
   statusDetail:
-    "The system was filed as provisional patent No. 63/743,085. A related article describing the BALANCE design was published in the Youth Innovation Journal (Fall 2025). Co-developed with a student team.",
+    "We co-developed BALANCE as a student team and filed it as provisional patent No. 63/743,085. A related article describing the design was published in the Youth Innovation Journal in fall 2025.",
   links: [
     {
       label: "Article in the Youth Innovation Journal",

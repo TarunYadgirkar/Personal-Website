@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function ArchivePage() {
   return (
-    <Page title="Archive" lead="Earlier work, kept for the record. Most of it is from high school; none of it is the point, but some of it explains the rest.">
+    <Page title="Archive" lead="This is earlier work, kept for the record. Most of it is from high school, and some of it explains where the rest came from.">
       <table className="w-full border-collapse text-left text-base">
         <thead>
           <tr className="border-b border-line-strong text-sm text-ink-mute">

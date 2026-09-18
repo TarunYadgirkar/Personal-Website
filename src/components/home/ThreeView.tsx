@@ -29,7 +29,7 @@ export function ThreeView() {
         ))}
       </div>
       <figcaption className="mt-4 flex flex-wrap items-center justify-between gap-4 text-sm text-ink-mute">
-        <span>Concept drawing after the provisional patent. Wheels carry flat ground; the powered feet swing down for stairs.</span>
+        <span>The drawing follows the provisional patent. The wheels carry flat ground, and the powered feet swing down for stairs.</span>
         <span className="inline-flex rounded-full bg-ink/8 p-1" role="group" aria-label="Pose">
           {[
             { on: false, label: "Rolling" },

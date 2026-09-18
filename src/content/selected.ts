@@ -22,10 +22,10 @@ export const selected: readonly Selected[] = [
   {
     slug: "fpga-ml",
     title: "Machine learning on FPGAs",
-    what: "Research at Santa Clara University's Wireless Intelligent Networks Lab on running ML and wireless signal-processing algorithms on FPGAs, where throughput and latency are fixed by the hardware rather than by the framework.",
+    what: "At Santa Clara University's Wireless Intelligent Networks Lab I research how to run ML and wireless signal-processing algorithms on FPGAs, where throughput and latency are fixed by the hardware rather than by the framework.",
     detail:
       "The work runs from PyTorch and TensorFlow models through quantization to fixed-point implementations on the fabric, then the same treatment for channel estimation and signal processing so the two share a pipeline.",
-    standing: "Research assistant since July 2025, ongoing.",
+    standing: "I have been a research assistant there since July 2025.",
     period: "2025 to now",
     drawing: "fpga",
     href: "/research",
@@ -33,10 +33,10 @@ export const selected: readonly Selected[] = [
   {
     slug: "balance",
     title: "BALANCE",
-    what: "A hybrid mobility device that rolls on wheels over flat ground and switches to robotic-leg assistance on stairs and rough terrain, so one device covers the whole range from a little support to full assistance.",
+    what: "BALANCE is a hybrid mobility device that rolls on wheels over flat ground and switches to robotic-leg assistance on stairs and rough terrain, so one device covers the whole range from a little support to full assistance.",
     detail:
-      "Co-developed with a student team. A hip-centric collapsible frame carries the leg and wheel units; LiDAR, sonar and cameras feed an on-board computer that maps the ground ahead and picks the mode.",
-    standing: "Provisional patent 63/743,085. Design article in the Youth Innovation Journal, fall 2025.",
+      "We co-developed it as a student team. A hip-centric collapsible frame carries the leg and wheel units; LiDAR, sonar and cameras feed an on-board computer that maps the ground ahead and picks the mode.",
+    standing: "We filed provisional patent 63/743,085 and published the design in the Youth Innovation Journal in fall 2025.",
     period: "2023 to 2025",
     drawing: "balance",
     href: "/patent",
@@ -44,10 +44,10 @@ export const selected: readonly Selected[] = [
   {
     slug: "vantage",
     title: "Vantage",
-    what: "AR glasses and the spatial operating system inside them, co-founded at UC Berkeley. Windows dock to the walls around you and stay where you left them.",
+    what: "Vantage is a pair of AR glasses and the spatial operating system inside them, co-founded at UC Berkeley. Windows dock to the walls around you and stay where you left them.",
     detail:
       "The prototype runs as a full Linux-based OS taking camera streams over the network, with optical hand-gesture recognition, LiDAR-based SLAM for the room model, and an on-glasses keyboard you can type on. Hardware is in design.",
-    standing: "Pre-seed, Berkeley. Working software prototype; glasses and case in development.",
+    standing: "Vantage is pre-seed in Berkeley, with a working software prototype and the glasses and case in development.",
     period: "2026 to now",
     drawing: "glasses",
     href: "https://vantage-site-bice.vercel.app",
@@ -56,10 +56,10 @@ export const selected: readonly Selected[] = [
   {
     slug: "rainier",
     title: "Robotic head at Rainier Labs",
-    what: "Hardware and embedded-systems internship at a robotics startup in Sunnyvale, on a robot head that shows facial expressions on screens.",
+    what: "I spent a summer at Rainier Labs, a robotics startup in Sunnyvale, working on a robot head that shows facial expressions on screens.",
     detail:
-      "Selected and integrated the displays, redesigned the CAD so the electronics fit the head, and sourced the microphone and speaker path against both hardware and software constraints.",
-    standing: "Summer 2025 internship.",
+      "I selected and integrated the displays, redesigned the CAD so the electronics fit the head, and sourced the microphone and speaker path against both hardware and software constraints.",
+    standing: "I interned there in summer 2025.",
     period: "Summer 2025",
     drawing: "head",
     href: "/work#rainier",
@@ -67,10 +67,10 @@ export const selected: readonly Selected[] = [
   {
     slug: "popper",
     title: "Popper",
-    what: "An adversarial pull-request gate. Instead of asking whether a diff looks right, it extracts the claim the PR makes and writes tests designed to break it.",
+    what: "Popper is an adversarial pull-request gate. Instead of asking whether a diff looks right, it extracts the claim the PR makes and writes tests designed to break it.",
     detail:
       "Each test runs against the code before and after the change in an isolated Daytona sandbox, so a pass only counts when the same test failed before. The gate then compares that evidence with CodeRabbit's static review and surfaces where the two disagree.",
-    standing: "Built at Daytona HackSprint, July 2026. Live demo runs the full six-stage gate in about thirteen seconds.",
+    standing: "I built it at Daytona HackSprint in July 2026, and the live demo runs the full six-stage gate in about thirteen seconds.",
     period: "July 2026",
     drawing: "gate",
     href: "https://daytona-hacksprint.vercel.app",
@@ -82,10 +82,10 @@ export const selected: readonly Selected[] = [
   {
     slug: "bonsai",
     title: "Bonsai",
-    what: "Turns an AI chat from a growing scroll into a tree: branch a side question with a compiled brief instead of the whole history, route it to the right model, and merge one distilled sentence back.",
+    what: "Bonsai turns an AI chat from a growing scroll into a tree: branch a side question with a compiled brief instead of the whole history, route it to the right model, and merge one distilled sentence back.",
     detail:
       "A dependency-free TypeScript engine (bonsai-engine on npm) behind three surfaces: a claude.ai MCP connector that renders the tree inline, a Claude Code plugin, and a web app. A referent-resolution benchmark runs in CI so the compiled-brief claim is tested, not asserted.",
-    standing: "Open source, MIT. Published on npm.",
+    standing: "It is open source under the MIT license and published on npm.",
     period: "August 2026",
     drawing: "tree",
     href: "https://github.com/TarunYadgirkar/Bonsai",
