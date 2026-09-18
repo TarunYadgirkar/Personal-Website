@@ -103,12 +103,14 @@ function Head() {
       <RoundedBox args={[20, 11, 8]} radius={3} material={shadeMaterial} castShadow>
         <Outline />
       </RoundedBox>
-      <mesh position={[0, 0.4, 3.7]} material={glassMaterial}>
-        <boxGeometry args={[16, 4, 0.6]} />
+      {/* The visor stands proud of the face and the lenses proud of the visor;
+       * flush faces z-fight and flicker as the turntable moves. */}
+      <mesh position={[0, 0.4, 4.15]} material={glassMaterial}>
+        <boxGeometry args={[16, 4, 0.5]} />
       </mesh>
       {SIDES.map((s) => (
-        <mesh key={s} position={[s * 4.6, 0.4, 3.2]} rotation={[Math.PI / 2, 0, 0]} material={inkMaterial}>
-          <cylinderGeometry args={[1.2, 1.2, 0.5, 20]} />
+        <mesh key={s} position={[s * 4.6, 0.4, 4.52]} rotation={[Math.PI / 2, 0, 0]} material={inkMaterial}>
+          <cylinderGeometry args={[1.2, 1.2, 0.2, 20]} />
         </mesh>
       ))}
       <mesh position={[0, 5, 2.2]} material={inkMaterial}>
