@@ -5,7 +5,7 @@ import { balance } from "@/content/balance";
  * the compute stage where the mode decision happens. */
 
 const INK = "#1d1a16";
-const SOFT = "#7a7266";
+const SOFT = "#6f675b";
 const RUST = "#c5400a";
 const PAPER = "#faf8f3";
 

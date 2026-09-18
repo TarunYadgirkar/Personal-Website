@@ -8,7 +8,7 @@ import { useReducedMotion } from "motion/react";
  * travels the path; inside the fabric a pipeline wave crosses the DSP tiles. */
 
 const INK = "#1d1a16";
-const SOFT = "#7a7266";
+const SOFT = "#6f675b";
 const RUST = "#c5400a";
 const PAPER = "#faf8f3";
 

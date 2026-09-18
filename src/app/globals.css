@@ -11,7 +11,7 @@
 
   --color-ink: #1d1a16;
   --color-ink-soft: #4d4740;
-  --color-ink-mute: #7a7266;
+  --color-ink-mute: #6f675b;
 
   --color-rust: #c5400a;
   --color-rust-deep: #8f2e07;
@@ -63,7 +63,7 @@ body {
   min-height: 100dvh;
   /* A faint paper grain and a 24px drafting grid, both under everything. */
   background-image: var(--grain);
-  background-size: 600px 600px;
+  background-size: 400px 400px;
 }
 
 ::selection {

@@ -9,7 +9,7 @@ export const contentType = "image/png";
 
 const PAPER = "#f4f1ea";
 const INK = "#1d1a16";
-const INK_MUTE = "#7a7266";
+const INK_MUTE = "#6f675b";
 const RUST = "#c5400a";
 const GRID = "rgba(29, 26, 22, 0.07)";
 
