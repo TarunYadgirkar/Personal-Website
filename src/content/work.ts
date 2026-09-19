@@ -37,7 +37,7 @@ export const caseStudies: readonly CaseStudy[] = [
       "OpenAI gpt-4o-mini",
       "Vercel",
     ],
-    outcome: "Shipped a working care-navigation prototype at a one-day health AI hackathon.",
+    outcome: "Placed 5th at a one-day health AI hackathon with a working care-navigation prototype.",
     links: [
       { label: "Live", href: "https://carepath-five.vercel.app" },
       { label: "GitHub", href: "https://github.com/TarunYadgirkar/carepath" },
@@ -49,7 +49,7 @@ export const caseStudies: readonly CaseStudy[] = [
     oneLiner: "AI voice intake for mental-health documentation",
     status: "Shipped prototype",
     event: {
-      label: "Build Smth AI-Native Hackathon @Cal",
+      label: "Build Smth AI-Native Hackathon, UC Berkeley",
       href: "https://luma.com/7i8crpqz",
       detail: "Klarity Health track at UC Berkeley, May 2026",
     },
@@ -74,7 +74,7 @@ export const caseStudies: readonly CaseStudy[] = [
   {
     slug: "intent",
     title: "Intent",
-    oneLiner: "Native App Intents code generator",
+    oneLiner: "App Intents code generator for Siri",
     status: "Shipped prototype",
     event: {
       label: "Bitrig Hacks",
@@ -122,7 +122,7 @@ export const additionalCaseStudies: readonly CaseStudy[] = [
   {
     slug: "guestflow",
     title: "GuestFlow",
-    oneLiner: "Agentic arrival orchestration for luxury hotels",
+    oneLiner: "Agentic arrival orchestration for hotels",
     status: "Shipped prototype",
     event: {
       label: "Hospitality 2030",
@@ -143,7 +143,7 @@ export const additionalCaseStudies: readonly CaseStudy[] = [
   {
     slug: "guardianalert",
     title: "GuardianAlert",
-    oneLiner: "Escalation state machine for elder-care detection",
+    oneLiner: "Escalation state machine for elder care",
     status: "Shipped prototype",
     event: {
       label: "AgeTech SF Hackathon",
@@ -162,7 +162,7 @@ export const additionalCaseStudies: readonly CaseStudy[] = [
       "Google Gemini",
       "Retell SDK",
     ],
-    outcome: "Shipped with a pure, unit-testable escalation state machine.",
+    outcome: "Shipped at the AgeTech SF hackathon; the escalation engine is pure TypeScript with unit tests.",
     links: [
       { label: "Live", href: "https://age-tech-hackathon-1.vercel.app" },
       { label: "GitHub", href: "https://github.com/TarunYadgirkar/AgeTech-Hackathon-1" },

@@ -6,7 +6,7 @@ import { publication, roar, winLab } from "@/content/research";
 
 export const metadata: Metadata = {
   title: "Research",
-  description: "FPGA acceleration for machine learning and wireless signal processing at Santa Clara University's WIN Lab, the ROAR Academy, and the BALANCE article.",
+  description: "FPGA acceleration for machine learning and wireless signal processing at Santa Clara University's Wireless Intelligent Networks Lab, the ROAR Academy, and the BALANCE article.",
 };
 
 export default function ResearchPage() {
@@ -16,7 +16,9 @@ export default function ResearchPage() {
       lead="Most of my research is about what an algorithm can do once the hardware sets the budget: how much of a model survives quantization, and how fast a channel estimate can come out of an FPGA."
     >
       <figure className="mb-4 rounded-2xl bg-paper-pale p-4 shadow-card sm:p-6">
-        <FpgaPipeline className="h-auto w-full" />
+        <div className="overflow-x-auto">
+          <FpgaPipeline className="h-auto w-full min-w-[640px]" />
+        </div>
         <figcaption className="mt-3 text-sm text-ink-mute">
           The path a model takes from training to the fabric. Live samples from the radio front end enter the same fabric
           for channel estimation and signal processing.

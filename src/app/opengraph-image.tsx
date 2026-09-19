@@ -15,8 +15,13 @@ const GRID = "rgba(29, 26, 22, 0.07)";
 
 /* Satori reads TrueType, not woff2, so the heading face ships once more as a
  * static 600 instance just for this image. */
-async function headingFont(): Promise<Buffer> {
-  return readFile(join(process.cwd(), "src/fonts/schibsted-600.ttf"));
+async function headingFont(): Promise<Buffer | null> {
+  try {
+    return await readFile(join(process.cwd(), "src/fonts/schibsted-600.ttf"));
+  } catch {
+    // A card in the fallback face still beats no card in the link preview.
+    return null;
+  }
 }
 
 export default async function Image() {
@@ -40,7 +45,6 @@ export default async function Image() {
       >
         <div style={{ display: "flex", alignItems: "center", gap: 18, fontSize: 34 }}>
           <div style={{ width: 22, height: 22, borderRadius: 11, backgroundColor: RUST }} />
-          {site.name}
         </div>
         <div style={{ display: "flex", fontSize: 72, lineHeight: 1.05, letterSpacing: 0, maxWidth: 1000 }}>
           {site.headline}
@@ -48,6 +52,6 @@ export default async function Image() {
         <div style={{ display: "flex", fontSize: 28, color: INK_MUTE }}>tarunyadgirkar.com</div>
       </div>
     ),
-    { ...size, fonts: [{ name: "Schibsted Grotesk", data: schibsted, weight: 600, style: "normal" }] },
+    { ...size, fonts: schibsted ? [{ name: "Schibsted Grotesk", data: schibsted, weight: 600, style: "normal" }] : undefined },
   );
 }

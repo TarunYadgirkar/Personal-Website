@@ -39,7 +39,7 @@ export const now: readonly NowRow[] = [
   },
   {
     key: "Researching",
-    value: "FPGA acceleration for machine learning and wireless signal processing at Santa Clara University's WIN Lab",
+    value: "FPGA acceleration for machine learning and wireless signal processing at Santa Clara University's Wireless Intelligent Networks Lab",
     href: "/research",
   },
   { key: "Studying", value: "Applied Mathematics at UC Berkeley" },

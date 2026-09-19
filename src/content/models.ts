@@ -33,4 +33,4 @@ export const heroModels: readonly HeroModel[] = [
 
 export const heroPeriods: Record<ModelKey, number> = { balance: 0, glasses: 9, arm: 9, board: 7 };
 
-export const HERO_ADVANCE_MS = 7000;
+export const HERO_ADVANCE_MS = 10000;

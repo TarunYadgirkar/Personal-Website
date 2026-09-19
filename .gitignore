@@ -44,3 +44,6 @@ next-env.d.ts
 info.md
 info2.md
 tarun-website-brief.md
+
+# review screenshots and other generated files, kept locally
+/assets/generated

@@ -41,7 +41,9 @@ export default function PatentPage() {
       </Section>
 
       <Section id="signal-path" title="From sensors to a step">
-        <SignalPath />
+        <div className="overflow-x-auto">
+          <SignalPath />
+        </div>
         <p className="mt-4 text-sm text-ink-mute">
           LiDAR, sonar and cameras feed the on-board computer, which maps the ground and picks a mode; the wheeled base
           handles flat ground and the powered legs take stairs and uneven terrain.

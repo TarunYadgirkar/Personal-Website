@@ -1,5 +1,4 @@
 export type ArchiveItem = {
-  id?: string;
   /** Omitted when the dates aren't known; the row renders without a year cell. */
   years?: string;
   title: string;
@@ -17,7 +16,6 @@ export const archive: readonly ArchiveItem[] = [
       "I was co-captain and then captain, led the team across CAD, build and programming, and wrote the autonomous and driver code. We qualified for VEX Worlds 2024 with a top-ten Robot Skills score worldwide, ranked top five in US Open qualification twice, and reached the division finals twice.",
   },
   {
-    id: "waste-sorting",
     years: "2025",
     title: "AI waste-sorting robot",
     type: "Vision and robotics",

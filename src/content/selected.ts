@@ -29,6 +29,7 @@ export const selected: readonly Selected[] = [
     period: "2025 to now",
     drawing: "fpga",
     href: "/research",
+    links: [{ label: "research notes", href: "/research" }],
   },
   {
     slug: "balance",
@@ -40,11 +41,12 @@ export const selected: readonly Selected[] = [
     period: "2023 to 2025",
     drawing: "balance",
     href: "/patent",
+    links: [{ label: "the BALANCE page", href: "/patent" }],
   },
   {
     slug: "vantage",
     title: "Vantage",
-    what: "Vantage is a pair of AR glasses and the spatial operating system inside them, co-founded at UC Berkeley. Windows dock to the walls around you and stay where you left them.",
+    what: "Vantage is a pair of AR glasses and the spatial operating system inside them, which I co-founded with Boris Nezlobin at UC Berkeley. Windows dock to the walls around you and stay where you left them.",
     detail:
       "The prototype runs as a full Linux-based OS taking camera streams over the network, with optical hand-gesture recognition, LiDAR-based SLAM for the room model, and an on-glasses keyboard you can type on. Hardware is in design.",
     standing: "Vantage is pre-seed in Berkeley, with a working software prototype and the glasses and case in development.",
@@ -58,7 +60,7 @@ export const selected: readonly Selected[] = [
     title: "Robots at Rainier Labs",
     what: "I spent a summer at Rainier Labs, a robotics startup in Sunnyvale, helping build their robot dogs and an expressive robot head.",
     detail:
-      "The work was hardware and embedded systems across both machines. On the head I selected and integrated the displays, redesigned the CAD so the electronics fit, and sourced the microphone and speaker path against both hardware and software constraints.",
+      "The work was hardware and embedded systems across both machines. On the head I selected and integrated the displays, redesigned the CAD so the electronics fit, and evaluated microphone and speaker components against both hardware and software constraints.",
     standing: "I interned there in summer 2025.",
     period: "Summer 2025",
     drawing: "dog",

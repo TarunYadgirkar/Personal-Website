@@ -31,6 +31,8 @@ const GAP_SHUT = PART_W;
 const SIDES: Array<1 | -1> = [1, -1];
 
 const HOLD_FROM = 0.38;
+/* Distance from the joint-5 pivot to the held part's centre, so it neither jumps nor drops at the hand-off. */
+const HELD_Y = 13.14;
 const HOLD_TO = 0.7;
 
 /* Keyframe arithmetic. The wrist is 14 cm from the joint-5 pivot to the
@@ -43,7 +45,8 @@ const HOLD_TO = 0.7;
  *   cos(b - a) = (d^2 - 34^2 - 30^2) / (2*34*30) = -0.2824 -> b - a = 1.857,
  *   a = atan2(38, -6) - acos((d^2 + 34^2 - 30^2) / (2*d*34)) = 1.727 - 0.845,
  *   so a = 0.882, b = 2.739, joint 5 = pi - b = 0.402. That lands the tip at
- *   r 37.97, y 0.01, and the cube centre one centimetre higher at (0, 1, 38).
+ *   r 37.97, y 0.01. The joint-5 pivot then sits at y 13.99 with the tool
+ *   pointing down, so a part held HELD_Y below it lands at the pad height.
  * lift, fingertip at (r 30, y 26): b - a = 1.951, a = 0.983 - 0.884 = 0.099,
  *   b = 2.050, joint 5 = 1.092 -> tip at r 29.98, y 25.99.
  * place: the place point (x 33, z 19) is 38.08 from the column, within a
@@ -272,7 +275,7 @@ function Wrist({ roll, pitch, flange, gap, holding }: WristProps) {
             <Outline round />
           </mesh>
           <Gripper gap={gap} />
-          {holding && <Part position={[0, 12 + PART_H / 2, 0]} />}
+          {holding && <Part position={[0, HELD_Y, 0]} />}
         </group>
       </group>
     </group>

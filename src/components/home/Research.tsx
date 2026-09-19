@@ -8,14 +8,16 @@ export function ResearchTeaser() {
         <div className="max-w-2xl">
           <h2 className="text-4xl sm:text-5xl">Machine learning at line rate</h2>
           <p className="mt-5 text-lg leading-relaxed text-ink-soft">
-            At Santa Clara University&rsquo;s WIN Lab I take models trained in PyTorch and TensorFlow, quantize them to
+            At Santa Clara University&rsquo;s Wireless Intelligent Networks Lab I take models trained in PyTorch and TensorFlow, quantize them to
             fixed point, and port them to FPGAs, where the clock and the number of DSP slices set the throughput and the
             latency. The same fabric runs the wireless side: channel estimation and signal processing on samples as they
             arrive from the radio.
           </p>
         </div>
         <figure className="mt-10 rounded-2xl bg-paper-pale p-4 shadow-card sm:p-6">
-          <FpgaPipeline className="h-auto w-full" />
+          <div className="overflow-x-auto">
+            <FpgaPipeline className="h-auto w-full min-w-[640px]" />
+          </div>
           <figcaption className="mt-3 text-sm text-ink-mute">
             The sample leaves the model as a 32-bit float and enters the fabric as a fixed-point word; the wave across the
             tiles is the pipeline advancing one stage per clock.

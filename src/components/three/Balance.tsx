@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { Edges, RoundedBox } from "@react-three/drei";
 import * as THREE from "three";
 import { INK, boneMaterial, glassMaterial, inkMaterial, rubberMaterial, rustMaterial, shadeMaterial } from "./drafting";
@@ -39,6 +39,7 @@ function Outline({ round = false }: { round?: boolean }) {
 
 function HipFrame() {
   const geometry = useMemo(() => new THREE.TubeGeometry(hipCurve(), 80, TUBE, 14, false), []);
+  useEffect(() => () => geometry.dispose(), [geometry]);
   return (
     <group>
       <mesh geometry={geometry} material={boneMaterial} castShadow />
@@ -185,9 +186,15 @@ function Handles() {
   );
 }
 
+/* The leg chain leaves the lowest contact 1.1 cm above the plane when rolling
+ * and 2.3 cm when stepping; the whole device is lowered by that clearance. */
+function groundClearance(stride: number): number {
+  return THREE.MathUtils.lerp(1.1, 2.3, stride);
+}
+
 export function Balance({ stride }: { stride: number }) {
   return (
-    <group>
+    <group position={[0, -groundClearance(stride), 0]}>
       <HipFrame />
       <SensorHead />
       <Handles />

@@ -1,8 +1,7 @@
 export const balance = {
-  name: "BALANCE",
   expansion: "Biomechanical Assistive Legs with Advanced Navigation and Control Engineering",
   problem:
-    "Mobility isn't binary, but most assistive devices such as wheelchairs, walkers, and canes solve one narrow stage of mobility loss and don't adapt across terrain, and some accelerate muscle atrophy. Meanwhile the aging population and the gap between lifespan and health-span are both growing.",
+    "Mobility loss is not all or nothing, but most assistive devices are. A cane, a walker or a wheelchair each serves one narrow stage, none of them adapts across terrain, and some of them accelerate muscle atrophy by doing too much of the work.",
   concept:
     "BALANCE is a hybrid robotic mobility device positioned between simple aids and complex exoskeletons, supporting users across the full continuum of mobility with partial-to-full assistance.",
   systems: [

@@ -41,5 +41,13 @@ export const glassMaterial = new THREE.MeshStandardMaterial({
   metalness: 0.3,
 });
 
+/** Lets the browser restore a lost WebGL context, then asks for a frame so the canvas is not left blank. */
+export function keepContextRestorable(gl: { domElement: HTMLCanvasElement }, redraw: () => void): void {
+  gl.domElement.addEventListener("webglcontextlost", (e) => e.preventDefault(), false);
+  gl.domElement.addEventListener("webglcontextrestored", () => redraw(), false);
+}
+
+/** True when the page cannot tell what is on screen, so scenes should assume they are. */
+export const NO_OBSERVER = typeof window !== "undefined" && typeof IntersectionObserver === "undefined";
+
 export const INK = "#1d1a16";
-export const INK_SOFT = "#4d4740";

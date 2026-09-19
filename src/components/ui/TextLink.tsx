@@ -5,7 +5,8 @@ import { cn } from "@/lib/cn";
 
 /** An inline link. External ones get the arrow so the reader knows they leave the site. */
 export function TextLink({ href, children, className }: { href: string; children: ReactNode; className?: string }) {
-  const external = /^(https?:|mailto:)/.test(href);
+  // Files under /public are not routes; a Next Link would prefetch them and 404.
+  const external = /^(https?:|mailto:)|\.[a-z0-9]{2,4}$/i.test(href);
   const classes = cn("inline-flex items-center gap-1 font-semibold underline underline-offset-4 decoration-line-strong hover:decoration-accent", className);
   if (external) {
     return (

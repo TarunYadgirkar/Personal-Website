@@ -29,7 +29,11 @@ export function ThreeView() {
         ))}
       </div>
       <figcaption className="mt-4 flex flex-wrap items-center justify-between gap-4 text-sm text-ink-mute">
-        <span>The drawing follows the provisional patent. The wheels carry flat ground, and the powered feet swing down for stairs.</span>
+        <span>
+          {stepping
+            ? "Stepping: the feet plant, the knees bend, and the wheels lift clear of the step."
+            : "Rolling: the wheels carry the frame on flat ground while the feet fold up behind the shanks."}
+        </span>
         <span className="inline-flex rounded-full bg-ink/8 p-1" role="group" aria-label="Pose">
           {[
             { on: false, label: "Rolling" },

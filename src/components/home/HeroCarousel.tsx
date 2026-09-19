@@ -1,8 +1,10 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useEffect, useState, useSyncExternalStore } from "react";
-import { motion, useReducedMotion } from "motion/react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { Pause, Play } from "@phosphor-icons/react/dist/ssr";
+import { motion, useInView } from "motion/react";
+import { useReducedMotion } from "@/lib/useReducedMotion";
 import { cn } from "@/lib/cn";
 import { HERO_ADVANCE_MS, heroModels, heroPeriods } from "@/content/models";
 
@@ -45,24 +47,29 @@ function useDocumentVisible(): boolean {
 }
 
 export function HeroCarousel() {
-  const reduced = useReducedMotion() ?? false;
+  const reduced = useReducedMotion();
   const visible = useDocumentVisible();
+  const figure = useRef<HTMLElement>(null);
+  const inView = useInView(figure, { margin: "80px" });
   const [focused, setFocused] = useState(false);
-  const held = reduced || !visible || focused;
+  const [paused, setPaused] = useState(false);
+  const held = reduced || !visible || !inView || focused || paused;
   const [index, pinned, jump] = useAutoAdvance(heroModels.length, held);
   const current = heroModels[index];
+  const userDriven = pinned || paused;
 
   return (
     <figure
+      ref={figure}
       className="relative"
       onFocus={() => setFocused(true)}
       onBlur={(e) => setFocused(e.currentTarget.contains(e.relatedTarget as Node | null))}
     >
-      <div className="relative aspect-[4/5] sm:aspect-square md:aspect-[4/5]">
+      <div className="relative aspect-[4/5] sm:aspect-square md:aspect-[5/6]">
         <HeroScene className="absolute inset-0" active={current.key} periods={heroPeriods} reduced={reduced} />
       </div>
       <div className="mt-3 flex flex-wrap items-start justify-between gap-x-6 gap-y-3">
-        <figcaption id="hero-model-caption" className="min-h-20 max-w-sm text-sm text-ink-mute" aria-live={held || pinned ? "polite" : "off"}>
+        <figcaption id="hero-model-caption" className="min-h-20 max-w-sm text-sm text-ink-mute">
           <motion.span
             key={current.key}
             className="block"
@@ -73,6 +80,10 @@ export function HeroCarousel() {
             {current.caption}
           </motion.span>
         </figcaption>
+        {/* Announced only after a deliberate choice, never on the timer. */}
+        <span role="status" className="sr-only">
+          {userDriven ? `${current.name}. ${current.caption}` : ""}
+        </span>
         <div className="inline-flex w-full flex-wrap rounded-full bg-ink/8 p-1 sm:w-auto" role="group" aria-label="Model on the turntable">
           {heroModels.map((m, i) => (
             <button
@@ -89,6 +100,15 @@ export function HeroCarousel() {
               {m.name}
             </button>
           ))}
+          <button
+            type="button"
+            aria-pressed={paused}
+            onClick={() => setPaused((p) => !p)}
+            className="inline-flex grow basis-full items-center justify-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-semibold text-ink transition-colors duration-150 sm:grow-0 sm:basis-auto"
+          >
+            {paused ? <Play size={14} weight="bold" aria-hidden="true" /> : <Pause size={14} weight="bold" aria-hidden="true" />}
+            {paused ? "Resume" : "Pause"}
+          </button>
         </div>
       </div>
     </figure>

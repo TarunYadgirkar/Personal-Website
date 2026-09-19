@@ -37,7 +37,7 @@ export function Builds() {
                 <th scope="row" className="py-3 pr-4 font-semibold">{b.title}</th>
                 <td className="py-3 pr-4 text-ink-soft">{b.what}</td>
                 <td className="py-3 pr-4 text-ink-soft">{b.event}</td>
-                <td className="figures py-3 pr-4 text-sm text-ink-mute">{b.when}</td>
+                <td className="figures whitespace-nowrap py-3 pr-4 text-sm text-ink-mute">{b.when}</td>
                 <td className="py-3 pr-4">{b.result}</td>
                 <td className="py-3">
                   <span className="flex gap-3">

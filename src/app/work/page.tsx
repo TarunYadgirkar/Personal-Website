@@ -47,7 +47,7 @@ function Study({ c }: { c: CaseStudy }) {
   );
 }
 
-const products = selected.filter((s) => s.slug === "vantage" || s.slug === "popper" || s.slug === "bonsai");
+const products = selected.filter((s) => s.slug !== "rainier");
 
 export default function WorkPage() {
   return (
@@ -69,7 +69,7 @@ export default function WorkPage() {
         </Section>
       ))}
 
-      <Section id={rainier.id} title="Rainier Labs">
+      <Section id={rainier.id} title="Robots at Rainier Labs">
         <p className="text-lg text-ink">{rainier.status}</p>
         <p className="mt-1 text-base text-ink-mute">{rainier.context}</p>
         <p className="mt-4 text-base leading-relaxed text-ink-soft">{rainier.body}</p>

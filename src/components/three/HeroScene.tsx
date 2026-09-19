@@ -12,6 +12,7 @@ import { Glasses, GLASSES_SIZE } from "./Glasses";
 import { Arm, ARM_SIZE } from "./Arm";
 import { Board, BOARD_SIZE } from "./Board";
 import { Lights } from "./BalanceScene";
+import { NO_OBSERVER, keepContextRestorable } from "./drafting";
 
 interface Framing {
   height: number;
@@ -118,6 +119,14 @@ function Turntable({ animate, active, children }: { animate: boolean; active: Mo
   );
 }
 
+/** In demand mode nothing redraws on its own, so a resize asks for one frame. */
+function RedrawOnResize() {
+  const size = useThree((s) => s.size);
+  const invalidate = useThree((s) => s.invalidate);
+  useEffect(() => invalidate(), [size.width, size.height, invalidate]);
+  return null;
+}
+
 /** Orthographic camera that eases its zoom and aim between models. */
 function Rig({ framing, fit }: { framing: Framing; fit: number }) {
   const cam = useRef<THREE.OrthographicCamera>(null);
@@ -126,7 +135,7 @@ function Rig({ framing, fit }: { framing: Framing; fit: number }) {
   useFrame((_, delta) => {
     const c = cam.current;
     if (!c) return;
-    const zoom = (Math.min(size.width, size.height * 0.85) * fit) / framing.height;
+    const zoom = Math.max((Math.min(size.width, size.height * 0.85) * fit) / framing.height, 0.01);
     c.zoom = THREE.MathUtils.damp(c.zoom, zoom, 5, delta);
     aim.current.y = THREE.MathUtils.damp(aim.current.y, framing.targetY, 5, delta);
     c.lookAt(aim.current);
@@ -164,15 +173,23 @@ function useSettling(active: ModelKey): boolean {
 
 export function HeroScene({ active, periods, reduced, fit = 1, className }: HeroSceneProps) {
   const wrapper = useRef<HTMLDivElement>(null);
-  const inView = useInView(wrapper, { margin: "80px" });
+  const inView = useInView(wrapper, { margin: "80px" }) || NO_OBSERVER;
   const animate = inView && !reduced;
   const shown = useShown(active);
   const settling = useSettling(active);
   // With reduced motion nothing moves once a switch has settled, so the loop stops too.
-  const frameloop = inView && (!reduced || settling) ? "always" : "never";
+  const frameloop = inView && (!reduced || settling) ? "always" : "demand";
   return (
     <div ref={wrapper} className={className} aria-hidden="true">
-      <Canvas shadows dpr={[1, 2]} gl={{ antialias: true, alpha: true, toneMapping: NoToneMapping }} frameloop={frameloop}>
+      <Canvas
+        shadows
+        dpr={[1, 2]}
+        gl={{ antialias: true, alpha: true, toneMapping: NoToneMapping }}
+        frameloop={frameloop}
+        fallback={null}
+        onCreated={({ gl, invalidate }) => keepContextRestorable(gl, invalidate)}
+      >
+        <RedrawOnResize />
         <Rig framing={FRAMING[active]} fit={fit} />
         <Lights />
         <Turntable animate={animate} active={active}>

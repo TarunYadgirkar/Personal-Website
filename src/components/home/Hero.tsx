@@ -1,6 +1,4 @@
-"use client";
-
-import { ArrowDown, EnvelopeSimple } from "@phosphor-icons/react";
+import { ArrowDown, EnvelopeSimple } from "@phosphor-icons/react/dist/ssr";
 import { ButtonLink } from "@/components/ui/Button";
 import { site } from "@/content/site";
 import { HeroCarousel } from "./HeroCarousel";
