@@ -1,28 +1,21 @@
 import type { Metadata } from "next";
 import { FpgaPipeline } from "@/components/drawings/FpgaPipeline";
 import { Page, Section } from "@/components/site/Page";
+import { BulletList } from "@/components/ui/BulletList";
 import { TextLink } from "@/components/ui/TextLink";
+import { researchPage } from "@/content/pages";
 import { publication, roar, winLab } from "@/content/research";
 
-export const metadata: Metadata = {
-  title: "Research",
-  description: "FPGA acceleration for machine learning and wireless signal processing at Santa Clara University's Wireless Intelligent Networks Lab, the ROAR Academy, and the BALANCE article.",
-};
+export const metadata: Metadata = { title: researchPage.title, description: researchPage.description };
 
 export default function ResearchPage() {
   return (
-    <Page
-      title="Research"
-      lead="Most of my research is about what an algorithm can do once the hardware sets the budget: how much of a model survives quantization, and how fast a channel estimate can come out of an FPGA."
-    >
+    <Page title={researchPage.title} lead={researchPage.lead}>
       <figure className="mb-4 rounded-2xl bg-paper-pale p-4 shadow-card sm:p-6">
         <div className="overflow-x-auto">
           <FpgaPipeline className="h-auto w-full min-w-[640px]" />
         </div>
-        <figcaption className="mt-3 text-sm text-ink-mute">
-          The path a model takes from training to the fabric. Live samples from the radio front end enter the same fabric
-          for channel estimation and signal processing.
-        </figcaption>
+        <figcaption className="mt-3 text-sm text-ink-mute">{researchPage.pipelineCaption}</figcaption>
       </figure>
 
       <Section id="win-lab" title={winLab.org}>
@@ -30,14 +23,7 @@ export default function ResearchPage() {
         <p className="mt-1 text-base text-ink-mute">
           {winLab.period}, {winLab.location}
         </p>
-        <ul className="mt-5 flex flex-col gap-3 text-base leading-relaxed text-ink-soft">
-          {winLab.bullets.map((b) => (
-            <li key={b} className="flex gap-3">
-              <span className="mt-[0.65em] h-1.5 w-1.5 shrink-0 rounded-full bg-rust" aria-hidden="true" />
-              {b}
-            </li>
-          ))}
-        </ul>
+        <BulletList items={winLab.bullets} className="mt-5 gap-3 leading-relaxed" />
       </Section>
 
       <Section id="balance-article" title="BALANCE article">
@@ -56,7 +42,7 @@ export default function ResearchPage() {
         <p className="mt-3 text-base leading-relaxed text-ink-soft">{roar.detail}</p>
         <p className="mt-3 text-base leading-relaxed text-ink-soft">{roar.related}</p>
         <p className="mt-4">
-          <TextLink href={roar.links[0].href}>{roar.links[0].label}</TextLink>
+          <TextLink href={roar.link.href}>{roar.link.label}</TextLink>
         </p>
       </Section>
     </Page>

@@ -2,15 +2,12 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { ImageResponse } from "next/og";
 import { site } from "@/content/site";
+import { palette } from "@/lib/palette";
 
 export const alt = site.headline;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-const PAPER = "#f4f1ea";
-const INK = "#1d1a16";
-const INK_MUTE = "#6f675b";
-const RUST = "#c5400a";
 const GRID = "rgba(29, 26, 22, 0.07)";
 
 /* Satori reads TrueType, not woff2, so the heading face ships once more as a
@@ -36,20 +33,20 @@ export default async function Image() {
           flexDirection: "column",
           justifyContent: "space-between",
           padding: "72px 80px",
-          backgroundColor: PAPER,
+          backgroundColor: palette.paper,
           backgroundImage: `linear-gradient(to right, ${GRID} 2px, transparent 2px), linear-gradient(to bottom, ${GRID} 2px, transparent 2px)`,
           backgroundSize: "48px 48px",
-          color: INK,
+          color: palette.ink,
           fontFamily: "Schibsted Grotesk",
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 18, fontSize: 34 }}>
-          <div style={{ width: 22, height: 22, borderRadius: 11, backgroundColor: RUST }} />
+          <div style={{ width: 22, height: 22, borderRadius: 11, backgroundColor: palette.rust }} />
         </div>
         <div style={{ display: "flex", fontSize: 72, lineHeight: 1.05, letterSpacing: 0, maxWidth: 1000 }}>
           {site.headline}
         </div>
-        <div style={{ display: "flex", fontSize: 28, color: INK_MUTE }}>tarunyadgirkar.com</div>
+        <div style={{ display: "flex", fontSize: 28, color: palette.inkMute }}>tarunyadgirkar.com</div>
       </div>
     ),
     { ...size, fonts: schibsted ? [{ name: "Schibsted Grotesk", data: schibsted, weight: 600, style: "normal" }] : undefined },

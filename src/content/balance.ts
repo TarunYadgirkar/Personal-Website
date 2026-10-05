@@ -22,7 +22,7 @@ export const balance = {
     "Lithium battery management",
     "User interface for adjustable assistance levels",
   ],
-  // Drives the <Schematic> on /patent.
+  // Drives the <SignalPath> diagram on /patent.
   signalPath: [
     {
       kick: "Sensing",

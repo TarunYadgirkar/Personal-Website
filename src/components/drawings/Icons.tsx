@@ -1,9 +1,9 @@
 /* Small inked drawings, one per project, each showing the mechanism rather
  * than a symbol for it. All share a 240 by 160 canvas and the ink/rust pair. */
 
-const INK = "#1d1a16";
-const RUST = "#c5400a";
-const MUTED = "#6f675b";
+import { palette } from "@/lib/palette";
+
+const { ink: INK, rust: RUST, inkMute: MUTED } = palette;
 
 const frame = { viewBox: "0 0 240 160", fill: "none", stroke: INK, strokeWidth: 1.6, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
 

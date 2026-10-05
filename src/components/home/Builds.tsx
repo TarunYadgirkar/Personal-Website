@@ -1,7 +1,9 @@
 import { ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
+import { buildsIntro } from "@/content/home";
 import { builds } from "@/content/selected";
 
-function Cell({ href, label }: { href?: string; label: string }) {
+/** A live-demo or repository link in the table; renders nothing when the build has none. */
+function BuildLink({ href, label }: { href?: string; label: string }) {
   if (!href) return null;
   return (
     <a href={href} className="inline-flex items-center gap-0.5 rounded font-semibold underline-offset-4 hover:underline" target="_blank" rel="noreferrer">
@@ -14,11 +16,8 @@ function Cell({ href, label }: { href?: string; label: string }) {
 export function Builds() {
   return (
     <section id="builds" className="mx-auto max-w-6xl px-5 py-16 sm:px-8 md:py-24">
-      <h2 className="text-4xl sm:text-5xl">Weekend builds</h2>
-      <p className="mt-4 max-w-2xl text-lg leading-relaxed text-ink-soft">
-        Hackathon prototypes, each shipped in a day or two and left running. Most are voice-first applied AI, because a
-        weekend is long enough to find out whether people will talk to a thing.
-      </p>
+      <h2 className="text-4xl sm:text-5xl">{buildsIntro.title}</h2>
+      <p className="mt-4 max-w-2xl text-lg leading-relaxed text-ink-soft">{buildsIntro.lead}</p>
       <div className="mt-8 overflow-x-auto">
         <table className="w-full min-w-[720px] border-collapse text-left text-base">
           <thead>
@@ -41,8 +40,8 @@ export function Builds() {
                 <td className="py-3 pr-4">{b.result}</td>
                 <td className="py-3">
                   <span className="flex gap-3">
-                    <Cell href={b.live} label="live" />
-                    <Cell href={b.repo} label="github" />
+                    <BuildLink href={b.live} label="live" />
+                    <BuildLink href={b.repo} label="github" />
                   </span>
                 </td>
               </tr>

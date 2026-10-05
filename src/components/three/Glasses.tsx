@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useMemo } from "react";
-import { Edges, RoundedBox } from "@react-three/drei";
+import { RoundedBox } from "@react-three/drei";
 import * as THREE from "three";
-import { INK, boneMaterial, glassMaterial, inkMaterial, rubberMaterial, rustMaterial, shadeMaterial } from "./drafting";
+import { palette } from "@/lib/palette";
+import { boneMaterial, glassMaterial, inkMaterial, Outline, rubberMaterial, rustMaterial, shadeMaterial, SIDES, type Side } from "./drafting";
 
 /* VANTAGE, in centimeters. y is up, the front of the glasses faces +z. They
  * are set down on a table at y = 0, resting on the bottom of the lens rims
@@ -23,7 +24,7 @@ const lensMaterial = new THREE.MeshPhysicalMaterial({
 });
 
 const panelMaterial = new THREE.MeshStandardMaterial({
-  color: new THREE.Color("#faf8f3"),
+  color: new THREE.Color(palette.paperPale),
   transparent: true,
   opacity: 0.92,
   side: THREE.DoubleSide,
@@ -39,7 +40,6 @@ const BRIDGE_Y = LENS_Y + 1.2;
 const TEMPLE_X = 6.4;
 const TEMPLE_Y = LENS_Y + 1.2;
 const TEMPLE_PITCH = -0.245;
-const SIDES: Array<1 | -1> = [1, -1];
 /** The wearer faces +z, so their right hand is toward -x. */
 const RIGHT = -1;
 const FORWARD = new THREE.Vector3(0, 0, 1);
@@ -62,11 +62,6 @@ function rimPoints(cx: number): THREE.Vector3[] {
     pts.push(new THREE.Vector3(x, y, wrapZ(x)));
   }
   return pts;
-}
-
-/** Ink outline. Flat parts show every crease; round parts only their rims. */
-function Outline({ round = false }: { round?: boolean }) {
-  return <Edges threshold={round ? 60 : 24} color={INK} lineWidth={1} />;
 }
 
 function Rims() {
@@ -141,7 +136,7 @@ function Bridge() {
 }
 
 /** Slider strip, fingerprint pad, and the status LED on the inner face. */
-function TempleControls({ side }: { side: 1 | -1 }) {
+function TempleControls({ side }: { side: Side }) {
   const outer = side * 0.5;
   return (
     <group>
@@ -162,7 +157,7 @@ function TempleControls({ side }: { side: 1 | -1 }) {
 }
 
 /** One temple: hinge, the electronics housing, a taper, and a rubber ear tip. */
-function Temple({ side }: { side: 1 | -1 }) {
+function Temple({ side }: { side: Side }) {
   return (
     <group position={[side * TEMPLE_X, TEMPLE_Y, wrapZ(TEMPLE_X)]} rotation={[TEMPLE_PITCH, -side * 0.04, 0]}>
       <mesh material={inkMaterial}>

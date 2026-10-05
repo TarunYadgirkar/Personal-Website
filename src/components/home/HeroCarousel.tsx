@@ -1,14 +1,16 @@
 "use client";
 
-import dynamic from "next/dynamic";
-import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Pause, Play } from "@phosphor-icons/react/dist/ssr";
-import { motion, useInView } from "motion/react";
+import { motion } from "motion/react";
+import { HeroScene } from "@/components/three/lazy";
+import { SegmentButton, SegmentGroup } from "@/components/ui/Segmented";
+import { HERO_ADVANCE_MS, heroModels, type ModelKey } from "@/content/models";
+import { useDocumentVisible } from "@/lib/useDocumentVisible";
+import { useNearViewport } from "@/lib/useNearViewport";
 import { useReducedMotion } from "@/lib/useReducedMotion";
-import { cn } from "@/lib/cn";
-import { HERO_ADVANCE_MS, heroModels, heroPeriods } from "@/content/models";
 
-const HeroScene = dynamic(() => import("@/components/three/HeroScene").then((m) => m.HeroScene), { ssr: false });
+const PERIODS = Object.fromEntries(heroModels.map((m) => [m.key, m.period])) as Record<ModelKey, number>;
 
 /** Advances `index` on a timer until something holds it. A manual choice
  * pauses the rotation for two cycles, then it picks up again. */
@@ -33,30 +35,20 @@ function useAutoAdvance(count: number, held: boolean): [number, boolean, (i: num
   return [index, pinned, jump];
 }
 
-function subscribeVisibility(cb: () => void) {
-  document.addEventListener("visibilitychange", cb);
-  return () => document.removeEventListener("visibilitychange", cb);
-}
-
-function useDocumentVisible(): boolean {
-  return useSyncExternalStore(
-    subscribeVisibility,
-    () => document.visibilityState === "visible",
-    () => true,
-  );
-}
-
+/** The hero turntable, its caption, and the switcher. The timer holds on
+ * keyboard focus, a hidden tab, reduced motion, or the pause button. */
 export function HeroCarousel() {
   const reduced = useReducedMotion();
   const visible = useDocumentVisible();
   const figure = useRef<HTMLElement>(null);
-  const inView = useInView(figure, { margin: "80px" });
+  const inView = useNearViewport(figure);
   const [focused, setFocused] = useState(false);
   const [paused, setPaused] = useState(false);
   const held = reduced || !visible || !inView || focused || paused;
   const [index, pinned, jump] = useAutoAdvance(heroModels.length, held);
   const current = heroModels[index];
   const userDriven = pinned || paused;
+  const PauseIcon = paused ? Play : Pause;
 
   return (
     <figure
@@ -66,7 +58,7 @@ export function HeroCarousel() {
       onBlur={(e) => setFocused(e.currentTarget.contains(e.relatedTarget as Node | null))}
     >
       <div className="relative aspect-[4/5] sm:aspect-square md:aspect-[5/6]">
-        <HeroScene className="absolute inset-0" active={current.key} periods={heroPeriods} reduced={reduced} />
+        <HeroScene className="absolute inset-0" active={current.key} periods={PERIODS} reduced={reduced} />
       </div>
       <div className="mt-3 flex flex-wrap items-start justify-between gap-x-6 gap-y-3">
         <figcaption id="hero-model-caption" className="min-h-20 max-w-sm text-sm text-ink-mute">
@@ -84,32 +76,28 @@ export function HeroCarousel() {
         <span role="status" className="sr-only">
           {userDriven ? `${current.name}. ${current.caption}` : ""}
         </span>
-        <div className="inline-flex w-full flex-wrap rounded-full bg-ink/8 p-1 sm:w-auto" role="group" aria-label="Model on the turntable">
+        <SegmentGroup className="w-full flex-wrap sm:w-auto" aria-label="Model on the turntable">
           {heroModels.map((m, i) => (
-            <button
+            <SegmentButton
               key={m.key}
-              type="button"
+              selected={i === index}
               aria-pressed={i === index}
               aria-controls="hero-model-caption"
               onClick={() => jump(i)}
-              className={cn(
-                "grow basis-[calc(50%-0.125rem)] rounded-full px-3 py-1.5 text-sm font-semibold text-ink transition-colors duration-150 sm:grow-0 sm:basis-auto",
-                i === index && "bg-paper-pale shadow-card",
-              )}
+              className="grow basis-[calc(50%-0.125rem)] sm:grow-0 sm:basis-auto"
             >
               {m.name}
-            </button>
+            </SegmentButton>
           ))}
-          <button
-            type="button"
+          <SegmentButton
             aria-pressed={paused}
             onClick={() => setPaused((p) => !p)}
-            className="inline-flex grow basis-full items-center justify-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-semibold text-ink transition-colors duration-150 sm:grow-0 sm:basis-auto"
+            className="inline-flex grow basis-full items-center justify-center gap-1.5 sm:grow-0 sm:basis-auto"
           >
-            {paused ? <Play size={14} weight="bold" aria-hidden="true" /> : <Pause size={14} weight="bold" aria-hidden="true" />}
+            <PauseIcon size={14} weight="bold" aria-hidden="true" />
             {paused ? "Resume" : "Pause"}
-          </button>
-        </div>
+          </SegmentButton>
+        </SegmentGroup>
       </div>
     </figure>
   );

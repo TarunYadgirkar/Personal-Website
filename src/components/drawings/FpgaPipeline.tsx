@@ -1,5 +1,6 @@
 "use client";
 
+import { palette } from "@/lib/palette";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 
 /* The research pipeline as a block diagram: a model trained in PyTorch or
@@ -7,10 +8,7 @@ import { useReducedMotion } from "@/lib/useReducedMotion";
  * runs channel estimation and signal processing on live samples. A sample
  * travels the path; inside the fabric a pipeline wave crosses the DSP tiles. */
 
-const INK = "#1d1a16";
-const SOFT = "#6f675b";
-const RUST = "#c5400a";
-const PAPER = "#faf8f3";
+const { ink: INK, inkMute: SOFT, rust: RUST, paperPale: PAPER } = palette;
 
 const W = 960;
 const H = 300;
@@ -29,15 +27,15 @@ function Stage({ x, w, title, body }: (typeof STAGES)[number]) {
   return (
     <g>
       <rect x={x} y={Y - 62} width={w} height={124} rx={10} fill={PAPER} stroke={INK} strokeWidth={1.5} />
-      <>
-          <text x={x + 16} y={Y - 34} fill={INK} fontSize={18} fontWeight={600} fontFamily="var(--font-heading)">
-            {title}
-          </text>
-          <text x={x + 16} y={Y + 30} fill={SOFT} fontSize={13} fontFamily="var(--font-sans)">
-            <tspan x={x + 16}>{body[0]}</tspan>
-            <tspan x={x + 16} dy={17}>{body[1]}</tspan>
-          </text>
-      </>
+      <text x={x + 16} y={Y - 34} fill={INK} fontSize={18} fontWeight={600} fontFamily="var(--font-heading)">
+        {title}
+      </text>
+      <text x={x + 16} y={Y + 30} fill={SOFT} fontSize={13} fontFamily="var(--font-sans)">
+        <tspan x={x + 16}>{body[0]}</tspan>
+        <tspan x={x + 16} dy={17}>
+          {body[1]}
+        </tspan>
+      </text>
     </g>
   );
 }
@@ -79,17 +77,21 @@ function Arrow({ from, to }: { from: number; to: number }) {
 function Sample({ animate }: { animate: boolean }) {
   if (!animate) return null;
   return (
-    <g>
-      <circle r={6} fill={RUST}>
-        <animateMotion dur="4.8s" repeatCount="indefinite" path={`M 220 ${Y} L 270 ${Y} M 466 ${Y} L 516 ${Y} M 740 ${Y} L 790 ${Y}`} keyPoints="0;0.33;0.33;0.66;0.66;1" keyTimes="0;0.33;0.34;0.66;0.67;1" calcMode="linear" />
-      </circle>
-    </g>
+    <circle r={6} fill={RUST}>
+      <animateMotion
+        dur="4.8s"
+        repeatCount="indefinite"
+        path={`M 220 ${Y} L 270 ${Y} M 466 ${Y} L 516 ${Y} M 740 ${Y} L 790 ${Y}`}
+        keyPoints="0;0.33;0.33;0.66;0.66;1"
+        keyTimes="0;0.33;0.34;0.66;0.67;1"
+        calcMode="linear"
+      />
+    </circle>
   );
 }
 
 export function FpgaPipeline({ className }: { className?: string }) {
-  const reduced = useReducedMotion();
-  const animate = !reduced;
+  const animate = !useReducedMotion();
   return (
     <svg viewBox={`0 0 ${W} ${H}`} className={className} role="img" aria-label="Block diagram: a model is trained in PyTorch or TensorFlow, quantized to fixed point, ported to pipelined DSP slices on the FPGA, and outputs channel estimates and filtered signal.">
       {STAGES.map((s) => (
@@ -100,14 +102,10 @@ export function FpgaPipeline({ className }: { className?: string }) {
       <Arrow from={466} to={516} />
       <Arrow from={740} to={790} />
       <Sample animate={animate} />
-      <>
-          <g stroke={SOFT} strokeWidth={1.2} fill="none" strokeDasharray="4 4">
-            <path d={`M 630 ${Y + 100} L 630 ${Y + 62}`} />
-          </g>
-          <text x={640} y={Y + 96} fill={SOFT} fontSize={13} fontFamily="var(--font-sans)">
-            Samples from the radio front end
-          </text>
-      </>
+      <path d={`M 630 ${Y + 100} L 630 ${Y + 62}`} stroke={SOFT} strokeWidth={1.2} fill="none" strokeDasharray="4 4" />
+      <text x={640} y={Y + 96} fill={SOFT} fontSize={13} fontFamily="var(--font-sans)">
+        Samples from the radio front end
+      </text>
     </svg>
   );
 }

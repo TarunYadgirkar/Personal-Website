@@ -1,14 +1,12 @@
 import { balance } from "@/content/balance";
+import { palette } from "@/lib/palette";
 
 /* The BALANCE control loop as a left-to-right block diagram, drawn from the
  * same data the patent page reads. Each column is a stage; the accent marks
  * the compute stage where the mode decision happens. Every node in a column
  * feeds a vertical bus, and the bus feeds every node in the next column. */
 
-const INK = "#1d1a16";
-const SOFT = "#6f675b";
-const RUST = "#c5400a";
-const PAPER = "#faf8f3";
+const { ink: INK, inkMute: SOFT, rust: RUST, paperPale: PAPER } = palette;
 
 const COL_W = 196;
 const GAP = 44;

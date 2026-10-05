@@ -8,7 +8,6 @@ export const winLab = {
     "I train and quantize models in PyTorch and TensorFlow, then port them to fixed-point FPGA implementations.",
     "I prototype and optimize FPGA implementations of wireless-communication algorithms, including signal processing and channel estimation.",
   ],
-  tags: ["FPGA", "Embedded ML", "PyTorch", "TensorFlow", "Signal Processing", "Channel Estimation"],
 } as const;
 
 export const publication = {
@@ -28,10 +27,8 @@ export const roar = {
     "I trained in machine-learning systems, programmed them, and applied them to autonomous robotics, on a full scholarship.",
   related:
     "A related ROAR SimRace submission provides a working solution for the Robot Open Autonomous Racing simulation series (Python).",
-  links: [
-    {
-      label: "ROAR SimRace on GitHub",
-      href: "https://github.com/TarunYadgirkar/ROAR_SimRace_Submission",
-    },
-  ],
+  link: {
+    label: "ROAR SimRace on GitHub",
+    href: "https://github.com/TarunYadgirkar/ROAR_SimRace_Submission",
+  },
 } as const;

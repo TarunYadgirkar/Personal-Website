@@ -1,8 +1,8 @@
 "use client";
 
-import { Edges, RoundedBox } from "@react-three/drei";
+import { RoundedBox } from "@react-three/drei";
 import * as THREE from "three";
-import { INK, boneMaterial, inkMaterial, rubberMaterial, rustMaterial, shadeMaterial } from "./drafting";
+import { boneMaterial, inkMaterial, Outline, rubberMaterial, rustMaterial, shadeMaterial, SIDES } from "./drafting";
 
 /* A six-axis industrial arm with a parallel-jaw gripper, in centimeters.
  * y is up, the ground plane is y = 0, the front of the cell is +z. The arm
@@ -28,7 +28,6 @@ const TRAY_H = 0.6;
 
 const GAP_OPEN = 8;
 const GAP_SHUT = PART_W;
-const SIDES: Array<1 | -1> = [1, -1];
 
 const HOLD_FROM = 0.38;
 /* Distance from the joint-5 pivot to the held part's centre, so it neither jumps nor drops at the hand-off. */
@@ -93,11 +92,6 @@ function poseAt(t: number): { joints: number[]; gap: number; holding: boolean } 
     gap: gapAt(t),
     holding: t >= HOLD_FROM && t < HOLD_TO,
   };
-}
-
-/** Ink outline. Flat parts show every crease; round parts only their rims. */
-function Outline({ round = false }: { round?: boolean }) {
-  return <Edges threshold={round ? 60 : 24} color={INK} lineWidth={1} />;
 }
 
 const BOLTS = [0, 1, 2, 3];

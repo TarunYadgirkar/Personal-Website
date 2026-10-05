@@ -5,7 +5,6 @@ export type CaseStudy = {
   slug: string;
   title: string;
   oneLiner: string;
-  status: string;
   event: EventLink;
   problem: string;
   built: string;
@@ -14,12 +13,12 @@ export type CaseStudy = {
   links: readonly Link[];
 };
 
+/* Hackathon case notes, in the order /work shows them. */
 export const caseStudies: readonly CaseStudy[] = [
   {
     slug: "carepath",
     title: "CarePath",
     oneLiner: "Voice-first patient navigation",
-    status: "Shipped prototype",
     event: {
       label: "Autonomous Healthcare Hackathon",
       href: "https://luma.com/zru7alb6",
@@ -47,7 +46,6 @@ export const caseStudies: readonly CaseStudy[] = [
     slug: "klarity-voicenote",
     title: "Klarity VoiceNote",
     oneLiner: "AI voice intake for mental-health documentation",
-    status: "Shipped prototype",
     event: {
       label: "Build Smth AI-Native Hackathon, UC Berkeley",
       href: "https://luma.com/7i8crpqz",
@@ -75,7 +73,6 @@ export const caseStudies: readonly CaseStudy[] = [
     slug: "intent",
     title: "Intent",
     oneLiner: "App Intents code generator for Siri",
-    status: "Shipped prototype",
     event: {
       label: "Bitrig Hacks",
       href: "https://events.ycombinator.com/bitrighacks-june2026",
@@ -88,14 +85,10 @@ export const caseStudies: readonly CaseStudy[] = [
     outcome: "Built a working native code-generation prototype.",
     links: [{ label: "GitHub", href: "https://github.com/TarunYadgirkar/bitrig-yc-hackathon" }],
   },
-];
-
-export const additionalCaseStudies: readonly CaseStudy[] = [
   {
     slug: "voicevision",
     title: "VoiceVision",
     oneLiner: "Voice-controlled screen accessibility",
-    status: "Shipped prototype",
     event: {
       label: "AI Hackathon with The AI Collective Tri-Valley",
       href: "https://luma.com/aic-tr-june",
@@ -123,7 +116,6 @@ export const additionalCaseStudies: readonly CaseStudy[] = [
     slug: "guestflow",
     title: "GuestFlow",
     oneLiner: "Agentic arrival orchestration for hotels",
-    status: "Shipped prototype",
     event: {
       label: "Hospitality 2030",
       href: "https://cerebralvalley.ai/events/~/e/rosewood-hospitality-2030",
@@ -144,7 +136,6 @@ export const additionalCaseStudies: readonly CaseStudy[] = [
     slug: "guardianalert",
     title: "GuardianAlert",
     oneLiner: "Escalation state machine for elder care",
-    status: "Shipped prototype",
     event: {
       label: "AgeTech SF Hackathon",
       href: "https://luma.com/jfen5fhk",
@@ -172,9 +163,8 @@ export const additionalCaseStudies: readonly CaseStudy[] = [
 
 export const rainier = {
   id: "rainier",
-  title: "Robotics hardware and embedded systems at Rainier Labs",
+  title: "Robots at Rainier Labs",
   status: "Robotics hardware and embedded systems intern",
   context: "Sunnyvale, California, June to August 2025",
   body: "I worked on hardware and embedded systems across two robots: the robot dogs and an expressive head. On the head I selected and integrated the display screens for its facial-expression system, redesigned the CAD so the electronics fit, helped shape the head so it looked right while still housing the hardware, and evaluated microphone and speaker components against both hardware and software constraints.",
-  tags: ["Embedded Systems", "Robotics", "CAD", "Human-Robot Interaction"],
 } as const;

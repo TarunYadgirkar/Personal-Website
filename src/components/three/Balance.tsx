@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useMemo } from "react";
-import { Edges, RoundedBox } from "@react-three/drei";
+import { RoundedBox } from "@react-three/drei";
 import * as THREE from "three";
-import { INK, boneMaterial, glassMaterial, inkMaterial, rubberMaterial, rustMaterial, shadeMaterial } from "./drafting";
+import { boneMaterial, glassMaterial, inkMaterial, Outline, rubberMaterial, rustMaterial, shadeMaterial, SIDES, type Side } from "./drafting";
 
 /* BALANCE, in centimeters. y is up, the user faces +z. The device stands
  * on the ground plane y = 0. The frame wraps the hips at about 95 cm; each
@@ -17,7 +17,6 @@ export const HIP_Y = 92;
 const HIP_RX = 21;
 const HIP_RZ = 17;
 const TUBE = 2.1;
-const SIDES: Array<1 | -1> = [1, -1];
 
 /** The hip ring, open at the back so the user can step in. */
 function hipCurve(): THREE.CatmullRomCurve3 {
@@ -30,11 +29,6 @@ function hipCurve(): THREE.CatmullRomCurve3 {
     pts.push(new THREE.Vector3(Math.sin(a) * HIP_RX, HIP_Y, Math.cos(a) * HIP_RZ));
   }
   return new THREE.CatmullRomCurve3(pts, false, "catmullrom", 0.4);
-}
-
-/** Ink outline. Flat parts show every crease; round parts only their rims. */
-function Outline({ round = false }: { round?: boolean }) {
-  return <Edges threshold={round ? 60 : 24} color={INK} lineWidth={1} />;
 }
 
 function HipFrame() {
@@ -91,7 +85,7 @@ function SensorHead() {
 }
 
 interface LegProps {
-  side: 1 | -1;
+  side: Side;
   stride: number;
 }
 

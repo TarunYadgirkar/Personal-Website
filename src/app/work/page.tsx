@@ -1,13 +1,26 @@
 import type { Metadata } from "next";
 import { Page, Section } from "@/components/site/Page";
+import { LinkRow } from "@/components/ui/LinkRow";
 import { TextLink } from "@/components/ui/TextLink";
-import { additionalCaseStudies, caseStudies, rainier, type CaseStudy } from "@/content/work";
-import { selected } from "@/content/selected";
+import { workPage } from "@/content/pages";
+import { selected, type Selected } from "@/content/selected";
+import { caseStudies, rainier, type CaseStudy } from "@/content/work";
 
-export const metadata: Metadata = {
-  title: "Work",
-  description: "Every build with its case notes: what the problem was, what got built, what it runs on, and how it went.",
-};
+export const metadata: Metadata = { title: workPage.title, description: workPage.description };
+
+/** The selected projects other than Rainier, which has its own entry below. */
+const products = selected.filter((s) => s.slug !== rainier.id);
+
+function Product({ p }: { p: Selected }) {
+  return (
+    <Section id={p.slug} title={p.title}>
+      <p className="text-lg text-ink">{p.what}</p>
+      <p className="mt-4 text-base leading-relaxed text-ink-soft">{p.detail}</p>
+      <p className="mt-3 text-base text-ink-soft">{p.standing}</p>
+      {p.links && <LinkRow links={p.links} className="mt-4" />}
+    </Section>
+  );
+}
 
 function Notes({ c }: { c: CaseStudy }) {
   return (
@@ -36,46 +49,25 @@ function Study({ c }: { c: CaseStudy }) {
       <div className="mt-5">
         <Notes c={c} />
       </div>
-      <p className="mt-5 flex flex-wrap gap-x-5 gap-y-1">
-        {c.links.map((l) => (
-          <TextLink key={l.href} href={l.href}>
-            {l.label}
-          </TextLink>
-        ))}
-      </p>
+      <LinkRow links={c.links} className="mt-5" />
     </Section>
   );
 }
 
-const products = selected.filter((s) => s.slug !== "rainier");
-
 export default function WorkPage() {
   return (
-    <Page title="Work" lead="Everything I have shipped or am shipping, with the notes I would want if I were reading about it cold.">
+    <Page title={workPage.title} lead={workPage.lead}>
       {products.map((p) => (
-        <Section key={p.slug} id={p.slug} title={p.title}>
-          <p className="text-lg text-ink">{p.what}</p>
-          <p className="mt-4 text-base leading-relaxed text-ink-soft">{p.detail}</p>
-          <p className="mt-3 text-base text-ink-soft">{p.standing}</p>
-          {p.links && (
-            <p className="mt-4 flex flex-wrap gap-x-5 gap-y-1">
-              {p.links.map((l) => (
-                <TextLink key={l.href} href={l.href}>
-                  {l.label}
-                </TextLink>
-              ))}
-            </p>
-          )}
-        </Section>
+        <Product key={p.slug} p={p} />
       ))}
 
-      <Section id={rainier.id} title="Robots at Rainier Labs">
+      <Section id={rainier.id} title={rainier.title}>
         <p className="text-lg text-ink">{rainier.status}</p>
         <p className="mt-1 text-base text-ink-mute">{rainier.context}</p>
         <p className="mt-4 text-base leading-relaxed text-ink-soft">{rainier.body}</p>
       </Section>
 
-      {[...caseStudies, ...additionalCaseStudies].map((c) => (
+      {caseStudies.map((c) => (
         <Study key={c.slug} c={c} />
       ))}
     </Page>
