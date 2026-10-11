@@ -73,7 +73,12 @@ function Pill({ h, open, onToggle }: { h: Hackathon; open: boolean; onToggle: ()
       )}
     >
       {h.title}
-      {h.placed && <Trophy size={16} weight="fill" className="text-rust" aria-label={h.placed} />}
+      {h.placed && (
+        <>
+          <Trophy size={16} weight="fill" className="text-rust" aria-hidden="true" />
+          <span className="sr-only">, {h.placed}</span>
+        </>
+      )}
     </button>
   );
 }
