@@ -68,7 +68,7 @@ export interface ModelSceneProps {
   className?: string;
 }
 
-/** One drawn model as an inked technical illustration, on a turntable or in a fixed orthographic view. */
+/** One drawn model lit like a product shot, on a turntable or in a fixed orthographic view. */
 export function ModelScene({ model = "balance", view = "turn", stride = 0.15, zoom, fit = 0.9, className }: ModelSceneProps) {
   const wrapper = useRef<HTMLDivElement>(null);
   // The flat board is a line edge-on, so it holds the angle that shows its top.
@@ -78,7 +78,7 @@ export function ModelScene({ model = "balance", view = "turn", stride = 0.15, zo
       {seen && (
         <DraftingCanvas frameloop={animate ? "always" : "demand"}>
           <Camera view={view} zoom={zoom} fit={fit} model={model} />
-          <Turntable animate={animate} spin={view === "turn" ? 0.6 : 0}>
+          <Turntable animate={animate} spin={view === "turn" ? 0.6 : 0} castShadow={view === "turn"}>
             <DrawnModel model={model} t={STILL_PHASE[model]} stride={stride} />
           </Turntable>
         </DraftingCanvas>

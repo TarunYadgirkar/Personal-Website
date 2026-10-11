@@ -1,14 +1,13 @@
 "use client";
 
-import { useEffect, useRef, type ReactNode } from "react";
+import { useEffect, useLayoutEffect, useRef, type ReactNode, type RefObject } from "react";
 import { Canvas, useFrame, useThree, type RootState } from "@react-three/fiber";
-import { ContactShadows } from "@react-three/drei";
+import { ContactShadows, Environment, Lightformer } from "@react-three/drei";
 import * as THREE from "three";
-import { NoToneMapping } from "three";
 import { palette } from "@/lib/palette";
 
 /* Everything the hero and the thumbnail scenes share: the canvas set-up,
- * the light, the floor shadow, the turntable and the zoom arithmetic. */
+ * the studio light, the floor shadows, the turntable and the zoom arithmetic. */
 
 /** Zoom in pixels per centimetre so a framing `height` fills `fit` of the canvas's shorter side. */
 export function fitZoom(size: { width: number; height: number }, fit: number, height: number): number {
@@ -30,28 +29,86 @@ function RedrawOnResize() {
   return null;
 }
 
-function Lights() {
+/* Neutral tone mapping keeps the base colours true, the way a product shot is graded. */
+const GL = { antialias: true, alpha: true, toneMapping: THREE.NeutralToneMapping, toneMappingExposure: 1 } as const;
+
+/* The paper colour, dimmed, so shaded sides pick up a warm bounce instead of going grey. */
+const STUDIO_WALLS = new THREE.Color(palette.paper).multiplyScalar(0.32);
+
+/* A studio built from light cards, so nothing is fetched: a broad softbox
+ * overhead, a tall key card left of the camera, a rim card behind and a low
+ * fill in front, inside walls the colour of the page for the bounce. */
+function Studio() {
   return (
-    <>
-      <hemisphereLight args={["#ffffff", palette.line, 1.4]} />
-      <directionalLight position={[120, 220, 160]} intensity={1.3} color="#fff8ec" castShadow shadow-mapSize={[1024, 1024]} />
-    </>
+    <Environment resolution={256} frames={1}>
+      <color attach="background" args={[STUDIO_WALLS]} />
+      <Lightformer form="rect" intensity={2.4} position={[0, 8, 0]} rotation-x={Math.PI / 2} scale={[14, 14, 1]} />
+      <Lightformer form="rect" intensity={3.2} position={[-6, 3, 5]} scale={[3, 9, 1]} target={[0, 0, 0]} />
+      <Lightformer form="rect" intensity={1.8} position={[7, 4, -6]} scale={[4, 8, 1]} target={[0, 0, 0]} />
+      <Lightformer form="rect" intensity={0.9} position={[5, 0.5, 7]} scale={[8, 2, 1]} target={[0, 0, 0]} />
+    </Environment>
   );
+}
+
+/** The key light, high and to the left, the only light that casts a shadow. */
+function KeyLight() {
+  return (
+    <directionalLight
+      position={[-35, 300, 50]}
+      intensity={1.5}
+      castShadow
+      shadow-mapSize={[1024, 1024]}
+      shadow-radius={5}
+      shadow-bias={-0.0004}
+      shadow-normalBias={0.1}
+    >
+      <orthographicCamera attach="shadow-camera" args={[-90, 90, 90, -90, 10, 700]} />
+    </directionalLight>
+  );
+}
+
+/** The floor shows only shadows: a tight contact shadow where things touch
+ * and, unless `cast` is off, the key light's shadow, faint. */
+function Floor({ cast }: { cast: boolean }) {
+  return (
+    <group>
+      {cast && (
+        <mesh rotation-x={-Math.PI / 2} position-y={-0.05} receiveShadow>
+          <planeGeometry args={[400, 400]} />
+          <shadowMaterial opacity={0.13} color={palette.ink} transparent depthWrite={false} />
+        </mesh>
+      )}
+      <ContactShadows position={[0, 0.05, 0]} opacity={0.55} scale={160} resolution={1024} blur={1.6} far={6} color={palette.ink} />
+    </group>
+  );
+}
+
+/** Every mesh casts and takes shadows, except see-through ones like lenses and projected windows. */
+export function useShadowFlags(root: RefObject<THREE.Object3D | null>): void {
+  useLayoutEffect(() => {
+    root.current?.traverse((o) => {
+      if (!(o instanceof THREE.Mesh)) return;
+      const clear = (o.material as THREE.Material).transparent;
+      o.castShadow = !clear;
+      o.receiveShadow = !clear;
+    });
+  });
 }
 
 /** A transparent canvas with the shared light; the caller supplies the camera and the models. */
 export function DraftingCanvas({ frameloop, children }: { frameloop: "always" | "demand"; children: ReactNode }) {
   return (
     <Canvas
-      shadows
+      shadows="percentage"
       dpr={[1, 2]}
-      gl={{ antialias: true, alpha: true, toneMapping: NoToneMapping }}
+      gl={GL}
       frameloop={frameloop}
       fallback={null}
       onCreated={keepContextRestorable}
     >
       <RedrawOnResize />
-      <Lights />
+      <Studio />
+      <KeyLight />
       {children}
     </Canvas>
   );
@@ -67,11 +124,13 @@ interface TurntableProps {
   spin?: number;
   /** A change in this value gives the turntable a kick of extra spin. */
   kickOn?: string;
+  /** Show the key light's shadow on the floor; orthographic drawings leave it off. */
+  castShadow?: boolean;
   children: ReactNode;
 }
 
-/** Slow turn with a pointer lean and a soft floor shadow. */
-export function Turntable({ animate, spin = 0.6, kickOn, children }: TurntableProps) {
+/** Slow turn with a pointer lean, over a floor that shows the shadows. */
+export function Turntable({ animate, spin = 0.6, kickOn, castShadow = true, children }: TurntableProps) {
   const group = useRef<THREE.Group>(null);
   const kick = useRef(0);
   const lastKickOn = useRef(kickOn);
@@ -91,7 +150,7 @@ export function Turntable({ animate, spin = 0.6, kickOn, children }: TurntablePr
   return (
     <group ref={group} rotation={[0, spin, 0]}>
       {children}
-      <ContactShadows position={[0, 0, 0]} opacity={0.35} scale={140} blur={2.4} far={40} color={palette.ink} />
+      <Floor cast={castShadow} />
     </group>
   );
 }

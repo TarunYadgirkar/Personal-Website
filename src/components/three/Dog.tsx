@@ -2,7 +2,7 @@
 
 import { RoundedBox } from "@react-three/drei";
 import * as THREE from "three";
-import { boneMaterial, glassMaterial, inkMaterial, Outline, rubberMaterial, rustMaterial, shadeMaterial, SIDES, type Side } from "./drafting";
+import { boneMaterial, glassMaterial, inkMaterial, rubberMaterial, rustMaterial, shadeMaterial, SIDES, type Side } from "./drafting";
 
 /* A quadruped in Unitree Go2 proportions, in centimetres. y is up, the
  * ground plane is y = 0, the dog faces +z. The body is 70 long over all,
@@ -57,10 +57,8 @@ function Torso() {
   return (
     <group position={[0, BODY_Y, 0]}>
       <RoundedBox args={[BODY_W, BODY_H, BODY_L]} radius={4} material={boneMaterial} castShadow>
-        <Outline />
       </RoundedBox>
       <RoundedBox args={[24, 3, 50]} radius={2} position={[0, -BODY_H / 2 - 0.6, 0]} material={shadeMaterial} castShadow>
-        <Outline />
       </RoundedBox>
     </group>
   );
@@ -72,7 +70,6 @@ function BackPlate() {
   return (
     <group>
       <RoundedBox args={[14, 1.2, 44]} radius={0.5} position={[0, y + 0.2, 0]} material={shadeMaterial}>
-        <Outline />
       </RoundedBox>
       <mesh position={[0, y + 0.9, -18]} material={rustMaterial}>
         <boxGeometry args={[5, 0.5, 1.4]} />
@@ -80,12 +77,10 @@ function BackPlate() {
       {SIDES.map((s) => (
         <mesh key={s} position={[s * 4, y + 2.4, 14]} material={inkMaterial}>
           <cylinderGeometry args={[0.7, 0.7, 4, 12]} />
-          <Outline round />
         </mesh>
       ))}
       <mesh position={[0, y + 4.2, 14]} rotation={[0, 0, Math.PI / 2]} material={inkMaterial}>
         <cylinderGeometry args={[0.7, 0.7, 9.4, 12]} />
-        <Outline round />
       </mesh>
     </group>
   );
@@ -95,7 +90,6 @@ function Head() {
   return (
     <group position={[0, BODY_Y, 35]}>
       <RoundedBox args={[20, 11, 8]} radius={3} material={shadeMaterial} castShadow>
-        <Outline />
       </RoundedBox>
       {/* The visor stands proud of the face and the lenses proud of the visor;
        * flush faces z-fight and flicker as the turntable moves. */}
@@ -109,7 +103,6 @@ function Head() {
       ))}
       <mesh position={[0, 5, 2.2]} material={inkMaterial}>
         <sphereGeometry args={[2.4, 24, 12, 0, Math.PI * 2, 0, Math.PI / 2]} />
-        <Outline round />
       </mesh>
       <mesh position={[0, 5, 2.2]} material={rustMaterial}>
         <cylinderGeometry args={[2.5, 2.5, 0.5, 24]} />
@@ -133,24 +126,19 @@ function Leg({ side, end, lift }: LegProps) {
     <group position={[side * HIP_X, BODY_Y, end * HIP_Z]}>
       <mesh position={[side * 3.5, 0, 0]} rotation={[0, 0, Math.PI / 2]} material={inkMaterial}>
         <cylinderGeometry args={[3.6, 3.6, 6, 24]} />
-        <Outline round />
       </mesh>
       <group position={[side * 3, 0, 0]} rotation={[end * hip, 0, 0]}>
         <RoundedBox args={[5, THIGH, 7]} radius={1.8} position={[0, -THIGH / 2, 0]} material={boneMaterial} castShadow>
-          <Outline />
         </RoundedBox>
         <group position={[0, -THIGH, 0]}>
           <mesh rotation={[0, 0, Math.PI / 2]} material={inkMaterial}>
             <cylinderGeometry args={[3, 3, 5.4, 24]} />
-            <Outline round />
           </mesh>
           <group rotation={[-end * knee, 0, 0]}>
             <RoundedBox args={[3.4, CALF, 4]} radius={1.4} position={[0, -CALF / 2, 0]} material={boneMaterial} castShadow>
-              <Outline />
             </RoundedBox>
             <mesh position={[0, -CALF, 0]} material={rubberMaterial} castShadow>
               <sphereGeometry args={[FOOT_R, 20, 14]} />
-              <Outline round />
             </mesh>
           </group>
         </group>

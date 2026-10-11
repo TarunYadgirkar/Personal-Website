@@ -20,9 +20,9 @@ interface Framing {
 const FRAMING: Record<ModelKey, Framing> = {
   balance: { height: 125, targetY: 50 },
   // Temples run 14 cm back and the panels 12 cm forward, so the turn needs slack on both sides.
-  glasses: { height: GLASSES_SIZE.height * 1.35, targetY: GLASSES_SIZE.targetY + 1 },
+  glasses: { height: GLASSES_SIZE.height * 1.45, targetY: GLASSES_SIZE.targetY - 1 },
   // The arm reaches 38 cm off its base, so it needs more room than its standing height.
-  arm: { height: ARM_SIZE.height * 1.3, targetY: ARM_SIZE.targetY - 4 },
+  arm: { height: ARM_SIZE.height * 1.15, targetY: ARM_SIZE.targetY - 6 },
   // The board is 24 cm on its long side, wider than it is tall once tilted.
   board: { height: BOARD_SIZE.height * 1.6, targetY: BOARD_SIZE.targetY },
 };
@@ -32,6 +32,7 @@ const FRAMING: Record<ModelKey, Framing> = {
 const FACES_CAMERA: Record<ModelKey, boolean> = { balance: false, glasses: false, arm: false, board: true };
 const SWAY = 0.35;
 const SETTLE_MS = 2200;
+const HIDE_BELOW = 0.03;
 
 /** Ease with a small overshoot, so the incoming model settles like something set down. */
 function easeOutBack(x: number): number {
@@ -55,7 +56,8 @@ function Slot({ model, active, period, animate, framing }: { model: ModelKey; ac
     g.scale.setScalar(Math.max(eased, 0.0001));
     g.position.y = -framing.height * 0.35 * (1 - p);
     g.rotation.y = (1 - p) * 1.6;
-    g.visible = p > 0.004;
+    // Hidden while still a few percent of full size, so an outgoing model never lingers as a speck.
+    g.visible = p > HIDE_BELOW;
     if (FACES_CAMERA[model] && g.parent) {
       g.rotation.y += -g.parent.rotation.y + 0.6 + Math.sin(state.clock.elapsedTime * 0.5) * SWAY;
     }
