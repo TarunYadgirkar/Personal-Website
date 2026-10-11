@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { FpgaPipeline } from "@/components/drawings/FpgaPipeline";
 import { Page, Section } from "@/components/site/Page";
 import { TextLink } from "@/components/ui/TextLink";
 import { publication, roar, winLab } from "@/content/research";
@@ -15,16 +14,6 @@ export default function ResearchPage() {
       title="Research"
       lead="Most of my research is about what an algorithm can do once the hardware sets the budget: how much of a model survives quantization, and how fast a channel estimate can come out of an FPGA."
     >
-      <figure className="mb-4 rounded-2xl bg-paper-pale p-4 shadow-card sm:p-6">
-        <div className="overflow-x-auto">
-          <FpgaPipeline className="h-auto w-full min-w-[640px]" />
-        </div>
-        <figcaption className="mt-3 text-sm text-ink-mute">
-          The path a model takes from training to the fabric. Live samples from the radio front end enter the same fabric
-          for channel estimation and signal processing.
-        </figcaption>
-      </figure>
-
       <Section id="win-lab" title={winLab.org}>
         <p className="text-lg text-ink">{winLab.role}</p>
         <p className="mt-1 text-base text-ink-mute">

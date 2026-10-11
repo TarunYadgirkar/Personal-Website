@@ -10,9 +10,8 @@ export function Hero() {
         <div>
           <h1 className="text-[2.6rem] leading-[1.02] sm:text-6xl md:text-[4.25rem]">I build intelligent systems where hardware meets AI.</h1>
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink-soft md:text-xl">
-            I work on machine learning that runs on FPGAs, a hybrid mobility device with a provisional patent, and AR
-            glasses with their own operating system. I study applied mathematics at UC Berkeley and spend the rest of the
-            week building.
+            I&rsquo;m building Vantage, AR glasses with their own operating system, and I research machine learning on
+            FPGAs. I study applied mathematics at UC Berkeley.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <ButtonLink href="#work">

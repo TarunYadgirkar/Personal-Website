@@ -1,12 +1,10 @@
 import Link from "next/link";
 import { ArrowRight } from "@phosphor-icons/react/dist/ssr";
-import { GateDrawing, TreeDrawing } from "@/components/drawings/Icons";
 import { TextLink } from "@/components/ui/TextLink";
 import { Thumbnail } from "./Thumbnail";
 import { selected, type DrawingKind, type Selected as Item } from "@/content/selected";
 
 function Drawing({ kind }: { kind: DrawingKind }) {
-  const cls = "h-full w-full";
   switch (kind) {
     case "fpga":
       return <Thumbnail model="board" />;
@@ -16,10 +14,6 @@ function Drawing({ kind }: { kind: DrawingKind }) {
       return <Thumbnail model="glasses" />;
     case "dog":
       return <Thumbnail model="dog" />;
-    case "gate":
-      return <GateDrawing className={cls} />;
-    case "tree":
-      return <TreeDrawing className={cls} />;
   }
 }
 

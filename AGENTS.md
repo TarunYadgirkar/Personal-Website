@@ -15,9 +15,11 @@ Next.js 16 app router, React 19, TypeScript strict, Tailwind v4, three.js + @rea
 
 ## Lanes
 - `src/content/*` is the only place copy and facts live.
-- `src/components/three/Balance.tsx` is the device in centimeters; `BalanceScene` frames any thumbnail model (`model` prop: balance, glasses, board, dog) as a turntable or front/side/top view and sizes it to the canvas. The Selected work thumbnails use it; only Bonsai and Popper are SVG (`drawings/Icons.tsx`).
+- `src/components/three/Balance.tsx` is the device in centimeters; `BalanceScene` frames any thumbnail model (`model` prop: balance, glasses, board, dog) as a turntable or front/side/top view and sizes it to the canvas. The Selected work thumbnails use it.
 - `src/components/drawings/*` are the SVG diagrams; each shows a mechanism, not an icon.
-- `src/components/three/{Glasses,Arm,Board,Dog}.tsx` are the other drawn models (Dog is the Rainier thumbnail only), each in centimetres on the ground plane with a looping phase prop `t` in [0,1) and a `*_SIZE` export for framing. `HeroScene.tsx` mounts all four in one canvas and grows only the active one; per-model framing overrides live in its `FRAMING` table. `HeroCarousel.tsx` owns the timer (7 s; held on keyboard focus, hidden tab and reduced motion; a manual pick pauses it for two cycles). Copy for the switcher and captions is in `src/content/models.ts`.
+- Selected work (`content/selected.ts`) is exactly Vantage, Machine learning FPGA research, BALANCE, Rainier Labs, in that order, as full rows on `/` and `/work`. Every hackathon build lives in `content/work.ts` `hackathons` and renders only as pills (`site/HackathonPills.tsx`) that expand to full notes; never as full rows.
+- No page leads that describe the page, no captions that explain a drawing, no Pause control on the hero (it holds on hover, focus, hidden tab and reduced motion).
+- `src/components/three/{Glasses,Arm,Board,Dog}.tsx` are the other drawn models (Dog is the Rainier thumbnail only), each in centimetres on the ground plane with a looping phase prop `t` in [0,1) and a `*_SIZE` export for framing. `HeroScene.tsx` mounts all four in one canvas and grows only the active one; per-model framing overrides live in its `FRAMING` table. `HeroCarousel.tsx` owns the timer (7 s; held on keyboard focus, hidden tab and reduced motion; a manual pick pauses it for two cycles). Switcher names and order live in `src/content/models.ts`; the hero has no captions.
 
 ## Next.js notes
 <!-- BEGIN:nextjs-agent-rules -->

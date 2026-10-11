@@ -55,7 +55,7 @@ export const archive: readonly ArchiveItem[] = [
     title: "Speech and debate",
     type: "Speaking",
     detail:
-      "I captained varsity impromptu and won the GGSA IE3 novice impromptu title in 2024.",
+      "I captained varsity impromptu.",
   },
   {
     years: "2025",

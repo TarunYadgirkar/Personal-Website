@@ -9,9 +9,6 @@ export function Footer() {
       <div className="mx-auto flex max-w-6xl flex-col gap-8 px-5 py-12 sm:px-8 md:flex-row md:items-end md:justify-between">
         <div>
           <p className="font-heading text-2xl font-semibold">Say hello</p>
-          <p className="mt-2 max-w-md text-base text-ink-soft">
-            Write to me about research, internships and anything worth building together. Email is the fastest way to reach me.
-          </p>
           <div className="mt-4">
             <CopyEmail email={site.email} />
           </div>
