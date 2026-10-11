@@ -1,4 +1,6 @@
+import { Edges } from "@react-three/drei";
 import * as THREE from "three";
+import { palette } from "@/lib/palette";
 
 /* The drawing style shared by every model: flat bone surfaces with a dark
  * ink outline, the way a technical illustration is inked. Materials are
@@ -24,7 +26,7 @@ export const inkMaterial = new THREE.MeshStandardMaterial({
 });
 
 export const rustMaterial = new THREE.MeshStandardMaterial({
-  color: new THREE.Color("#c5400a"),
+  color: new THREE.Color(palette.rust),
   roughness: 0.6,
   metalness: 0,
 });
@@ -36,18 +38,16 @@ export const rubberMaterial = new THREE.MeshStandardMaterial({
 });
 
 export const glassMaterial = new THREE.MeshStandardMaterial({
-  color: new THREE.Color("#1d1a16"),
+  color: new THREE.Color(palette.ink),
   roughness: 0.15,
   metalness: 0.3,
 });
 
-/** Lets the browser restore a lost WebGL context, then asks for a frame so the canvas is not left blank. */
-export function keepContextRestorable(gl: { domElement: HTMLCanvasElement }, redraw: () => void): void {
-  gl.domElement.addEventListener("webglcontextlost", (e) => e.preventDefault(), false);
-  gl.domElement.addEventListener("webglcontextrestored", () => redraw(), false);
+/** Ink outline. Flat parts show every crease; round parts only their rims. */
+export function Outline({ round = false }: { round?: boolean }) {
+  return <Edges threshold={round ? 60 : 24} color={palette.ink} lineWidth={1} />;
 }
 
-/** True when the page cannot tell what is on screen, so scenes should assume they are. */
-export const NO_OBSERVER = typeof window !== "undefined" && typeof IntersectionObserver === "undefined";
-
-export const INK = "#1d1a16";
+/** Left and right, for parts drawn once per side and mirrored in x. */
+export type Side = 1 | -1;
+export const SIDES: readonly Side[] = [1, -1];

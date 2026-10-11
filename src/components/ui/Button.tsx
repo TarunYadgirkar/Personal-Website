@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { AnchorHTMLAttributes, ReactNode } from "react";
+import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from "react";
 import { cn } from "@/lib/cn";
 
 type Variant = "solid" | "quiet";
@@ -12,13 +12,14 @@ const variants: Record<Variant, string> = {
   quiet: "bg-ink/8 text-ink hover:bg-ink/14",
 };
 
-interface Props extends AnchorHTMLAttributes<HTMLAnchorElement> {
+interface LinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   href: string;
   variant?: Variant;
   children: ReactNode;
 }
 
-export function ButtonLink({ href, variant = "solid", className, children, ...rest }: Props) {
+/** A pill-shaped link. Off-site and mailto links render a plain anchor; the rest a Next link. */
+export function ButtonLink({ href, variant = "solid", className, children, ...rest }: LinkProps) {
   const classes = cn(base, variants[variant], className);
   const external = /^(https?:|mailto:)/.test(href);
   if (external) {
@@ -33,4 +34,13 @@ export function ButtonLink({ href, variant = "solid", className, children, ...re
       {children}
     </Link>
   );
+}
+
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: Variant;
+}
+
+/** The same pill for an action that stays on the page. */
+export function Button({ variant = "solid", className, type = "button", ...rest }: ButtonProps) {
+  return <button type={type} className={cn(base, variants[variant], className)} {...rest} />;
 }

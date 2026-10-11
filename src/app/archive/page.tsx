@@ -2,15 +2,13 @@ import type { Metadata } from "next";
 import { Page } from "@/components/site/Page";
 import { TextLink } from "@/components/ui/TextLink";
 import { archive } from "@/content/archive";
+import { archivePage } from "@/content/pages";
 
-export const metadata: Metadata = {
-  title: "Archive",
-  description: "Earlier work, kept for the record: competitive robotics, science fair builds, teaching, and the rest.",
-};
+export const metadata: Metadata = { title: archivePage.title, description: archivePage.description };
 
 export default function ArchivePage() {
   return (
-    <Page title="Archive">
+    <Page title={archivePage.title}>
       <table className="w-full border-collapse text-left text-base">
         <thead>
           <tr className="border-b border-line-strong text-sm text-ink-mute">

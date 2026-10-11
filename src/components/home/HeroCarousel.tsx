@@ -1,13 +1,14 @@
 "use client";
 
-import dynamic from "next/dynamic";
-import { useEffect, useRef, useState, useSyncExternalStore } from "react";
-import { useInView } from "motion/react";
+import { useEffect, useRef, useState } from "react";
+import { HeroScene } from "@/components/three/lazy";
+import { SegmentButton, SegmentGroup } from "@/components/ui/Segmented";
+import { HERO_ADVANCE_MS, heroModels, type ModelKey } from "@/content/models";
+import { useDocumentVisible } from "@/lib/useDocumentVisible";
+import { useNearViewport } from "@/lib/useNearViewport";
 import { useReducedMotion } from "@/lib/useReducedMotion";
-import { cn } from "@/lib/cn";
-import { HERO_ADVANCE_MS, heroModels, heroPeriods } from "@/content/models";
 
-const HeroScene = dynamic(() => import("@/components/three/HeroScene").then((m) => m.HeroScene), { ssr: false });
+const PERIODS = Object.fromEntries(heroModels.map((m) => [m.key, m.period])) as Record<ModelKey, number>;
 
 /** Advances `index` on a timer until something holds it. A manual choice
  * pauses the rotation for two cycles, then it picks up again. */
@@ -32,24 +33,13 @@ function useAutoAdvance(count: number, held: boolean): [number, boolean, (i: num
   return [index, pinned, jump];
 }
 
-function subscribeVisibility(cb: () => void) {
-  document.addEventListener("visibilitychange", cb);
-  return () => document.removeEventListener("visibilitychange", cb);
-}
-
-function useDocumentVisible(): boolean {
-  return useSyncExternalStore(
-    subscribeVisibility,
-    () => document.visibilityState === "visible",
-    () => true,
-  );
-}
-
+/** The hero turntable and its switcher. The timer holds on hover,
+ * keyboard focus, a hidden tab, or reduced motion. */
 export function HeroCarousel() {
   const reduced = useReducedMotion();
   const visible = useDocumentVisible();
   const figure = useRef<HTMLElement>(null);
-  const inView = useInView(figure, { margin: "80px" });
+  const inView = useNearViewport(figure);
   const [focused, setFocused] = useState(false);
   const [hovered, setHovered] = useState(false);
   const held = reduced || !visible || !inView || focused || hovered;
@@ -66,29 +56,20 @@ export function HeroCarousel() {
       onBlur={(e) => setFocused(e.currentTarget.contains(e.relatedTarget as Node | null))}
     >
       <div className="relative aspect-[4/5] sm:aspect-square md:aspect-[5/6]">
-        <HeroScene className="absolute inset-0" active={current.key} periods={heroPeriods} reduced={reduced} />
+        <HeroScene className="absolute inset-0" active={current.key} periods={PERIODS} reduced={reduced} />
       </div>
       {/* Announced only after a deliberate choice, never on the timer. */}
       <span role="status" className="sr-only">
         {pinned ? current.name : ""}
       </span>
       <div className="mt-3 flex justify-center sm:justify-end">
-        <div className="inline-flex flex-wrap rounded-full bg-ink/8 p-1" role="group" aria-label="Model on the turntable">
+        <SegmentGroup className="flex-wrap" aria-label="Model on the turntable">
           {heroModels.map((m, i) => (
-            <button
-              key={m.key}
-              type="button"
-              aria-pressed={i === index}
-              onClick={() => jump(i)}
-              className={cn(
-                "rounded-full px-3 py-1.5 text-sm font-semibold text-ink transition-[background-color,box-shadow] duration-150",
-                i === index && "bg-paper-pale shadow-card",
-              )}
-            >
+            <SegmentButton key={m.key} selected={i === index} aria-pressed={i === index} onClick={() => jump(i)}>
               {m.name}
-            </button>
+            </SegmentButton>
           ))}
-        </div>
+        </SegmentGroup>
       </div>
     </figure>
   );

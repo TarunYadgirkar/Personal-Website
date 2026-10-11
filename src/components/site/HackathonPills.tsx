@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Trophy } from "@phosphor-icons/react/dist/ssr";
+import { LinkRow } from "@/components/ui/LinkRow";
 import { TextLink } from "@/components/ui/TextLink";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 import { cn } from "@/lib/cn";
@@ -49,13 +50,7 @@ function Panel({ h }: { h: Hackathon }) {
       <div className="mt-5">
         <Notes h={h} />
       </div>
-      <p className="mt-5 flex flex-wrap gap-x-5 gap-y-1">
-        {h.links.map((l) => (
-          <TextLink key={l.href} href={l.href}>
-            {l.label}
-          </TextLink>
-        ))}
-      </p>
+      <LinkRow links={h.links} className="mt-5" />
     </div>
   );
 }

@@ -1,8 +1,8 @@
 "use client";
 
-import { Edges, RoundedBox } from "@react-three/drei";
+import { RoundedBox } from "@react-three/drei";
 import * as THREE from "three";
-import { INK, boneMaterial, glassMaterial, inkMaterial, rubberMaterial, rustMaterial, shadeMaterial } from "./drafting";
+import { boneMaterial, glassMaterial, inkMaterial, Outline, rubberMaterial, rustMaterial, shadeMaterial, SIDES, type Side } from "./drafting";
 
 /* A quadruped in Unitree Go2 proportions, in centimetres. y is up, the
  * ground plane is y = 0, the dog faces +z. The body is 70 long over all,
@@ -37,13 +37,7 @@ const HIP_STAND = 0.8;
 const HIP_LIFTED = 0.62;
 const LIFT_MAX = 1.5;
 
-const SIDES: Array<1 | -1> = [1, -1];
-const ENDS: Array<1 | -1> = [1, -1];
-
-/** Ink outline. Flat parts show every crease; round parts only their rims. */
-function Outline({ round = false }: { round?: boolean }) {
-  return <Edges threshold={round ? 60 : 24} color={INK} lineWidth={1} />;
-}
+const ENDS: readonly Side[] = [1, -1];
 
 function legAngles(lift: number): { hip: number; knee: number } {
   const hip = THREE.MathUtils.lerp(HIP_STAND, HIP_LIFTED, lift);
@@ -125,8 +119,8 @@ function Head() {
 }
 
 interface LegProps {
-  side: 1 | -1;
-  end: 1 | -1;
+  side: Side;
+  end: Side;
   lift: number;
 }
 

@@ -16,6 +16,19 @@ export const site = {
   },
 } as const;
 
+/** The profiles and the resume, in the order the footer and the About page list them. */
+export const profileLinks = [
+  { label: "GitHub", href: site.links.github },
+  { label: "LinkedIn", href: site.links.linkedin },
+  { label: "X", href: site.links.x },
+  { label: "Resume (PDF)", href: site.resumeUrl },
+] as const;
+
+/** The footer's invitation to write. */
+export const contact = {
+  title: "Say hello",
+} as const;
+
 export const navLinks = [
   { href: "/work", label: "Work" },
   { href: "/research", label: "Research" },
@@ -35,7 +48,7 @@ export const now: readonly NowRow[] = [
   {
     key: "Building",
     value: "Vantage, AR glasses and the spatial operating system inside them, as co-founder",
-    href: "https://tryvantage.vercel.app",
+    href: site.links.vantage,
   },
   {
     key: "Researching",

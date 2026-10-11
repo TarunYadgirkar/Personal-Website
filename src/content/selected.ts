@@ -1,6 +1,8 @@
+import { site } from "./site";
 import type { Link } from "./work";
 
-export type DrawingKind = "balance" | "fpga" | "glasses" | "dog";
+/** The thumbnail: a drawn 3D model. */
+export type DrawingKind = "board" | "balance" | "glasses" | "dog";
 
 export interface Selected {
   slug: string;
@@ -28,8 +30,8 @@ export const selected: readonly Selected[] = [
     standing: "Vantage is pre-seed in Berkeley, with a working software prototype and the glasses and case in development.",
     period: "2026 to now",
     drawing: "glasses",
-    href: "https://tryvantage.vercel.app",
-    links: [{ label: "vantage site", href: "https://tryvantage.vercel.app" }],
+    href: site.links.vantage,
+    links: [{ label: "vantage site", href: site.links.vantage }],
   },
   {
     slug: "fpga-ml",
@@ -39,7 +41,7 @@ export const selected: readonly Selected[] = [
       "The work runs from PyTorch and TensorFlow models through quantization to fixed-point implementations on the fabric, then the same treatment for channel estimation and signal processing so the two share a pipeline.",
     standing: "I have been a research assistant there since July 2025.",
     period: "2025 to now",
-    drawing: "fpga",
+    drawing: "board",
     href: "/research",
     links: [{ label: "research notes", href: "/research" }],
   },

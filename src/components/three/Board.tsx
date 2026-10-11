@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useLayoutEffect, useMemo, useRef } from "react";
-import { Edges, RoundedBox } from "@react-three/drei";
+import { RoundedBox } from "@react-three/drei";
 import * as THREE from "three";
-import { INK, boneMaterial, inkMaterial, rubberMaterial, rustMaterial, shadeMaterial } from "./drafting";
+import { palette } from "@/lib/palette";
+import { boneMaterial, inkMaterial, Outline, rubberMaterial, rustMaterial, shadeMaterial } from "./drafting";
 
 /* The FPGA development board, in centimeters. y is up, the board lies on the
  * ground plane and tips up toward the viewer so the turntable camera sees the
@@ -30,25 +31,20 @@ const HEADER_COLS = 20;
 const HEADER_PINS = HEADER_COLS * 2;
 
 const pcbMaterial = new THREE.MeshStandardMaterial({
-  color: new THREE.Color("#d9d2c3"),
+  color: new THREE.Color(palette.line),
   roughness: 0.9,
   metalness: 0,
 });
 
 const tileMaterial = new THREE.MeshStandardMaterial({
-  color: new THREE.Color("#c5400a"),
-  emissive: new THREE.Color("#c5400a"),
+  color: new THREE.Color(palette.rust),
+  emissive: new THREE.Color(palette.rust),
   emissiveIntensity: 0,
   roughness: 0.6,
   metalness: 0,
 });
 
 const tileGeometry = new THREE.BoxGeometry(0.45, 0.08, 0.45);
-
-/** Ink outline. Flat parts show every crease; round parts only their rims. */
-function Outline({ round = false }: { round?: boolean }) {
-  return <Edges threshold={round ? 60 : 24} color={INK} lineWidth={1} />;
-}
 
 const HOLES: Array<[number, number]> = [
   [-10.8, -6.8],

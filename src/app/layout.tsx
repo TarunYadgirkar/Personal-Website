@@ -4,6 +4,7 @@ import { fontClassName } from "@/fonts";
 import { Nav } from "@/components/site/Nav";
 import { Footer } from "@/components/site/Footer";
 import { site } from "@/content/site";
+import { palette } from "@/lib/palette";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -14,7 +15,7 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image" },
 };
 
-export const viewport: Viewport = { themeColor: "#f4f1ea", viewportFit: "cover" };
+export const viewport: Viewport = { themeColor: palette.paper, viewportFit: "cover" };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

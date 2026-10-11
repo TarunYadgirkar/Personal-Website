@@ -1,4 +1,4 @@
-import { site } from "@/content/site";
+import { contact, profileLinks, site } from "@/content/site";
 import { CopyEmail } from "./CopyEmail";
 
 const year = new Date().getFullYear();
@@ -8,24 +8,17 @@ export function Footer() {
     <footer className="mt-24 border-t border-line">
       <div className="mx-auto flex max-w-6xl flex-col gap-8 px-5 py-12 sm:px-8 md:flex-row md:items-end md:justify-between">
         <div>
-          <p className="font-heading text-2xl font-semibold">Say hello</p>
+          <p className="font-heading text-2xl font-semibold">{contact.title}</p>
           <div className="mt-4">
             <CopyEmail email={site.email} />
           </div>
         </div>
         <nav aria-label="Elsewhere" className="flex flex-wrap gap-x-6 gap-y-2 text-base font-semibold">
-          <a href={site.links.github} className="rounded underline-offset-4 hover:underline">
-            GitHub
-          </a>
-          <a href={site.links.linkedin} className="rounded underline-offset-4 hover:underline">
-            LinkedIn
-          </a>
-          <a href={site.links.x} className="rounded underline-offset-4 hover:underline">
-            X
-          </a>
-          <a href={site.resumeUrl} className="rounded underline-offset-4 hover:underline">
-            Resume (PDF)
-          </a>
+          {profileLinks.map((l) => (
+            <a key={l.href} href={l.href} className="rounded underline-offset-4 hover:underline">
+              {l.label}
+            </a>
+          ))}
         </nav>
       </div>
       <p className="mx-auto max-w-6xl px-5 pb-8 text-sm text-ink-mute sm:px-8">

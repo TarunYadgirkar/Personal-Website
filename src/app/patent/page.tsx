@@ -1,18 +1,17 @@
 import type { Metadata } from "next";
-import { Page, Section } from "@/components/site/Page";
-import { TextLink } from "@/components/ui/TextLink";
-import { balance } from "@/content/balance";
-import { ThreeView } from "@/components/home/ThreeView";
 import { SignalPath } from "@/components/drawings/SignalPath";
+import { ThreeView } from "@/components/patent/ThreeView";
+import { Page, Section } from "@/components/site/Page";
+import { BulletList } from "@/components/ui/BulletList";
+import { LinkRow } from "@/components/ui/LinkRow";
+import { balance } from "@/content/balance";
+import { patentPage } from "@/content/pages";
 
-export const metadata: Metadata = {
-  title: "BALANCE",
-  description: "A hybrid wheeled and legged mobility device, co-developed with a student team. Provisional patent 63/743,085 and a design article in the Youth Innovation Journal.",
-};
+export const metadata: Metadata = { title: patentPage.title, description: patentPage.description };
 
 export default function PatentPage() {
   return (
-    <Page title="BALANCE" lead={balance.concept}>
+    <Page title={patentPage.title} lead={balance.concept}>
       <p className="-mt-6 mb-10 text-base text-ink-mute">The name stands for {balance.expansion}.</p>
 
       <ThreeView />
@@ -30,35 +29,19 @@ export default function PatentPage() {
             </div>
           ))}
         </dl>
-        <ul className="mt-6 flex flex-col gap-2 text-base text-ink-soft">
-          {balance.features.map((f) => (
-            <li key={f} className="flex gap-3">
-              <span className="mt-[0.65em] h-1.5 w-1.5 shrink-0 rounded-full bg-rust" aria-hidden="true" />
-              {f}
-            </li>
-          ))}
-        </ul>
+        <BulletList items={balance.features} className="mt-6 gap-2" />
       </Section>
 
       <Section id="signal-path" title="From sensors to a step">
         <div className="overflow-x-auto">
           <SignalPath />
         </div>
-        <p className="mt-4 text-sm text-ink-mute">
-          LiDAR, sonar and cameras feed the on-board computer, which maps the ground and picks a mode; the wheeled base
-          handles flat ground and the powered legs take stairs and uneven terrain.
-        </p>
+        <p className="mt-4 text-sm text-ink-mute">{patentPage.signalPathCaption}</p>
       </Section>
 
       <Section id="status" title="Where it stands">
         <p className="text-base leading-relaxed text-ink-soft">{balance.statusDetail}</p>
-        <p className="mt-4 flex flex-wrap gap-x-5 gap-y-1">
-          {balance.links.map((l) => (
-            <TextLink key={l.href} href={l.href}>
-              {l.label}
-            </TextLink>
-          ))}
-        </p>
+        <LinkRow links={balance.links} className="mt-4" />
       </Section>
     </Page>
   );

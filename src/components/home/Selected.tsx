@@ -1,20 +1,13 @@
 import Link from "next/link";
 import { ArrowRight } from "@phosphor-icons/react/dist/ssr";
+import { ModelScene } from "@/components/three/lazy";
+import { LinkRow } from "@/components/ui/LinkRow";
 import { TextLink } from "@/components/ui/TextLink";
-import { Thumbnail } from "./Thumbnail";
 import { selected, type DrawingKind, type Selected as Item } from "@/content/selected";
 
+/** Each row's thumbnail is its drawn 3D model. */
 function Drawing({ kind }: { kind: DrawingKind }) {
-  switch (kind) {
-    case "fpga":
-      return <Thumbnail model="board" />;
-    case "balance":
-      return <Thumbnail model="balance" view="side" />;
-    case "glasses":
-      return <Thumbnail model="glasses" />;
-    case "dog":
-      return <Thumbnail model="dog" />;
-  }
+  return <ModelScene model={kind} view={kind === "balance" ? "side" : "turn"} stride={0.15} fit={0.95} className="absolute inset-0" />;
 }
 
 function Row({ item }: { item: Item }) {
@@ -40,15 +33,7 @@ function Row({ item }: { item: Item }) {
         <p className="mt-3 text-base leading-relaxed text-ink sm:text-lg">{item.what}</p>
         <p className="mt-3 text-base leading-relaxed text-ink-soft">{item.detail}</p>
         <p className="mt-3 text-base text-ink-soft">{item.standing}</p>
-        {item.links && (
-          <p className="mt-3 flex flex-wrap gap-x-5 gap-y-1 text-base">
-            {item.links.map((l) => (
-              <TextLink key={l.href} href={l.href}>
-                {l.label}
-              </TextLink>
-            ))}
-          </p>
-        )}
+        {item.links && <LinkRow links={item.links} className="mt-3 text-base" />}
       </div>
     </li>
   );

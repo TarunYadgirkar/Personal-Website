@@ -1,18 +1,16 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { ContactShadows, OrthographicCamera } from "@react-three/drei";
+import { useFrame, useThree } from "@react-three/fiber";
+import { OrthographicCamera } from "@react-three/drei";
 import * as THREE from "three";
-import { NoToneMapping } from "three";
-import { useInView } from "motion/react";
+import { useNearViewport } from "@/lib/useNearViewport";
 import type { ModelKey } from "@/content/models";
-import { Balance } from "./Balance";
-import { Glasses, GLASSES_SIZE } from "./Glasses";
-import { Arm, ARM_SIZE } from "./Arm";
-import { Board, BOARD_SIZE } from "./Board";
-import { Lights } from "./BalanceScene";
-import { NO_OBSERVER, keepContextRestorable } from "./drafting";
+import { ARM_SIZE } from "./Arm";
+import { BOARD_SIZE } from "./Board";
+import { GLASSES_SIZE } from "./Glasses";
+import { DrawnModel, STILL_PHASE } from "./models";
+import { DraftingCanvas, Turntable, fitZoom } from "./scene";
 
 interface Framing {
   height: number;
@@ -29,30 +27,11 @@ const FRAMING: Record<ModelKey, Framing> = {
   board: { height: BOARD_SIZE.height * 1.6, targetY: BOARD_SIZE.targetY },
 };
 
-/* Where each model rests when motion is reduced: arm mid-carry, board with
- * the wave on the chip, glasses fully revealed. */
-const STILL_PHASE: Record<ModelKey, number> = { balance: 0.15, glasses: 0.6, arm: 0.5, board: 0.5 };
-
 /* A flat board seen edge-on is a line, so it faces the camera and sways
  * instead of taking the full turn. */
 const FACES_CAMERA: Record<ModelKey, boolean> = { balance: false, glasses: false, arm: false, board: true };
 const SWAY = 0.35;
 const SETTLE_MS = 2200;
-/* Extra turn, in radians per second, added at the moment of a switch; it decays over about a second. */
-const KICK = 2.4;
-
-function Model({ model, t }: { model: ModelKey; t: number }) {
-  switch (model) {
-    case "balance":
-      return <Balance stride={0.15} />;
-    case "glasses":
-      return <Glasses t={t} />;
-    case "arm":
-      return <Arm t={t} />;
-    case "board":
-      return <Board t={t} />;
-  }
-}
 
 /** Ease with a small overshoot, so the incoming model settles like something set down. */
 function easeOutBack(x: number): number {
@@ -88,43 +67,9 @@ function Slot({ model, active, period, animate, framing }: { model: ModelKey; ac
   });
   return (
     <group ref={group} scale={0.0001}>
-      <Model model={model} t={t} />
+      <DrawnModel model={model} t={t} />
     </group>
   );
-}
-
-/** Slow turn with a pointer lean, plus a kick of extra spin whenever the model changes. */
-function Turntable({ animate, active, children }: { animate: boolean; active: ModelKey; children: React.ReactNode }) {
-  const group = useRef<THREE.Group>(null);
-  const kick = useRef(0);
-  const lastActive = useRef(active);
-  useFrame((state, delta) => {
-    const g = group.current;
-    if (!g) return;
-    if (lastActive.current !== active) {
-      lastActive.current = active;
-      kick.current = KICK;
-    }
-    kick.current = THREE.MathUtils.damp(kick.current, 0, 3, delta);
-    g.rotation.y += delta * kick.current;
-    if (!animate) return;
-    g.rotation.y += delta * 0.18;
-    g.rotation.z = THREE.MathUtils.damp(g.rotation.z, state.pointer.x * 0.08, 4, delta);
-  });
-  return (
-    <group ref={group} rotation={[0, 0.6, 0]}>
-      {children}
-      <ContactShadows position={[0, 0, 0]} opacity={0.35} scale={140} blur={2.4} far={40} color="#1d1a16" />
-    </group>
-  );
-}
-
-/** In demand mode nothing redraws on its own, so a resize asks for one frame. */
-function RedrawOnResize() {
-  const size = useThree((s) => s.size);
-  const invalidate = useThree((s) => s.invalidate);
-  useEffect(() => invalidate(), [size.width, size.height, invalidate]);
-  return null;
 }
 
 /** Orthographic camera that eases its zoom and aim between models. */
@@ -135,8 +80,7 @@ function Rig({ framing, fit }: { framing: Framing; fit: number }) {
   useFrame((_, delta) => {
     const c = cam.current;
     if (!c) return;
-    const zoom = Math.max((Math.min(size.width, size.height * 0.85) * fit) / framing.height, 0.01);
-    c.zoom = THREE.MathUtils.damp(c.zoom, zoom, 5, delta);
+    c.zoom = THREE.MathUtils.damp(c.zoom, fitZoom(size, fit, framing.height), 5, delta);
     aim.current.y = THREE.MathUtils.damp(aim.current.y, framing.targetY, 5, delta);
     c.lookAt(aim.current);
     c.updateProjectionMatrix();
@@ -152,15 +96,6 @@ function useShown(active: ModelKey): readonly ModelKey[] {
   return shown;
 }
 
-export interface HeroSceneProps {
-  active: ModelKey;
-  periods: Record<ModelKey, number>;
-  reduced: boolean;
-  fit?: number;
-  className?: string;
-}
-
-/** One canvas, one turntable, all four models mounted; only the active one is grown in. */
 /** True for a while after each model change, long enough for zoom and scale to settle. */
 function useSettling(active: ModelKey): boolean {
   const [settledFor, setSettledFor] = useState<ModelKey | null>(null);
@@ -171,9 +106,19 @@ function useSettling(active: ModelKey): boolean {
   return settledFor !== active;
 }
 
+export interface HeroSceneProps {
+  active: ModelKey;
+  /** Seconds per loop for each model; 0 holds it still. */
+  periods: Record<ModelKey, number>;
+  reduced: boolean;
+  fit?: number;
+  className?: string;
+}
+
+/** One canvas, one turntable, every model shown so far mounted; only the active one is grown in. */
 export function HeroScene({ active, periods, reduced, fit = 1, className }: HeroSceneProps) {
   const wrapper = useRef<HTMLDivElement>(null);
-  const inView = useInView(wrapper, { margin: "80px" }) || NO_OBSERVER;
+  const inView = useNearViewport(wrapper);
   const animate = inView && !reduced;
   const shown = useShown(active);
   const settling = useSettling(active);
@@ -181,23 +126,14 @@ export function HeroScene({ active, periods, reduced, fit = 1, className }: Hero
   const frameloop = inView && (!reduced || settling) ? "always" : "demand";
   return (
     <div ref={wrapper} className={className} aria-hidden="true">
-      <Canvas
-        shadows
-        dpr={[1, 2]}
-        gl={{ antialias: true, alpha: true, toneMapping: NoToneMapping }}
-        frameloop={frameloop}
-        fallback={null}
-        onCreated={({ gl, invalidate }) => keepContextRestorable(gl, invalidate)}
-      >
-        <RedrawOnResize />
+      <DraftingCanvas frameloop={frameloop}>
         <Rig framing={FRAMING[active]} fit={fit} />
-        <Lights />
-        <Turntable animate={animate} active={active}>
+        <Turntable animate={animate} kickOn={active}>
           {shown.map((m) => (
             <Slot key={m} model={m} active={m === active} period={periods[m]} animate={animate} framing={FRAMING[m]} />
           ))}
         </Turntable>
-      </Canvas>
+      </DraftingCanvas>
     </div>
   );
 }
