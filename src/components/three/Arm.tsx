@@ -179,10 +179,16 @@ function Part({ position, rotation = 0 }: { position: [number, number, number]; 
   );
 }
 
-/** The plate the part is picked from and the plate it is set on. */
+/* One deck under the base and both stations, so the plates read as fixtures
+ * of the same cell rather than loose tiles. Its top sits a hair under the
+ * floor so the shadow catcher and contact shadow still land on it. */
+const DECK = { w: 54, d: 58, h: 0.8, x: 15, z: 17.5 } as const;
+
+/** The plate the part is picked from and the plate it is set on, on their shared deck. */
 function Stations() {
   return (
     <group>
+      <RoundedBox args={[DECK.w, DECK.h, DECK.d]} radius={0.35} smoothness={3} position={[DECK.x, -DECK.h / 2 - 0.02, DECK.z]} material={inkMaterial} />
       <RoundedBox args={[10, PLATE_H, 10]} radius={0.3} smoothness={3} position={[PICK_POS[0], PLATE_H / 2, PICK_POS[2]]} material={shadeMaterial} />
       <group position={[PLACE_POS[0], 0, PLACE_POS[2]]} rotation={[0, PLACE_YAW, 0]}>
         <RoundedBox args={[10, PLATE_H, 10]} radius={0.3} smoothness={3} position={[0, PLATE_H / 2, 0]} material={shadeMaterial} />
@@ -253,7 +259,8 @@ export function Arm({ t }: { t: number }) {
   const { joints, gap, holding } = poseAt(t);
   const [yaw, shoulder, elbow, roll, pitch, flange] = joints;
   return (
-    <group>
+    // Centred on the deck, so the turntable spins the whole cell about its middle.
+    <group position={[-DECK.x, 0, -DECK.z]}>
       <Base />
       <Stations />
       <LoosePart t={t} />

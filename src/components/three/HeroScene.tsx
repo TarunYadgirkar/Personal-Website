@@ -22,7 +22,7 @@ const FRAMING: Record<ModelKey, Framing> = {
   // Temples run 14 cm back and the panels 12 cm forward, so the turn needs slack on both sides.
   glasses: { height: GLASSES_SIZE.height * 1.45, targetY: GLASSES_SIZE.targetY - 1 },
   // The arm reaches 38 cm off its base, so it needs more room than its standing height.
-  arm: { height: ARM_SIZE.height * 1.15, targetY: ARM_SIZE.targetY - 6 },
+  arm: { height: ARM_SIZE.height * 1.3, targetY: ARM_SIZE.targetY - 8 },
   // The board is 24 cm on its long side, wider than it is tall once tilted.
   board: { height: BOARD_SIZE.height * 1.6, targetY: BOARD_SIZE.targetY },
 };

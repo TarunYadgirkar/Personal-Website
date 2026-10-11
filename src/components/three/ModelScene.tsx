@@ -15,10 +15,15 @@ import { DraftingCanvas, Turntable, fitZoom } from "./scene";
 export type View = "turn" | "front" | "side" | "top";
 export type ThumbModel = Exclude<DrawnModelKey, "arm">;
 
+/* Models that hold their three-quarter angle instead of turning: the flat
+ * board is a line edge-on, and the glasses edge-on sweep twice their face-on
+ * width, which would force a frame too loose for the card. */
+const HOLDS_ANGLE: ReadonlySet<ThumbModel> = new Set(["board", "glasses"]);
+
 /* Framing height in centimetres and the point the camera aims at, per model. */
 const FRAME: Record<ThumbModel, { height: number; targetY: number }> = {
   balance: { height: 125, targetY: 50 },
-  glasses: { height: GLASSES_SIZE.height * 1.25, targetY: GLASSES_SIZE.targetY },
+  glasses: { height: GLASSES_SIZE.height * 0.9, targetY: GLASSES_SIZE.targetY + 1 },
   board: { height: BOARD_SIZE.height * 1.05, targetY: BOARD_SIZE.targetY + 1 },
   dog: { height: DOG_SIZE.height * 1.5, targetY: DOG_SIZE.targetY },
 };
@@ -71,8 +76,7 @@ export interface ModelSceneProps {
 /** One drawn model lit like a product shot, on a turntable or in a fixed orthographic view. */
 export function ModelScene({ model = "balance", view = "turn", stride = 0.15, zoom, fit = 0.9, className }: ModelSceneProps) {
   const wrapper = useRef<HTMLDivElement>(null);
-  // The flat board is a line edge-on, so it holds the angle that shows its top.
-  const { seen, animate } = useVisibility(wrapper, view === "turn" && model !== "board");
+  const { seen, animate } = useVisibility(wrapper, view === "turn" && !HOLDS_ANGLE.has(model));
   return (
     <div ref={wrapper} className={className} aria-hidden="true">
       {seen && (
