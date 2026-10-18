@@ -115,7 +115,7 @@ export function DraftingCanvas({ frameloop, look, children }: DraftingCanvasProp
       onCreated={keepContextRestorable}
     >
       <RedrawOnResize />
-      <Print look={look} />
+      {look !== "plain" && <Print look={look} />}
       <Studio />
       <KeyLight />
       {children}

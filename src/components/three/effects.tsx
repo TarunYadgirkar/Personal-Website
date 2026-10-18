@@ -9,7 +9,8 @@ import { palette } from "@/lib/palette";
  * page's own inks: an ordered dither in 2 px dots, or ASCII glyphs. Shadows
  * and soft edges come out as dot density instead of grey. */
 
-export type Look = "dither" | "ascii";
+/** `plain` skips the print and shows the render as lit. */
+export type Look = "dither" | "ascii" | "plain";
 
 /* Every ink the print may use, light to dark, then the accents. */
 const INKS = [
@@ -28,7 +29,7 @@ const INKS = [
 const RAMP = " .:-=+*#%@";
 
 /* Cell size in CSS pixels: a dither dot, or one ASCII character. */
-const CELL: Record<Look, [number, number]> = { dither: [2, 2], ascii: [6, 10] };
+const CELL: Record<Exclude<Look, "plain">, [number, number]> = { dither: [2, 2], ascii: [6, 10] };
 
 /** A hex colour as its sRGB components, without three's linear conversion. */
 function srgb(hex: string): THREE.Vector3 {
@@ -122,13 +123,18 @@ void main() {
   vec3 c = encode(neutral(s.rgb / s.a));
 #ifdef ASCII
   float lum = dot(c, vec3(0.2126, 0.7152, 0.0722));
-  // Coverage thins the glyph at edges and in shadows; dark paint thickens it.
-  float density = s.a * (0.32 + 0.68 * (1.0 - lum));
+  // Lightness is stretched over the range the models actually span, so a
+  // bone shell prints mid-ramp instead of vanishing into the paper.
+  float shade = clamp((0.98 - lum) / 0.6, 0.0, 1.0);
+  // Where coverage changes between neighbours there is an outline; it prints densest.
+  float edge = abs(sampleCell(cell + vec2(1.0, 0.0)).a - sampleCell(cell - vec2(1.0, 0.0)).a)
+    + abs(sampleCell(cell + vec2(0.0, 1.0)).a - sampleCell(cell - vec2(0.0, 1.0)).a);
+  float density = max(s.a * (0.4 + 0.6 * shade), clamp(edge, 0.0, 1.0) * 0.95);
   float index = clamp(floor(density * GLYPHS), 1.0, GLYPHS - 1.0);
   vec2 local = fract(gl_FragCoord.xy / uCell);
   float mask = texture2D(tGlyphs, vec2((index + local.x) / GLYPHS, local.y)).a;
-  // Glyphs print one step darker than the surface they stand for, so a pale shell still reads.
-  vec3 ink = printInk(c * 0.55, 0.5);
+  // Glyphs print well darker than the surface they stand for, so a pale shell still reads.
+  vec3 ink = printInk(c * 0.4, 0.5);
   gl_FragColor = vec4(ink, 1.0) * mask;
 #else
   float threshold = bayer8(cell);
@@ -166,7 +172,7 @@ function glyphAtlas(onReady: () => void): THREE.CanvasTexture {
   return texture;
 }
 
-function makeMaterial(look: Look, glyphs: THREE.Texture | null): THREE.ShaderMaterial {
+function makeMaterial(look: Exclude<Look, "plain">, glyphs: THREE.Texture | null): THREE.ShaderMaterial {
   return new THREE.ShaderMaterial({
     vertexShader: VERTEX,
     fragmentShader: FRAGMENT,
@@ -190,7 +196,7 @@ interface PrintPass {
 }
 
 /** The off-screen target, the full-screen quad that prints it, and the draw that ties them. */
-function createPass(look: Look, glyphs: THREE.Texture | null): PrintPass {
+function createPass(look: Exclude<Look, "plain">, glyphs: THREE.Texture | null): PrintPass {
   const target = new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType, samples: 4 });
   const material = makeMaterial(look, glyphs);
   material.uniforms.tScene.value = target.texture;
@@ -223,7 +229,7 @@ function createPass(look: Look, glyphs: THREE.Texture | null): PrintPass {
 
 /** Takes over drawing for the canvas it sits in: the scene goes to a linear
  * target, then one full-screen pass prints it in `look`. */
-export function Print({ look }: { look: Look }) {
+export function Print({ look }: { look: Exclude<Look, "plain"> }) {
   const invalidate = useThree((s) => s.invalidate);
   const pass = useMemo(() => createPass(look, look === "ascii" ? glyphAtlas(invalidate) : null), [look, invalidate]);
   useEffect(() => () => pass.dispose(), [pass]);

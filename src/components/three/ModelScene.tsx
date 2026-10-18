@@ -71,7 +71,7 @@ export interface ModelSceneProps {
   zoom?: number;
   /** When zoom is omitted: share of the shorter side the model fills. */
   fit?: number;
-  /** Printed as a dither or as ASCII. */
+  /** Printed as a dither, as ASCII, or plain. */
   look?: Look;
   className?: string;
 }
