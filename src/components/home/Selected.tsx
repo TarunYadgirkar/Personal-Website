@@ -7,7 +7,7 @@ import { selected, type DrawingKind, type Selected as Item } from "@/content/sel
 
 /** Each row's thumbnail is its drawn 3D model. */
 function Drawing({ kind }: { kind: DrawingKind }) {
-  return <ModelScene model={kind} view={kind === "balance" ? "side" : "turn"} stride={0.15} fit={0.95} className="absolute inset-0" />;
+  return <ModelScene model={kind} view={kind === "balance" ? "side" : "turn"} stride={0.15} fit={0.95} look="ascii" className="absolute inset-0" />;
 }
 
 function Row({ item }: { item: Item }) {

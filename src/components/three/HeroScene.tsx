@@ -128,7 +128,7 @@ export function HeroScene({ active, periods, reduced, fit = 1, className }: Hero
   const frameloop = inView && (!reduced || settling) ? "always" : "demand";
   return (
     <div ref={wrapper} className={className} aria-hidden="true">
-      <DraftingCanvas frameloop={frameloop}>
+      <DraftingCanvas frameloop={frameloop} look="dither">
         <Rig framing={FRAMING[active]} fit={fit} />
         <Turntable animate={animate} kickOn={active}>
           {shown.map((m) => (

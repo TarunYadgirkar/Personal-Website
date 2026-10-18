@@ -5,6 +5,7 @@ import { Canvas, useFrame, useThree, type RootState } from "@react-three/fiber";
 import { ContactShadows, Environment, Lightformer } from "@react-three/drei";
 import * as THREE from "three";
 import { palette } from "@/lib/palette";
+import { Print, type Look } from "./effects";
 
 /* Everything the hero and the thumbnail scenes share: the canvas set-up,
  * the studio light, the floor shadows, the turntable and the zoom arithmetic. */
@@ -95,8 +96,15 @@ export function useShadowFlags(root: RefObject<THREE.Object3D | null>): void {
   });
 }
 
+interface DraftingCanvasProps {
+  frameloop: "always" | "demand";
+  /** How the render is printed onto the page. */
+  look: Look;
+  children: ReactNode;
+}
+
 /** A transparent canvas with the shared light; the caller supplies the camera and the models. */
-export function DraftingCanvas({ frameloop, children }: { frameloop: "always" | "demand"; children: ReactNode }) {
+export function DraftingCanvas({ frameloop, look, children }: DraftingCanvasProps) {
   return (
     <Canvas
       shadows="percentage"
@@ -107,6 +115,7 @@ export function DraftingCanvas({ frameloop, children }: { frameloop: "always" | 
       onCreated={keepContextRestorable}
     >
       <RedrawOnResize />
+      <Print look={look} />
       <Studio />
       <KeyLight />
       {children}

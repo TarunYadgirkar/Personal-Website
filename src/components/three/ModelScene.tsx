@@ -10,6 +10,7 @@ import { BOARD_SIZE } from "./Board";
 import { DOG_SIZE } from "./Dog";
 import { GLASSES_SIZE } from "./Glasses";
 import { DrawnModel, STILL_PHASE, type DrawnModelKey } from "./models";
+import type { Look } from "./effects";
 import { DraftingCanvas, Turntable, fitZoom } from "./scene";
 
 export type View = "turn" | "front" | "side" | "top";
@@ -70,17 +71,19 @@ export interface ModelSceneProps {
   zoom?: number;
   /** When zoom is omitted: share of the shorter side the model fills. */
   fit?: number;
+  /** Printed as a dither or as ASCII. */
+  look?: Look;
   className?: string;
 }
 
 /** One drawn model lit like a product shot, on a turntable or in a fixed orthographic view. */
-export function ModelScene({ model = "balance", view = "turn", stride = 0.15, zoom, fit = 0.9, className }: ModelSceneProps) {
+export function ModelScene({ model = "balance", view = "turn", stride = 0.15, zoom, fit = 0.9, look = "dither", className }: ModelSceneProps) {
   const wrapper = useRef<HTMLDivElement>(null);
   const { seen, animate } = useVisibility(wrapper, view === "turn" && !HOLDS_ANGLE.has(model));
   return (
     <div ref={wrapper} className={className} aria-hidden="true">
       {seen && (
-        <DraftingCanvas frameloop={animate ? "always" : "demand"}>
+        <DraftingCanvas frameloop={animate ? "always" : "demand"} look={look}>
           <Camera view={view} zoom={zoom} fit={fit} model={model} />
           <Turntable animate={animate} spin={view === "turn" ? 0.6 : 0} castShadow={view === "turn"}>
             <DrawnModel model={model} t={STILL_PHASE[model]} stride={stride} />
